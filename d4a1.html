@@ -219,6 +219,96 @@
         font-size: 1rem;
         line-height: 1.5;
     }
+    /* --- Glow hover effect for WORKS cards --- */
+
+  .work-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+  }
+
+  .work-card::before,
+  .work-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .work-card::before {
+    background: radial-gradient(
+      700px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.08),
+      transparent 40%
+    );
+    z-index: 3;
+  }
+
+  .work-card::after {
+    background: radial-gradient(
+      400px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.35),
+      transparent 40%
+    );
+    z-index: 1;
+  }
+
+  .works-grid:hover .work-card::after {
+    opacity: 1;
+  }
+
+  .work-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Inner content wrapper */
+  .work-card-content {
+    background-color: #181818;
+    inset: 1px;
+    border-radius: inherit;
+    padding: 10px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+
+  /* Image styling */
+  .work-card-image img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    opacity: .9;
+    transition: .3s;
+  }
+
+  .work-card:hover img {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  /* Title & description */
+  .work-card-info-wrapper {
+    padding: 0 10px;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .work-card-info-title h3 {
+    margin: 10px 0 4px;
+    font-size: 1.1rem;
+  }
+
+  .work-card-info-title h4 {
+    color: #bbb;
+    font-size: .9rem;
+  }
+
     /*Our Approach*/
     /* ---------- DARK MODE APPROACH SECTION ---------- */
   .approach {
@@ -484,50 +574,119 @@
   </section>
 
   <!-- WORKS -->
-<section class="works-section" id="works">
 
+<section class="works-section" id="works">
+    <!--1st-->
     <h2 class="works-title">Our Works</h2>
-  
     <div class="works-grid">
-  
       <div class="work-card">
-        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900" laoding="lazy">
-        <div class="work-title">Modern Interior</div>
-        <div class="work-desc">A fresh blend of minimalist geometry and warm tones, perfect for urban homes.</div>
-      </div>
-  
+        <div class="work-card-content">
+          <div class="work-card-image">
+            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900" loading="lazy">
+          </div>
+      
+          <div class="work-card-info-wrapper">
+            <div class="work-card-info">
+              <div class="work-card-info-title">
+                <h3>Modern Interior</h3>
+                <h4>A fresh blend of minimalist geometry and warm tones.</h4>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </div>  
+      <!--2nd-->
       <div class="work-card">
-        <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" laoding="lazy">
-        <div class="work-title">Lux Living Space</div>
-        <div class="work-desc">Designed for elegance — a spacious ambience filled with soft lighting accents.</div>
+        <div class="work-card-content">
+          <div class="work-card-image">
+            <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" loading="lazy"">
+          </div>
+      
+          <div class="work-card-info-wrapper">
+            <div class="work-card-info">
+              <div class="work-card-info-title">
+                <h3>Lux Living Space</h3>
+                <h4>Designed for elegance — a spacious ambience filled with soft lighting accents.</h4>
+              </div>
+            </div>
+          </div>
+      
+        </div>
       </div>
-  
+      <!--3rd-->
       <div class="work-card">
-        <img src="https://images.unsplash.com/photo-1586105251261-d138005dbe69?w=900" loading="lazy">
-        <div class="work-title">Workplace Retreat</div>
-        <div class="work-desc">A calm and productive environment shaped through light, texture, and form.</div>
+        <div class="work-card-content">
+          <div class="work-card-image">
+            <img src="https://images.unsplash.com/photo-1586105251261-d138005dbe69?w=900" loading="lazy">
+          </div>
+      
+          <div class="work-card-info-wrapper">
+            <div class="work-card-info">
+              <div class="work-card-info-title">
+                <h3>Workplace Retreat</h3>
+                <h4>A calm and productive environment shaped through light, texture, and form.</h4>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-  
+      <!--4th-->
       <div class="work-card">
-        <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" laoding="lazy">
-        <div class="work-title">Outdoor Architecture</div>
-        <div class="work-desc">Bringing nature and structure together to build immersive outdoor experiences.</div>
+        <div class="work-card-content">
+          <div class="work-card-image">
+            <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" loading="lazy">
+          </div>
+      
+          <div class="work-card-info-wrapper">
+            <div class="work-card-info">
+              <div class="work-card-info-title">
+                <h3>Outdoor Architecture</h3>
+                <h4>Bringing nature and structure together to build immersive outdoor experiences.</h4>
+              </div>
+            </div>
+          </div>
+      
+        </div>
       </div>
-  
+      <!--5th-->
       <div class="work-card">
-        <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353?w=900" loading="lazy">
-        <div class="work-title">Urban Studio Loft</div>
-        <div class="work-desc">A compact yet expressive space designed with clean lines and industrial textures.</div>
+        <div class="work-card-content">
+          <div class="work-card-image">
+            <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353?w=900" loading="lazy">
+          </div>
+      
+          <div class="work-card-info-wrapper">
+            <div class="work-card-info">
+              <div class="work-card-info-title">
+                <h3>Urban Studio Loft</h3>
+                <h4>A compact yet expressive space designed with clean lines and industrial textures.</h4>
+              </div>
+            </div>
+          </div>
+      
+        </div>
       </div>
-  
+      <!--6th-->
       <div class="work-card">
-        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=900" loading="lazy">
-        <div class="work-title">Minimalist Bedroom</div>
-        <div class="work-desc">Soft lighting and neutral tones create a peaceful and modern sleeping environment.</div>
+        <div class="work-card-content">
+          <div class="work-card-image">
+            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=900" loading="lazy">
+          </div>
+      
+          <div class="work-card-info-wrapper">
+            <div class="work-card-info">
+              <div class="work-card-info-title">
+                <h3>Minimalist Bedroom</h3>
+                <h4>Soft lighting and neutral tones create a peaceful and modern sleeping environment.</h4>
+              </div>
+            </div>
+          </div>
+      
+        </div>
       </div>
-  
-    </div>
-  
+      
   </section>
   <!--Our Approach-->
   <section class="approach" id="approach">
@@ -688,6 +847,42 @@
     /* Section header */
     observer.observe(document.querySelector("[data-animate-header]"));
     </script>    
+    <script>
+      const workCards = document.querySelectorAll('.work-card');
+      const worksHeading = document.querySelector('.works-title');
+    
+      function handleScrollEffects() {
+        workCards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 80) {
+            card.classList.add('visible');
+          }
+        });
+    
+        // Reveal heading
+        const headRect = worksHeading.getBoundingClientRect();
+        if (headRect.top < window.innerHeight - 60) {
+          worksHeading.classList.add('visible');
+        }
+      }
+    
+      window.addEventListener('scroll', handleScrollEffects);
+      window.addEventListener('load', handleScrollEffects);
+    </script>
+    
+    <!--MOUSE HOVER ANIMATIONS-->
+    <script>
+      document.querySelector(".works-grid").onmousemove = e => {
+        for (const card of document.querySelectorAll(".work-card")) {
+          const rect = card.getBoundingClientRect(),
+                x = e.clientX - rect.left,
+                y = e.clientY - rect.top;
+      
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        }
+      };
+      </script>
     
   <!-- VANTA -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
@@ -713,29 +908,6 @@
       if (window.scrollY > 10) hdr.classList.add('blur');
       else hdr.classList.remove('blur');
     });
-  </script>
-
-  <script>
-    const workCards = document.querySelectorAll('.work-card');
-    const worksHeading = document.querySelector('.works-title');
-  
-    function handleScrollEffects() {
-      workCards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 80) {
-          card.classList.add('visible');
-        }
-      });
-  
-      // Reveal heading
-      const headRect = worksHeading.getBoundingClientRect();
-      if (headRect.top < window.innerHeight - 60) {
-        worksHeading.classList.add('visible');
-      }
-    }
-  
-    window.addEventListener('scroll', handleScrollEffects);
-    window.addEventListener('load', handleScrollEffects);
-  </script>
+  </script>  
 </body>
 </html>
