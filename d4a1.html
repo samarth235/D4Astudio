@@ -1,0 +1,741 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D4A Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:"Inter",sans-serif; font-weight:100; overflow-x:hidden; background:black; color:white; }
+
+    /* SPLASH */
+    #splash { 
+      position: fixed; top:0; left:0; width:100%; height:100vh; background:black;
+      display:flex; align-items:center; justify-content:center; z-index:9999;
+      overflow:hidden; opacity:1; transition:opacity .8s ease; 
+    }
+    #splash video { width:27%; height:auto; }
+    #splash.fade-out { opacity:0; pointer-events:none; }
+
+    /* HEADER */
+    .header { 
+      position:fixed; top:0; left:0; right:0; z-index:50; 
+      transform:translateY(0); transition:transform .4s ease, background .4s ease;
+    }
+    .header.solid {
+      background: rgba(20,20,20,.75);
+      backdrop-filter: blur(12px);
+      padding:0.6rem 0;
+      border-radius:0 0 12px 12px;
+    }
+    .header-container { max-width:80rem; margin:0 auto; padding:0.3rem 0.8rem; display:flex; justify-content:space-between; align-items:center; }
+    .logo { height:3rem; }
+    .nav { display:flex; gap:2rem; }
+    .nav a { color:white; text-decoration:none; font-size:1rem; transition:.3s; }
+    .nav a:hover { color:#b5b5b5; }
+
+    .header.blur {
+        backdrop-filter: blur(14px);
+        background: rgba(10,10,10,0.55);
+        transition: backdrop-filter .4s ease, background .4s ease;
+    }
+
+
+    /* HERO */
+    .hero-section { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+    .content-wrapper { text-align:center; max-width:70rem; padding:0 2rem; }
+    .hero-title { font-size:2.3rem; line-height:1.5; font-weight:300; }
+
+    /* GALLERY (UNCHANGED LIKE YOU ASKED) */
+    .gallery-section {
+        min-height: 100vh;
+        height: auto;
+        padding-top: 7rem !important;
+        padding-bottom: 6rem;
+        margin-bottom: 2rem;
+        }
+
+    .gallery-header { text-align:center; margin-bottom:0.5rem; }
+    .gallery-title { font-size:3rem; color:white; }
+    .gallery-subtitle { color:#9ca3af; font-size:1.125rem; }
+
+    .gallery-outer {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      width: max-content;
+      transform: translateX(0);
+    }
+
+    .gallery-row { display:flex; gap:1.5rem; }
+    .gallery-track { display:flex; gap:2.2rem; }
+
+    .gallery-track img {
+      width: 320px;
+      height: 475px;
+      object-fit: cover;
+      border-radius: 12px;
+      filter: brightness(0.85);
+      transition:0.3s;
+    }
+    .gallery-track img:hover {
+      transform:scale(1.1);
+      filter:brightness(1);
+    }
+
+    #galleryExpandOverlay {
+      position: fixed;
+      top: 50%; left: 0; width: 100%; height: 0;
+      background: #000000ee;
+      z-index: 9990;
+      transition: height .8s ease;
+      transform: translateY(-50%);
+      pointer-events:none;
+    }
+        .gallery-btn-wrapper {
+    text-align: center;
+    margin-top: 3.5rem;
+    margin-bottom: 2rem;
+    }
+
+    .gallery-btn {
+    padding: 14px 32px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 10px;
+    display: inline-block;
+    color: white;
+    font-size: 1.05rem;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    transition: 0.3s ease;
+    }
+
+    .gallery-btn:hover {
+    transform: scale(1.08);
+    background: rgba(255,255,255,0.22);
+    }
+
+
+    /* WORKS – PREMIUM LOOK */
+    .works-section {
+        min-height: 120vh;
+        background: #111;
+        padding-top: 7rem;
+        padding-bottom: 6rem;
+        margin-top: 2rem;
+    }
+
+    .works-title {
+        text-align: center;
+        font-size: 3.2rem;
+        margin-bottom: 3.5rem !important;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .works-title.visible {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+    .works-grid {
+        max-width: 80rem;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        padding: 1rem;
+    }
+
+    /* Card */
+    .work-card {
+        background: #181818;
+        border-radius: 16px;
+        overflow: hidden;
+        padding-bottom: 1.5rem;
+        transform: translateY(40px);
+        opacity: 1 !important;
+        transition: 0.6s ease;
+    }
+
+    /* Fade in + slide up on scroll */
+    .work-card.visible {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+    /* Image area */
+    .work-card img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        filter: brightness(0.9);
+        transition: 0.35s ease;
+    }
+
+    /* Hover animation */
+    .work-card:hover img {
+        transform: scale(1.08);
+        filter: brightness(1);
+    }
+    /* Alternating Hover Tilt */
+    .work-card:nth-child(odd):hover {
+        transform: translateY(-6px) rotateZ(-1.3deg);
+    }
+
+    .work-card:nth-child(even):hover {
+        transform: translateY(-6px) rotateZ(1.3deg);
+    }
+
+    /* Keep fade-in animation intact */
+    .work-card {
+        transition: 0.6s ease, transform 0.25s ease;
+    }
+    .work-title {
+        font-size: 1.3rem;
+        padding: 1rem;
+        color: white;
+    }
+
+    .work-desc {
+        padding: 0 1rem;
+        color: #bbb;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    /*Our Approach*/
+    /* ---------- DARK MODE APPROACH SECTION ---------- */
+  .approach {
+      padding: 8rem 1.5rem;
+      background: #000;
+      color: white;
+  }
+
+  .section-header {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 0.8s ease;
+  }
+
+  .section-header.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  .section-badge {
+      color: #7aa5ff;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.85rem;
+      font-weight: 600;
+  }
+
+  .section-header h2 {
+      font-size: 3rem;
+      font-weight: 300;
+      margin-top: 1rem;
+      color: white;
+  }
+
+
+  /* Steps Grid */
+  .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+  }
+
+  .step-card {
+      background: #0d0d0d;
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 1px solid #1c1c1c;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      opacity: 0;
+      transform: translateY(70px);
+      transition: 0.8s ease, box-shadow 0.5s ease;
+  }
+
+  .step-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  /* Hover glow */
+  .step-card:hover {
+      box-shadow: 0 0 25px rgba(100,150,255,.25);
+      transform: translateY(-10px);
+  }
+
+  .step-number {
+      font-size: 2.8rem;
+      opacity: 0.18;
+      font-weight: 700;
+  }
+
+  .step-card h3 {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      font-weight: 400;
+  }
+
+  .step-card p {
+      margin-top: 0.5rem;
+      line-height: 1.7;
+      color: #cfcfcf;
+  }
+
+
+  /* Images */
+  .image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-top: 5rem;
+  }
+
+  .approach-image-wrapper {
+      position: relative;
+      border-radius: 1rem;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(70px);
+      transition: 1s ease;
+  }
+
+  .approach-image-wrapper.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  .approach-image-wrapper img {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      transition: 0.6s ease;
+      opacity: 1 !important;
+  }
+
+  .approach-image-wrapper:hover img {
+      transform: scale(1.1);
+  }
+
+  .approach-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,.7) 0%, transparent 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      opacity: 0;
+      transition: 0.4s ease;
+  }
+
+  .approach-image-wrapper:hover .approach-image-overlay {
+      opacity: 1;
+  }
+
+  .approach-image-overlay h3 {
+      font-size: 1.6rem;
+  }
+
+  .approach-image-overlay p {
+      color: #cfcfcf;
+  }
+
+
+  /* Responsive */
+  @media (max-width: 768px) {
+      .image-grid {
+          grid-template-columns: 1fr;
+      }
+      .section-header h2 {
+          font-size: 2rem;
+      }
+  }
+
+
+    /* ABOUT */
+    .about-section{
+      background:white;
+      color:black;
+      padding:6rem 2rem;
+      margin-top:3rem;
+      margin-bottom:5rem; /* FIX FOOTER OVERLAP */
+    }
+    .about-container{ max-width:80rem; margin:auto; }
+    .about-title{ font-size:3rem; margin-bottom:1rem; }
+    .about-text{ font-size:1.2rem; color:#444; }
+
+    /* FOOTER */
+    footer{
+    background:#0a0a0a;
+    text-align:center;
+    padding:2.5rem;
+    color:#ccc;
+    }
+    .socials{
+    margin-top:1rem;
+    display:flex;
+    justify-content:center;
+    gap:1.5rem;
+    }
+    .socials a{
+    color:white;
+    font-size:1.8rem;
+    text-decoration:none;
+    transition:.3s;
+    }
+    .socials a:hover{ color:#aaa; }
+
+  </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- Splash Screen -->
+  <div id="splash">
+    <video id="splashVideo" autoplay muted style="width:50%;height:auto;">
+      <source src="logoanim.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-container">
+      <img src="img.jpeg" class="logo">
+
+      <nav class="nav">
+        <a href="#home" data-scroll="home">Home</a>
+        <a href="#gallery" data-scroll="gallery">Projects</a>
+        <a href="#works" data-scroll="works">Our Works</a>
+        <a href="#about" data-scroll="about">About Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-section" id="home">
+    <div class="content-wrapper" id="contentWrapper">
+      <h1 class="hero-title">
+        We create meaningful and impactful spaces<br>that inspire and serve
+      </h1>
+    </div>
+  </section>
+
+  <!-- GALLERY (PASTED EXACTLY LIKE YOU SAID) -->
+  <section class="gallery-section" id="gallery">
+
+    <div class="gallery-header">
+      <h2 class="gallery-title">Our Projects</h2>
+      <p class="gallery-subtitle">Explore our collection of thoughtfully designed spaces</p>
+    </div>
+
+    <div class="gallery-outer">
+      <div class="gallery-inner">
+
+        <div class="gallery-row row-1">
+          <div class="gallery-track">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1499955085172-a104c9463ece?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1499955085172-a104c9463ece?w=800" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800" loading="lazy">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+
+    <div id="galleryExpandOverlay"></div>
+    <!-- VIEW MORE BUTTON -->
+    <div class="gallery-btn-wrapper">
+        <a href="project.html" class="gallery-btn">View More Projects →</a>
+      </div>
+      
+  </section>
+
+  <!-- WORKS -->
+<section class="works-section" id="works">
+
+    <h2 class="works-title">Our Works</h2>
+  
+    <div class="works-grid">
+  
+      <div class="work-card">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900" laoding="lazy">
+        <div class="work-title">Modern Interior</div>
+        <div class="work-desc">A fresh blend of minimalist geometry and warm tones, perfect for urban homes.</div>
+      </div>
+  
+      <div class="work-card">
+        <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" laoding="lazy">
+        <div class="work-title">Lux Living Space</div>
+        <div class="work-desc">Designed for elegance — a spacious ambience filled with soft lighting accents.</div>
+      </div>
+  
+      <div class="work-card">
+        <img src="https://images.unsplash.com/photo-1586105251261-d138005dbe69?w=900" loading="lazy">
+        <div class="work-title">Workplace Retreat</div>
+        <div class="work-desc">A calm and productive environment shaped through light, texture, and form.</div>
+      </div>
+  
+      <div class="work-card">
+        <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" laoding="lazy">
+        <div class="work-title">Outdoor Architecture</div>
+        <div class="work-desc">Bringing nature and structure together to build immersive outdoor experiences.</div>
+      </div>
+  
+      <div class="work-card">
+        <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353?w=900" loading="lazy">
+        <div class="work-title">Urban Studio Loft</div>
+        <div class="work-desc">A compact yet expressive space designed with clean lines and industrial textures.</div>
+      </div>
+  
+      <div class="work-card">
+        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=900" loading="lazy">
+        <div class="work-title">Minimalist Bedroom</div>
+        <div class="work-desc">Soft lighting and neutral tones create a peaceful and modern sleeping environment.</div>
+      </div>
+  
+    </div>
+  
+  </section>
+  <!--Our Approach-->
+  <section class="approach" id="approach">
+    <div class="container">
+        <div class="section-header" data-animate-header>
+            <span class="section-badge">Our Approach</span>
+            <h2>How We Work With You</h2>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card" data-animate data-delay="0">
+                <div class="step-number">01</div>
+                <h3>Discovery & Strategy</h3>
+                <p>We understand your goals, requirements, and vision to build a strong foundation.</p>
+            </div>
+
+            <div class="step-card" data-animate data-delay="0.15">
+                <div class="step-number">02</div>
+                <h3>Concept & Design</h3>
+                <p>We translate ideas into beautiful visuals and functional design systems.</p>
+            </div>
+
+            <div class="step-card" data-animate data-delay="0.30">
+                <div class="step-number">03</div>
+                <h3>Development & Execution</h3>
+                <p>We build with precision, performance, and attention to detail.</p>
+            </div>
+
+            <div class="step-card" data-animate data-delay="0.45">
+                <div class="step-number">04</div>
+                <h3>Delivery & Optimization</h3>
+                <p>We refine, optimize, and launch — ensuring long-term value.</p>
+            </div>
+        </div>
+
+        <div class="image-grid">
+            <div class="approach-image-wrapper" data-animate data-delay="0.2">
+                <img src="https://images.unsplash.com/photo-1598520106830-8c45c2035460?w=1080">
+                <div class="approach-image-overlay">
+                    <h3>Innovation First</h3>
+                    <p>Modern, forward-thinking design</p>
+                </div>
+            </div>
+
+            <div class="approach-image-wrapper" data-animate data-delay="0.35">
+                <img src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1080">
+                <div class="approach-image-overlay">
+                    <h3>True Collaboration</h3>
+                    <p>Your vision × Our expertise</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+  
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="about-container">
+      <h2 class="about-title">About Us</h2>
+      <p class="about-text">At D4A Studio, we believe in creating spaces that tell stories.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+<footer>
+    <p>Contact Us: d4astudios@gmail.com</p>
+    <div class="socials">
+    <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+    </div>
+    </footer>
+
+
+  <!-- JS -->
+  <script>
+    /* SPLASH */
+    const splash = document.getElementById('splash');
+    const splashVideo = document.getElementById('splashVideo');
+    const contentWrapper = document.getElementById('contentWrapper');
+
+    splashVideo.addEventListener("ended", () => {
+      splash.classList.add("fade-out");
+      setTimeout(() => contentWrapper.classList.add("animate"), 200);
+      setTimeout(() => splash.style.display = "none", 800);
+    });
+
+    //* SMOOTH SCROLL — FIXED */
+    document.querySelectorAll('a[data-scroll]').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.getElementById(link.dataset.scroll);
+        if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+    });
+
+    /* HEADER ON SCROLL */
+    const header = document.getElementById("header");
+    const hero = document.getElementById("home");
+
+    window.addEventListener("scroll", () => {
+      if (hero.getBoundingClientRect().bottom < 0)
+        header.classList.add("solid");
+      else
+        header.classList.remove("solid");
+    });
+
+    /* GALLERY MOTION */
+    const row1 = document.querySelector(".row-1 .gallery-track");
+    let autoSpeed = 0.35;
+    let scrollBoost = 0;
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener("scroll", () => {
+      let d = window.scrollY - lastScrollY;
+      scrollBoost = d * 0.25;
+      lastScrollY = window.scrollY;
+      scrollBoost = Math.max(Math.min(scrollBoost, 20), -20);
+    });
+
+    function animate() {
+      let totalSpeed = autoSpeed + scrollBoost;
+      scrollBoost *= 0.9;
+      const currentX = new DOMMatrix(getComputedStyle(row1).transform).m41;
+      row1.style.transform = `translateX(${currentX - totalSpeed}px)`;
+      const resetPoint = -(row1.scrollWidth / 3);
+      if (currentX <= resetPoint) row1.style.transform = `translateX(0px)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+  <!--Approach-->
+  <script>
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                entry.target.classList.add('visible');
+    
+                const delay = entry.target.dataset.delay;
+                if(delay){
+                    entry.target.style.transitionDelay = delay + "s";
+                }
+            }
+        });
+    },{
+        threshold: 0,
+        rootMargin: "0px 0px -40% 0px"   // ★ THIS FIXES THE INVISIBLE IMAGES
+    });
+    
+    /* Step cards & images */
+    document.querySelectorAll("[data-animate]").forEach(el=>{
+        observer.observe(el);
+    });
+    
+    /* Section header */
+    observer.observe(document.querySelector("[data-animate-header]"));
+    </script>    
+    
+  <!-- VANTA -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+  <script>
+    setTimeout(() => {
+      VANTA.WAVES({
+        el: ".hero-section",
+        mouseControls:true,
+        touchControls:true,
+        gyroControls:false,
+        color:0x4f5151,
+        shininess:55,
+        waveHeight:23,
+        waveSpeed:0.67,
+        zoom:0.88
+      });
+    }, 3000);
+  </script>
+    <script>
+    const hdr = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) hdr.classList.add('blur');
+      else hdr.classList.remove('blur');
+    });
+  </script>
+
+  <script>
+    const workCards = document.querySelectorAll('.work-card');
+    const worksHeading = document.querySelector('.works-title');
+  
+    function handleScrollEffects() {
+      workCards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 80) {
+          card.classList.add('visible');
+        }
+      });
+  
+      // Reveal heading
+      const headRect = worksHeading.getBoundingClientRect();
+      if (headRect.top < window.innerHeight - 60) {
+        worksHeading.classList.add('visible');
+      }
+    }
+  
+    window.addEventListener('scroll', handleScrollEffects);
+    window.addEventListener('load', handleScrollEffects);
+  </script>
+</body>
+</html>
