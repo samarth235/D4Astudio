@@ -50,7 +50,7 @@
     .logo {
       height: 3rem;
       width: auto;
-      margin-left: -100px;
+      margin-left: -90px;
     }
 
     /* NAV LINKS */
@@ -221,7 +221,9 @@
   <div class="header-container">
 
     <div class="logo-container">
-      <img src="img.jpeg" class="logo">
+      <a href="d4a1.html" style="line-height:0;">
+        <img src="img.jpeg" class="logo" alt="D4A logo">
+      </a>
     </div>
 
     <nav class="nav">
@@ -387,6 +389,26 @@
     });
   });
 </script>
+<script>
+  // Disable right-click
+  document.addEventListener("contextmenu", e => e.preventDefault());
+  
+  // Disable inspect shortcuts
+  document.addEventListener("keydown", function(e) {
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && e.key === "I") ||
+      (e.ctrlKey && e.shiftKey && e.key === "J") ||
+      (e.ctrlKey && e.key === "U")
+    ) {
+      e.preventDefault();
+    }
+  });
+  
+  // Disable text selection
+  document.addEventListener("selectstart", e => e.preventDefault());
+  </script>
+  
 
 </body>
 </html>
