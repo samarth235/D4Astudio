@@ -25,23 +25,25 @@
     .header { 
       position:fixed; top:0; left:0; right:0; z-index:50; 
       transform:translateY(0); transition:transform .4s ease, background .4s ease;
+      
     }
     .header.solid {
-      background: rgba(20,20,20,.75);
+      background: rgba(35,35,35,.75);
       backdrop-filter: blur(12px);
       padding:0.6rem 0;
       border-radius:0 0 12px 12px;
     }
-    .header-container { max-width:80rem; margin:0 auto; padding:0.3rem 0.8rem; display:flex; justify-content:space-between; align-items:center; }
-    .logo { height:3rem; }
+    .header-container { max-width:80rem; margin:0 auto; padding:0.3rem 0.8rem; display:flex; justify-content:space-between; align-items:center;padding-left: 0; }
+    .logo { height:3rem; margin-left: -90px;}
     .nav { display:flex; gap:2rem; }
     .nav a { color:white; text-decoration:none; font-size:1rem; transition:.3s; }
     .nav a:hover { color:#b5b5b5; }
 
     .header.blur {
         backdrop-filter: blur(14px);
-        background: rgba(10,10,10,0.55);
+        background: rgba(35,35,35,0.75);
         transition: backdrop-filter .4s ease, background .4s ease;
+        
     }
 
 
@@ -539,14 +541,37 @@
     justify-content:center;
     gap:1.5rem;
     }
-    .socials a{
-    color:white;
-    font-size:1.8rem;
-    text-decoration:none;
-    transition:.3s;
-    }
-    .socials a:hover{ color:#aaa; }
+    /* Instagram & LinkedIn icons — always white, no hover color */
+  footer a.icon-link {
+      color: white !important;
+      text-decoration: none !important;
+      transition: none !important;
+      font-size: 2rem;
+  }
 
+  footer a.icon-link:hover {
+      color: white !important;  /* stays white */
+      text-decoration: none !important;
+  }
+
+
+    /*Footer links*/
+    /* Only email link in footer */
+    footer .email-link {
+        color: #ffffff !important;   /* gold color */
+        text-decoration: none;
+    }
+
+    footer .email-link:hover {
+        text-decoration: underline;
+    }
+    footer a i {
+        text-decoration: none !important;
+    }
+
+    footer a {
+        text-decoration: none !important;
+    }
   </style>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
@@ -563,7 +588,9 @@
   <!-- HEADER -->
   <header class="header" id="header">
     <div class="header-container">
+      <a href="d4a1.html" style="line-height:0;">
         <img src="img.jpeg" class="logo" alt="D4A logo">
+      </a>
 
         <nav class="nav">
           <a href="d4a1.html">
@@ -823,14 +850,42 @@
   <!-- ABOUT -->
 
   <!-- FOOTER -->
-<footer>
-    <p>Contact Us: d4astudios@gmail.com</p>
-    <div class="socials">
-    <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-    <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+  <footer>
+    <p style="margin-bottom: 0.8rem;">
+      Contact Us:
+      <a class="email-link" href="mailto:d4astudios@gmail.com" target="_blank">
+        d4astudios@gmail.com
+      </a>
+    </p>
+  
+    <!-- Phone -->
+    <p style="margin-top: 0.4rem;">
+      <i class="fa-solid fa-phone"></i> +91 98765 43210
+    </p>
+  
+    <!-- Location -->
+    <p style="margin-top: 0.4rem;">
+      <a href="https://www.google.com/maps/dir//D4A+STUDIO,+153,+29th+Cross+Rd,+Banashankari+Stage+II,+Banashankari,+Bengaluru,+Karnataka+560070/@12.9215083,77.5657812,17z/data=!4m17!1m7!3m6!1s0x3bae150061fe6fd1:0x1308e6c959961080!2sD4A+STUDIO!8m2!3d12.9215083!4d77.5657812!16s%2Fg%2F11y02_y2sf!4m8!1m0!1m5!1m1!1s0x3bae150061fe6fd1:0x1308e6c959961080!2m2!1d77.5657923!2d12.9215491!3e0?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" 
+         target="_blank" 
+         style="color:white; text-decoration:none;">
+        <i class="fa-solid fa-location-dot"></i> Bengaluru, Karnataka
+      </a>
+    </p>
+    
+  
+    <!-- Social Icons -->
+    <div style="margin-top:0.6rem;">
+      <a class="icon-link" href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a class="icon-link" href="https://in.linkedin.com/company/d4astudio" target="_blank">
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
     </div>
-    </footer>
-
+  </footer>
+  
+  
+  
 
   <!-- JS -->
   <script>
@@ -953,6 +1008,7 @@
         }
       };
       </script>
+
     
   <!-- VANTA -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
@@ -979,5 +1035,29 @@
       else hdr.classList.remove('blur');
     });
   </script>  
+  <!--Video animation timings and appearance in-screen-->
+  <script>
+    const navType = performance.getEntriesByType("navigation")[0].type;
+    const hasVisited = sessionStorage.getItem("hasVisitedHome");
+  
+    // CASE 1: First load OR reload → play video
+    if (navType === "reload" || !hasVisited) {
+      sessionStorage.setItem("hasVisitedHome", "true"); // Mark as visited
+  
+      const splash = document.getElementById('splash');
+      const splashVideo = document.getElementById('splashVideo');
+      const contentWrapper = document.getElementById('contentWrapper');
+  
+      splashVideo.addEventListener("ended", () => {
+        splash.classList.add("fade-out");
+        setTimeout(() => contentWrapper.classList.add("animate"), 200);
+        setTimeout(() => splash.style.display = "none", 800);
+      });
+    }
+    else {
+      // CASE 2: Internal navigation → hide splash instantly
+      document.getElementById("splash").style.display = "none";
+    }
+  </script>
 </body>
 </html>
