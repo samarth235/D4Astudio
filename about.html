@@ -35,27 +35,33 @@
 
     /* FIXED HEADER */
     header.header{
-      position:fixed;
-      left:0;
-      right:0;
-      top:0;
-      z-index:60;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:1.2rem 2rem;
-      max-width:var(--site-max);
-      margin:0 auto;
-      width:100%;
-      background:rgba(0,0,0,0.95);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 60;
+      padding: 0.6rem 0;
+      background: rgba(35,35,35,0.75);
       backdrop-filter: blur(12px);
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      height:80px;
     }
     .header .logo{ 
       height:50px; 
       object-fit:cover;
     }
+    .header-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 0.3rem 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+/* Match logo position from main site */
+    .logo {
+      height: 3rem;
+      margin-left: -90px;
+  }
     
     /* NAV WITH SLOT ANIMATION */
     .nav{ 
@@ -129,7 +135,7 @@
       left:0;
       right:0;
       height:2px;
-      background:var(--accent);
+      background:white;
       border-radius:2px;
       transform:scaleX(0);
       transition:transform 0.3s ease;
@@ -284,39 +290,64 @@
       .nav{ gap:1rem; }
       .nav a{ font-size:0.9rem; padding:8px 12px; }
     }
+    /*Footer links*/
+    /* Only email link in footer */
+    footer .email-link {
+        color: #ffffff !important;   /* gold color */
+        text-decoration: none;
+    }
+
+    footer .email-link:hover {
+        text-decoration: underline;
+    }
+    footer a i {
+        text-decoration: none !important;
+    }
+
+    footer a {
+        text-decoration: none !important;
+    }
+
+
   </style>
 </head>
 <body>
 
-  <header class="header">
-    <img src="img.jpeg" class="logo" alt="D4A logo">
-    <nav class="nav">
-      <a href="d4a1.html">
-        <span class="slot">
-          <span class="top">Home</span>
-          <span class="bottom">Home</span>
-        </span>
+  <header class="header" id="header">
+    <div class="header-container">
+      <a href="d4a1.html" style="line-height:0;">
+        <img src="img.jpeg" class="logo" alt="D4A logo">
       </a>
-      <a href="d4a1.html#gallery">
-        <span class="slot">
-          <span class="top">Projects</span>
-          <span class="bottom">Projects</span>
-        </span>
-      </a>
-      <a href="d4a1.html#works">
-        <span class="slot">
-          <span class="top">Our Works</span>
-          <span class="bottom">Our Works</span>
-        </span>
-      </a>
-      <a href="about.html" aria-current="page">
-        <span class="slot">
-          <span class="top">About Us</span>
-          <span class="bottom">About Us</span>
-        </span>
-      </a>
-    </nav>
+  
+      <nav class="nav">
+        <a href="d4a1.html">
+          <span class="slot">
+            <span class="top">Home</span>
+            <span class="bottom">Home</span>
+          </span>
+        </a>
+        <a href="d4a1.html#gallery">
+          <span class="slot">
+            <span class="top">Projects</span>
+            <span class="bottom">Projects</span>
+          </span>
+        </a>
+        <a href="d4a1.html#works">
+          <span class="slot">
+            <span class="top">Our Works</span>
+            <span class="bottom">Our Works</span>
+          </span>
+        </a>
+        <a href="about.html" aria-current="page">
+          <span class="slot">
+            <span class="top">About Us</span>
+            <span class="bottom">About Us</span>
+          </span>
+        </a>
+      </nav>
+    </div>
   </header>
+  
 
   <main>
     <div class="container">
@@ -473,12 +504,23 @@
   </main>
 
   <footer>
-    <p>Contact Us: d4astudios@gmail.com</p>
+    <p>
+      Contact Us:
+      <a class="email-link" href="mailto:d4astudios@gmail.com" target="_blank">
+        d4astudios@gmail.com
+      </a>
+    </p>
+  
     <div style="margin-top:0.6rem;">
-      <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="in.linkedin.com/company/d4astudio " target="_blank">
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
     </div>
   </footer>
+  
 
   <script>
     const reveals = document.querySelectorAll('.reveal');
@@ -495,6 +537,25 @@
     });
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   </script>
-
+    <script>
+        // Disable right-click
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        
+        // Disable inspect shortcuts
+        document.addEventListener("keydown", function(e) {
+          if (
+            e.key === "F12" ||
+            (e.ctrlKey && e.shiftKey && e.key === "I") ||
+            (e.ctrlKey && e.shiftKey && e.key === "J") ||
+            (e.ctrlKey && e.key === "U")
+          ) {
+            e.preventDefault();
+          }
+        });
+        
+        // Disable text selection
+        document.addEventListener("selectstart", e => e.preventDefault());
+        </script>
+        
 </body>
 </html>
