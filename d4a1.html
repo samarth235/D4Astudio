@@ -572,6 +572,25 @@
     footer a {
         text-decoration: none !important;
     }
+    .projects-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;   /* keep as you asked */
+    object-fit: cover;
+    z-index: -1;
+
+    opacity: 0;
+    transition: 
+        opacity 1.8s ease,
+        mask-image 2.2s ease-out,
+        -webkit-mask-image 2.2s ease-out;
+
+    /* Start hidden from left */
+    mask-image: linear-gradient(to right, transparent 0%, black 0%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 0%);
+}
   </style>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
@@ -637,7 +656,7 @@
 
   <!-- GALLERY (PASTED EXACTLY LIKE YOU SAID) -->
   <section class="gallery-section" id="gallery">
-
+  <img src="backgroundforprojects.jpeg" class="projects-bg-img">
     <div class="gallery-header">
       <h2 class="gallery-title">Our Projects</h2>
       <p class="gallery-subtitle">Explore our collection of thoughtfully designed spaces</p>
@@ -1008,6 +1027,37 @@
         }
       };
       </script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const projSection = document.querySelector(".gallery-section");
+    const projImg = document.querySelector(".projects-bg-img");
+    let revealed = false;
+
+    function revealBackground() {
+        if (revealed) return;
+
+        const rect = projSection.getBoundingClientRect();
+
+        // Reveal later (smooth)
+        if (rect.top < window.innerHeight * 0.25) {
+
+            revealed = true;
+
+            setTimeout(() => {
+                projImg.style.opacity = 1;
+
+                projImg.style.maskImage =
+                    "linear-gradient(to right, transparent 0%, black 100%)";
+                projImg.style.webkitMaskImage =
+                    "linear-gradient(to right, transparent 0%, black 100%)";
+            }, 220); // slight delay makes it ultra smooth
+        }
+    }
+
+    window.addEventListener("scroll", revealBackground);
+});
+</script>
 
     
   <!-- VANTA -->
