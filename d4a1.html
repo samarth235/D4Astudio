@@ -21,30 +21,32 @@
     #splash video { width:27%; height:auto; }
     #splash.fade-out { opacity:0; pointer-events:none; }
 
-    /* HEADER */
+    /* HEADER - UPDATED FOR HIDDEN DEFAULT STATE */
     .header { 
       position:fixed; top:0; left:0; right:0; z-index:50; 
-      transform:translateY(0); transition:transform .4s ease, background .4s ease;
       
+      /* CHANGE 1: Hidden by default */
+      transform:translateY(0%); 
+      
+      transition:transform .4s ease;
     }
-    .header.solid {
+
+    /* CHANGE 1: New class to show header only when JS adds it */
+    .header.visible {
       background: rgba(35,35,35,.75);
       backdrop-filter: blur(12px);
       padding:0.6rem 0;
       border-radius:0 0 12px 12px;
     }
+
     .header-container { max-width:80rem; margin:0 auto; padding:0.3rem 0.8rem; display:flex; justify-content:space-between; align-items:center;padding-left: 0; }
     .logo { height:3rem; margin-left: -90px;}
-    .nav { display:flex; gap:2rem; }
+    
+    /* CHANGE 2: Navigation alignment (kept your margin-right setting) */
+    .nav { display:flex; gap:2rem; margin-right: -100px; }
+    
     .nav a { color:white; text-decoration:none; font-size:1rem; transition:.3s; }
     .nav a:hover { color:#b5b5b5; }
-
-    .header.blur {
-        backdrop-filter: blur(14px);
-        background: rgba(35,35,35,0.75);
-        transition: backdrop-filter .4s ease, background .4s ease;
-        
-    }
 
 
     /* HERO */
@@ -52,27 +54,39 @@
     .content-wrapper { text-align:center; max-width:70rem; padding:0 2rem; }
     .hero-title { font-size:2.3rem; line-height:1.5; font-weight:300; }
 
-    /* GALLERY (UNCHANGED LIKE YOU ASKED) */
+    /* GALLERY */
     .gallery-section {
-        min-height: 100vh;
-        height: auto;
-        padding-top: 7rem !important;
-        padding-bottom: 6rem;
-        margin-bottom: 2rem;
-        }
+        height: 100vh;             /* Fits exactly to screen height */
+        min-height: 600px;         /* Prevents it from getting too squashed on tiny screens */
+        padding: 0 !important;     /* Removes the huge padding you had before */
+        margin: 0;
+        display: flex;
+        flex-direction: column;    /* Stacks items vertically */
+        justify-content: center;   /* Centers them vertically */
+        align-items: center;
+        position: relative;
+        z-index: 10;               /* Ensures it sits above other elements */
+        background: black;         /* Ensures background is consistent */
+    }
 
-    .gallery-header { text-align:center; margin-bottom:0.5rem; }
+    .gallery-header {
+        text-align: center;
+        margin-bottom: 3vh;      /* Very small gap below title */
+        margin-top: -4vh;
+        flex-shrink: 0;          /* Prevents title from shrinking */
+    }
     .gallery-title { font-size:3rem; color:white; }
     .gallery-subtitle { color:#9ca3af; font-size:1.125rem; }
 
     .gallery-outer {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        position: relative;
+        height: auto;
+        width: 100%;
+        overflow: visible;        /* Allow images to be seen clearly */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 2vh 0;           /* Adds a tiny bit of breathing room */
     }
 
     .gallery-inner {
@@ -87,12 +101,13 @@
     .gallery-track { display:flex; gap:2.2rem; }
 
     .gallery-track img {
-      width: 320px;
-      height: 475px;
-      object-fit: cover;
-      border-radius: 12px;
-      filter: brightness(0.85);
-      transition:0.3s;
+        height: 50vh;            /* Takes up 50% of the screen height */
+        width: auto;             /* Width adjusts automatically */
+        aspect-ratio: 2/3;       /* Keeps the portrait shape */
+        object-fit: cover;
+        border-radius: 12px;
+        filter: brightness(0.85);
+        transition: 0.3s;
     }
     .gallery-track img:hover {
       transform:scale(1.1);
@@ -109,9 +124,10 @@
       pointer-events:none;
     }
     .gallery-btn-wrapper {
-      text-align: center;
-      margin-top: 3.5rem;
-      margin-bottom: 2rem;
+        text-align: center;
+        margin-top: 6vh;         /* Small gap above button */
+        margin-bottom: 0;
+        flex-shrink: 0;          /* Prevents button from shrinking */
     }
 
     .gallery-btn {
@@ -310,56 +326,45 @@
     color: #bbb;
     font-size: .9rem;
   }
-  /* SLOT HOVER EFFECT */
-.slot {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  height: 1.3em;
-  transition: transform 0.3s ease;
-}
+  
+  /* SLOT HOVER EFFECT - WITH 'j' TAIL FIX */
+  .slot {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      height: 1.3em;
+      transition: transform 0.3s ease;
+  }
 
-/* Disable animation for active link */
-.slot.active span {
-  transform: translateY(0) !important;
-}
+  /* Disable slot animation for the active link */
+  .slot.active span {
+      transform: translateY(0) !important;
+  }
 
-.slot.active:hover {
-  transform: none !important;
-}
+  .slot.active:hover {
+      transform: none !important;
+  }
 
-.slot.active .top,
-.slot.active .bottom {
-  transform: translateY(0) !important;
-}
+  /* Make sure the hover animation doesn’t move anything */
+  .slot.active .top,
+  .slot.active .bottom {
+      transform: translateY(0) !important;
+  }
 
-.slot:hover {
-  transform: translateY(-2px);
-}
+  .slot:hover { transform: translateY(-2px); }
+  .slot span { display:block; transition: transform 0.6s ease; }
 
-.slot span {
-  display: block;
-  transition: transform 0.6s ease;
-}
+  .slot .top { transform: translateY(0); }
 
-.slot .top {
-  transform: translateY(0);
-}
+  .slot .bottom {
+      position:absolute; 
+      top: -110%; /* Pushed higher to hide tail */
+      left:0;
+      transform:translateY(0);
+  }
 
-.slot .bottom {
-  position: absolute;
-  top: -100%;
-  left: 0;
-  transform: translateY(0);
-}
-
-.slot:hover .top {
-  transform: translateY(100%);
-}
-
-.slot:hover .bottom {
-  transform: translateY(100%);
-}
+  .slot:hover .top { transform:translateY(110%); }
+  .slot:hover .bottom { transform:translateY(110%); }
 
 
     /*Our Approach*/
@@ -591,24 +596,24 @@
     mask-image: linear-gradient(to right, transparent 0%, black 0%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 0%);
 }
+
+
   </style>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-  <!-- Splash Screen -->
   <div id="splash">
-      <video id="splashVideo" autoplay muted>
-      <source src="logoanim.mp4" type="video/mp4" />
+    <video id="splashVideo" autoplay muted>
+      <source src="Untitled video - Made with Clipchamp.mp4" type="video/mp4" />
     </video>
   </div>
 
-  <!-- HEADER -->
   <header class="header" id="header">
     <div class="header-container">
       <a href="d4a1.html" style="line-height:0;">
-        <img src="img.jpeg" class="logo" alt="D4A logo">
+        <img src="IMG-20251115-WA0009[1].jpg" class="logo" alt="D4A logo">
       </a>
 
         <nav class="nav">
@@ -633,7 +638,7 @@
             </span>
           </a>
         
-          <a href="about.html">
+          <a href="aboutus.html">
             <span class="slot">
               <span class="top">About Us</span>
               <span class="bottom">About Us</span>
@@ -645,7 +650,6 @@
 </header>
 
 
-  <!-- HERO -->
   <section class="hero-section" id="home">
     <div class="content-wrapper" id="contentWrapper">
       <h1 class="hero-title">
@@ -654,9 +658,8 @@
     </div>
   </section>
 
-  <!-- GALLERY (PASTED EXACTLY LIKE YOU SAID) -->
   <section class="gallery-section" id="gallery">
-  <img src="backgroundforprojects.jpeg" class="projects-bg-img">
+    <img src="backgroundforprojects.jpeg" class="projects-bg-img">
     <div class="gallery-header">
       <h2 class="gallery-title">Our Projects</h2>
       <p class="gallery-subtitle">Explore our collection of thoughtfully designed spaces</p>
@@ -688,17 +691,13 @@
     
 
     <div id="galleryExpandOverlay"></div>
-    <!-- VIEW MORE BUTTON -->
     <div class="gallery-btn-wrapper">
       <a href="projects.html" class="gallery-btn premium-btn">View More Projects →</a>
   </div>  
       
   </section>
 
-  <!-- WORKS -->
-
-<section class="works-section" id="works">
-    <!--1st-->
+  <section class="works-section" id="works">
     <h2 class="works-title">Our Works</h2>
     <div class="works-grid">
       <div class="work-card">
@@ -718,7 +717,6 @@
       
         </div>
       </div>  
-      <!--2nd-->
       <div class="work-card">
         <div class="work-card-content">
           <div class="work-card-image">
@@ -736,7 +734,6 @@
       
         </div>
       </div>
-      <!--3rd-->
       <div class="work-card">
         <div class="work-card-content">
           <div class="work-card-image">
@@ -754,7 +751,6 @@
 
         </div>
       </div>
-      <!--4th-->
       <div class="work-card">
         <div class="work-card-content">
           <div class="work-card-image">
@@ -772,7 +768,6 @@
       
         </div>
       </div>
-      <!--5th-->
       <div class="work-card">
         <div class="work-card-content">
           <div class="work-card-image">
@@ -790,7 +785,6 @@
       
         </div>
       </div>
-      <!--6th-->
       <div class="work-card">
         <div class="work-card-content">
           <div class="work-card-image">
@@ -810,7 +804,6 @@
       </div>
       
   </section>
-  <!--Our Approach-->
   <section class="approach" id="approach">
     <div class="container">
         <div class="section-header" data-animate-header>
@@ -866,9 +859,6 @@
 
   
 
-  <!-- ABOUT -->
-
-  <!-- FOOTER -->
   <footer>
     <p style="margin-bottom: 0.8rem;">
       Contact Us:
@@ -877,12 +867,10 @@
       </a>
     </p>
   
-    <!-- Phone -->
     <p style="margin-top: 0.4rem;">
       <i class="fa-solid fa-phone"></i> +91 98765 43210
     </p>
   
-    <!-- Location -->
     <p style="margin-top: 0.4rem;">
       <a href="https://www.google.com/maps/dir//D4A+STUDIO,+153,+29th+Cross+Rd,+Banashankari+Stage+II,+Banashankari,+Bengaluru,+Karnataka+560070/@12.9215083,77.5657812,17z/data=!4m17!1m7!3m6!1s0x3bae150061fe6fd1:0x1308e6c959961080!2sD4A+STUDIO!8m2!3d12.9215083!4d77.5657812!16s%2Fg%2F11y02_y2sf!4m8!1m0!1m5!1m1!1s0x3bae150061fe6fd1:0x1308e6c959961080!2m2!1d77.5657923!2d12.9215491!3e0?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" 
          target="_blank" 
@@ -892,7 +880,6 @@
     </p>
     
   
-    <!-- Social Icons -->
     <div style="margin-top:0.6rem;">
       <a class="icon-link" href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
         <i class="fa-brands fa-instagram"></i>
@@ -906,7 +893,6 @@
   
   
 
-  <!-- JS -->
   <script>
     /* SPLASH */
     const splash = document.getElementById('splash');
@@ -930,15 +916,23 @@
     });
     });
 
-    /* HEADER ON SCROLL */
+    /* CHANGE 1: HEADER ON SCROLL - SHOW ONLY AT WORKS */
     const header = document.getElementById("header");
-    const hero = document.getElementById("home");
+    const worksSection = document.getElementById("works");
 
     window.addEventListener("scroll", () => {
-      if (hero.getBoundingClientRect().bottom < 0)
-        header.classList.add("solid");
-      else
-        header.classList.remove("solid");
+      // Check if Works section exists
+      if(worksSection) {
+        // Get the distance of the "Works" section from the top of the screen
+        const worksPosition = worksSection.getBoundingClientRect().top;
+
+        // If Works section is entering the viewport (less than 300px from top), show header
+        if (worksPosition < 300) {
+          header.classList.add("visible");
+        } else {
+          header.classList.remove("visible");
+        }
+      }
     });
 
     /* GALLERY MOTION */
@@ -965,7 +959,6 @@
     }
     animate();
   </script>
-  <!--Approach-->
   <script>
     const observer = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
@@ -1014,7 +1007,6 @@
       window.addEventListener('load', handleScrollEffects);
     </script>
     
-    <!--MOUSE HOVER ANIMATIONS-->
     <script>
       document.querySelector(".works-grid").onmousemove = e => {
         for (const card of document.querySelectorAll(".work-card")) {
@@ -1059,8 +1051,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+
     
-  <!-- VANTA -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
   <script>
@@ -1078,14 +1070,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }, 3000);
   </script>
-    <script>
-    const hdr = document.querySelector('.header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 10) hdr.classList.add('blur');
-      else hdr.classList.remove('blur');
-    });
-  </script>  
-  <!--Video animation timings and appearance in-screen-->
+  
   <script>
     const navType = performance.getEntriesByType("navigation")[0].type;
     const hasVisited = sessionStorage.getItem("hasVisitedHome");
