@@ -274,7 +274,33 @@
     .cta .right a{ padding:10px 18px; border-radius:10px; background:linear-gradient(90deg,var(--accent), #d9b776); color:#071219; text-decoration:none; font-weight:600 }
 
     /* Footer */
-    footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top:1px solid rgba(255,255,255,0.02); margin-top:3rem }
+    footer {
+  background:#0a0a0a;
+  text-align:center;
+  padding:2.5rem;
+  color:#ccc;
+  margin-top:3rem;
+}
+
+footer .email-link {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+footer .email-link:hover {
+  text-decoration: underline;
+}
+
+footer a.icon-link {
+  color: white !important;
+  text-decoration: none !important;
+  font-size: 2rem;
+}
+
+footer a.icon-link:hover {
+  color: white !important;
+}
+
 
     /* Reveal animation */
     .reveal{ opacity:0; transform:translateY(32px); transition:opacity .9s ease, transform .9s ease; }
@@ -390,7 +416,7 @@
   <header class="header" id="header">
     <div class="header-container">
       <a href="d4a1.html" style="line-height:0;">
-        <img src="logo.jpg" class="logo" alt="D4A logo">
+        <img src="img.jpeg" class="logo" alt="D4A logo">
       </a>
   
       <nav class="nav">
@@ -589,22 +615,35 @@
   </main>
 
   <footer>
-    <p>
+    <p style="margin-bottom: 0.8rem;">
       Contact Us:
       <a class="email-link" href="mailto:d4astudios@gmail.com" target="_blank">
         d4astudios@gmail.com
       </a>
     </p>
   
+    <p style="margin-top: 0.4rem;">
+      <i class="fa-solid fa-phone"></i> +91 98765 43210
+    </p>
+  
+    <p style="margin-top: 0.4rem;">
+      <a href="https://www.google.com/maps/dir//D4A+STUDIO,+153,+29th+Cross+Rd,+Banashankari+Stage+II,+Banashankari,+Bengaluru,+Karnataka+560070/@12.9215083,77.5657812,17z"
+         target="_blank"
+         style="color:white; text-decoration:none;">
+        <i class="fa-solid fa-location-dot"></i> Bengaluru, Karnataka
+      </a>
+    </p>
+  
     <div style="margin-top:0.6rem;">
-      <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
+      <a class="icon-link" href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
         <i class="fa-brands fa-instagram"></i>
       </a>
-      <a href="in.linkedin.com/company/d4astudio " target="_blank">
+      <a class="icon-link" href="https://in.linkedin.com/company/d4astudio" target="_blank">
         <i class="fa-brands fa-linkedin"></i>
       </a>
     </div>
   </footer>
+  
   
 
   <script>
@@ -634,6 +673,3 @@
         
 </body>
 </html>
-
-
-
