@@ -207,11 +207,14 @@
     }
 
     .sentence {
-      opacity:0;
-      display:block;
-      transform:translateY(28px);
-      transition:opacity .45s ease-out, transform .6s ease-out;
-    }
+  opacity: 0;
+  display: inline-block;
+  width: 100%;
+  transform: translateY(50px);
+  transition: opacity .45s ease-out, transform .6s ease-out;
+  white-space: normal;
+}
+
     /* HIDE hamburger by default */
 .hamburger {
   display: none;
@@ -283,35 +286,71 @@
     margin-left: 0 !important;
   }
 }
-/* ===========================
-   FOOTER (Imported from Home)
-   =========================== */
-   footer {
-  background:#0a0a0a;
-  text-align:center;
-  padding:2.5rem;
-  color:#ccc;
-  margin-top:4rem;
+@media (max-width: 600px) {
+
+  /* Increase spacing for all body text */
+  p, .lead, .section-sub, .story-text p {
+    line-height: 1.75;
+    margin-bottom: 1.1rem;
+  }
+
+  /* Give section titles breathing room */
+  .section-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Mission/Vision cards spacing */
+  .card-mv {
+    padding: 1.4rem;
+  }
+
+  /* Hero spacing */
+  .hero {
+    gap: 1.8rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-left h1 {
+    font-size: 1.9rem;
+    line-height: 1.25;
+  }
+
+  /* Story spacing */
+  .story {
+    gap: 1.8rem;
+    margin-top: 2.2rem;
+  }
+
+  /* Timeline spacing */
+  .timeline-step {
+    padding: 1.1rem;
+  }
+
+  /* Team cards spacing */
+  .team-card {
+    padding: 1.1rem;
+  }
+
+  /* Paragraphs look too tight on mobile without this */
+  .timeline-step p,
+  .team-card p,
+  .card-mv p {
+    line-height: 1.6;
+  }
+}
+/* Flip layout for even project blocks (black background) on desktop */
+.project-block:nth-child(even) .project-inner {
+  flex-direction: row-reverse;
 }
 
-footer .email-link {
-  color: #ffffff !important;
-  text-decoration: none;
+/* Keep mobile stacked normally */
+@media (max-width: 900px) {
+  .project-block:nth-child(even) .project-inner {
+    flex-direction: column;
+  }
 }
 
-footer .email-link:hover {
-  text-decoration: underline;
-}
-
-footer a.icon-link {
-  color: white !important;
-  text-decoration: none !important;
-  font-size: 2rem;
-}
-
-footer a.icon-link:hover {
-  color: white !important;
-}
 
 
 
@@ -325,7 +364,7 @@ footer a.icon-link:hover {
 
     <div class="logo-container">
       <a href="d4a1.html" style="line-height:0;">
-        <img src="img.jpeg" class="logo" alt="D4A logo">
+        <img src="logo.jpg" class="logo" alt="D4A logo">
       </a>
     </div>
 
@@ -497,34 +536,8 @@ footer a.icon-link:hover {
     mobileMenu.classList.toggle("open");
   });
 </script>
-<footer>
-  <p style="margin-bottom: 0.8rem;">
-    Contact Us:
-    <a class="email-link" href="mailto:d4astudios@gmail.com" target="_blank">
-      d4astudios@gmail.com
-    </a>
-  </p>
 
-  <p style="margin-top: 0.4rem;">
-    <i class="fa-solid fa-phone"></i> +91 98765 43210
-  </p>
-
-  <p style="margin-top: 0.4rem;">
-    <a href="https://www.google.com/maps/dir//D4A+STUDIO,+153,+29th+Cross+Rd,+Banashankari+Stage+II,+Banashankari,+Bengaluru,+Karnataka+560070"
-       target="_blank"
-       style="color:white; text-decoration:none;">
-      <i class="fa-solid fa-location-dot"></i> Bengaluru, Karnataka
-    </a>
-  </p>
-
-  <div style="margin-top:0.6rem;">
-    <a class="icon-link" href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
-      <i class="fa-brands fa-instagram"></i>
-    </a>
-    <a class="icon-link" href="https://in.linkedin.com/company/d4astudio" target="_blank">
-      <i class="fa-brands fa-linkedin"></i>
-    </a>
-  </div>
-</footer>
 </body>
 </html>
+
+
