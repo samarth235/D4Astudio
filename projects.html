@@ -6,33 +6,33 @@
   <title>D4A Studio – Projects</title>
 
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    /* Global Reset */
+    * { 
+      margin:0; 
+      padding:0; 
+      box-sizing:border-box; 
+      font-family:"Inter", sans-serif;
+    }
 
     body {
       background:white;
       color:black;
-      font-family:"Inter", sans-serif;
       overflow-x:hidden;
-      padding-top:6rem; /* space for header */
+      padding-top:6rem;
     }
 
-    /* ---------------------------------- */
-    /* HEADER (always solid on this page) */
-    /* ---------------------------------- */
-
+    /* HEADER */
     .header {
       position: fixed;
       top: 0; 
       left: 0; 
       right: 0;
       z-index: 2000;
-      transform: translateY(0);
-
-      background: rgba(255,255,255,0.9);
+      background: #ffffff;
       backdrop-filter: blur(12px);
       padding: 0.8rem 0;
       border-radius: 0 0 12px 12px;
-
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
       transition: background 0.4s ease, padding 0.4s ease;
     }
 
@@ -45,23 +45,19 @@
       justify-content: space-between;
     }
 
-    /* LOGO */
-    .logo-container { display: flex; align-items: center; }
     .logo {
       height: 3rem;
       width: auto;
       margin-left: -90px;
     }
 
-    /* NAV LINKS */
     .nav {
       display: flex;
       align-items: center;
       gap: 2rem;
-      margin-right: -125px;
+      margin-right: -110px;
     }
 
-    /* ⭐ FINAL WORKING UNDERLINE FIX ⭐ */
     .nav a.active .bottom {
       text-decoration: underline;
       text-underline-offset: 20px;
@@ -79,9 +75,6 @@
       font-weight: 400;
     }
 
-    .nav a:hover { color: #555; }
-
-    /* SLOT HOVER EFFECT */
     .slot {
       position: relative;
       overflow: hidden;
@@ -89,45 +82,39 @@
       height: 1.1em;
       transition: transform 0.3s ease;
     }
-    /* Disable slot animation for the active link */
-  .slot.active span {
-    transform: translateY(0) !important;
-  }
 
-  .slot.active:hover {
-    transform: none !important;
-  }
+    .slot span {
+      display:block;
+      transition: transform 0.6s ease;
+    }
 
-  /* Make sure the hover animation doesn’t move anything */
-  .slot.active .top,
-  .slot.active .bottom {
-    transform: translateY(0) !important;
-  }
+    .slot .bottom {
+      position:absolute;
+      top:-100%;
+      left:0;
+    }
 
     .slot:hover { transform: translateY(-2px); }
-    .slot span { display:block; transition: transform 0.6s ease; }
-    .slot .top { transform: translateY(0); }
-    .slot .bottom {
-      position:absolute; top:-100%; left:0;
-      transform:translateY(0);
-    }
     .slot:hover .top { transform:translateY(100%); }
     .slot:hover .bottom { transform:translateY(100%); }
 
-    /* ---------------------------------- */
-    /* PROJECTS PAGE CONTENT */
-    /* ---------------------------------- */
+    .slot.active span { transform: translateY(0) !important; }
+    .slot.active:hover { transform:none !important; }
+    .slot.active .top,
+    .slot.active .bottom { transform:translateY(0) !important; }
 
     .left-title {
       font-size: 2.8rem;
       font-weight: 300;
-      position: fixed;
-      top: 6rem;
-      left: 3rem;
-      z-index: 999;
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.4s ease;
+      position: relative;
+      margin-top: 4.5rem;
+      margin-left: 3rem;
+      margin-bottom: 6rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .content {
+      width: 100%;
     }
 
     .project-block {
@@ -137,10 +124,8 @@
       position:relative;
       left:50%;
       margin-left:-50vw;
-
       display:flex;
       justify-content:center;
-
       box-shadow:0 0 25px rgba(0,0,0,0.08) inset;
     }
 
@@ -150,17 +135,26 @@
     .project-inner {
       max-width:1200px;
       width:100%;
-      margin:0 auto;
       padding:0 2rem;
-
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:3rem;
     }
 
-    .project-block:nth-child(odd) .project-inner { flex-direction:row; }
-    .project-block:nth-child(even) .project-inner { flex-direction:row-reverse; }
+    @media (max-width: 900px) {
+      .project-inner {
+        flex-direction: column;
+        padding: 0 1rem;
+      }
+      .project-block:nth-child(odd) .project-inner,
+      .project-block:nth-child(even) .project-inner {
+        flex-direction: column;
+      }
+      .left-title {
+        margin-left: 1rem;
+      }
+    }
 
     .project-title {
       font-size:1.9rem;
@@ -180,6 +174,7 @@
       flex:1;
       overflow:hidden;
       border-radius:14px;
+      min-height: 120px;
     }
 
     .project-img {
@@ -187,12 +182,19 @@
       height:120px;
       object-fit:cover;
       transform:scale(.95);
-      transition:height 1.3s ease, transform 1s ease;
+      transition:height 1.3s cubic-bezier(0.19, 1, 0.22, 1), transform 1s ease;
+      background-color: #333;
     }
 
     .project-img.show {
       height:430px;
       transform:scale(1);
+    }
+
+    @media (max-width: 600px) {
+      .project-img.show {
+        height: 300px;
+      }
     }
 
     .text-col { flex:1; }
@@ -201,7 +203,7 @@
       font-size:1rem;
       letter-spacing:.2px;
       line-height:1.75;
-      margin-top:1rem;
+      margin-top:1.5rem;
     }
 
     .sentence {
@@ -210,19 +212,90 @@
       transform:translateY(28px);
       transition:opacity .45s ease-out, transform .6s ease-out;
     }
+    /* HIDE hamburger by default */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: black;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+/* Mobile slide menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100vh;
+  background: white;
+  padding-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-left: 2rem;
+  transition: right 0.35s ease;
+  z-index: 9998;
+}
+
+.mobile-menu a {
+  color: black;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+/* When open */
+.mobile-menu.open {
+  right: 0;
+}
+
+/* Hamburger animation */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile layout */
+@media (max-width: 900px) {
+
+  .nav {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: flex !important;
+  }
+
+  .logo {
+    margin-left: 0 !important;
+  }
+}
+
 
   </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header class="header" id="header">
   <div class="header-container">
 
     <div class="logo-container">
       <a href="d4a1.html" style="line-height:0;">
-        <img src="img.jpeg" class="logo" alt="D4A logo">
+        <img src="logo.jpg" class="logo" alt="D4A logo">
       </a>
     </div>
 
@@ -231,7 +304,6 @@
         <span class="top">Home</span><span class="bottom">Home</span>
       </a>
 
-      <!-- ACTIVE PAGE LINK -->
       <a href="projects.html" class="slot active">
         <span class="top">Projects</span><span class="bottom">Projects</span>
       </a>
@@ -244,33 +316,47 @@
         <span class="top">About Us</span><span class="bottom">About Us</span>
       </a>
     </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="d4a1.html#home">Home</a>
+  <a href="projects.html">Projects</a>
+  <a href="d4a1.html#works">Our Works</a>
+  <a href="d4a1.html#about">About Us</a>
+</div>
+
 
   </div>
 </header>
 
-<!-- PAGE TITLE -->
 <div class="left-title">Projects</div>
 
 <div class="content">
 
   <!-- PROJECT 1 -->
-  <div class="project-block">
+  <div class="project-block" data-animated="false">
     <div class="project-inner">
 
       <div class="img-wrapper">
-        <img src="https://picsum.photos/1200/800?random=1" class="project-img">
+        <img src="Scene1.png" class="project-img">
       </div>
 
       <div class="text-col">
-        <h3 class="project-title">Minimal Neutral Bedroom</h3>
+        <h3 class="project-title">Urban Edge</h3>
 
         <p class="paragraph">
-          <span class="sentence">A minimal living space shaped around natural materials.</span>
-          <span class="sentence">A bedroom created for rest and grounding.</span>
-          <span class="sentence">Soft geometry guides the eye without distraction.</span>
-          <span class="sentence">Designed to feel both open and deeply comforting.</span>
-          <span class="sentence">Soft tones create a calm, grounded atmosphere.</span>
-          <span class="sentence">Every element feels crafted for quiet balance.</span>
+          <span class="sentence">D4A Studio's proposal envisions an exclusive uber-luxury residential</span>
+          <span class="sentence">community in Sigehalli, crafted to offer calm,privacy, and sophistication.</span>
+          <span class="sentence">The architecture features contemporary tower forms, expansive decks,</span>
+          <span class="sentence">and a refined material palette that elevates modern living.Spacious</span>
+          <span class="sentence">3,3.5 & 4,4.5 BHK residences, duplex sky villas, and penthouses</span>
+          <span class="sentence">are planned with generous ceiling heights and premium finishes.</span>
+          <span class="sentence">A resort-style clubhouse, wellness spa, temperature-controlled pool,</span>
+          <span class="sentence">and sky terraces create a lifestyle of comfort and indulgence.</span>
         </p>
       </div>
 
@@ -278,15 +364,15 @@
   </div>
 
   <!-- PROJECT 2 -->
-  <div class="project-block">
+  <div class="project-block" data-animated="false">
     <div class="project-inner">
 
       <div class="img-wrapper">
-        <img src="https://picsum.photos/1200/800?random=2" class="project-img">
+        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800" class="project-img">
       </div>
 
       <div class="text-col">
-        <h3 class="project-title">Modern Kitchen Concept</h3>
+        <h3 class="project-title">Amarta</h3>
 
         <p class="paragraph">
           <span class="sentence">A modern kitchen designed with clarity and precision.</span>
@@ -301,22 +387,25 @@
   </div>
 
   <!-- PROJECT 3 -->
-  <div class="project-block">
+  <div class="project-block" data-animated="false">
     <div class="project-inner">
 
       <div class="img-wrapper">
-        <img src="https://picsum.photos/1200/800?random=3" class="project-img">
+        <img src="Scene2.png" class="project-img">
       </div>
 
       <div class="text-col">
-        <h3 class="project-title">Quiet Luxury Bedroom</h3>
+        <h3 class="project-title">RRN LUX</h3>
 
         <p class="paragraph">
-          <span class="sentence">A bedroom created for rest and grounding.</span>
-          <span class="sentence">Soft geometry guides the eye without distraction.</span>
-          <span class="sentence">Designed to feel both open and deeply comforting.</span>
-          <span class="sentence">Warm tones shape a soothing environment.</span>
-          <span class="sentence">Each detail supports a sense of calm and balance.</span>
+          <span class="sentence">D4A Studio presents an uber-luxury residential address in RR Nagar</span>
+          <span class="sentence">that blends timeless architecture with contemporary living.</span>
+          <span class="sentence">The design choreographs light, privacy, and landscape to create a calm,</span>
+          <span class="sentence">resort-grade,experience minutes from the city, yet worlds away from its</span>
+          <span class="sentence">pace.Set within a serene residential precinct of RR Nagar, the master plan</span>
+          <span class="sentence">orients towers to capture prevailing breezes and long views while</span>
+          <span class="sentence">minimizing heat gain and overlooking.Vehicular movement is pushed </span>
+          <span class="sentence">to the periphery, preserving a pedestrian-first central quiet interiors.</span>
         </p>
       </div>
 
@@ -332,83 +421,54 @@
     title.style.opacity = window.scrollY > 50 ? "0" : "1";
   });
 
-  /* Reveal full-size images */
-  const imgObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("show"); });
-  }, { threshold: 0.3 });
-  document.querySelectorAll(".project-img").forEach(img => imgObserver.observe(img));
+  /* Smooth unified reveal sequence */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.target.dataset.animated !== "true") {
 
-  /* Title reveal */
-  const titleObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const t = e.target.querySelector(".project-title");
-        if (t) t.classList.add("show");
+        entry.target.dataset.animated = "true"; 
+        const block = entry.target;
+
+        const title = block.querySelector(".project-title");
+        const image = block.querySelector(".project-img");
+        const sentences = block.querySelectorAll(".sentence");
+
+        /* 1) Title reveal */
+        if (title) title.classList.add("show");
+
+        /* 2) Image reveal (Smoother, reduced delay) */
+        setTimeout(() => {
+          image.classList.add("show");
+        }, 400); 
+
+        /* 3) Sentence reveal (Start earlier for smooth flow) */
+        setTimeout(() => {
+          sentences.forEach((sentence, index) => {
+            setTimeout(() => {
+              sentence.style.opacity = "1";
+              sentence.style.transform = "translateY(0)";
+            }, index * 120); // more spacing for smoother stagger
+          });
+        }, 1100);
+
+        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.4 });
-  document.querySelectorAll(".project-block").forEach(b =>
-    titleObserver.observe(b)
-  );
+  }, { threshold: 0.25 }); // slightly earlier trigger → smoother feel
 
-  /* Sentence reveal */
-  const blocks = document.querySelectorAll(".project-block");
-  window.addEventListener("scroll", () => {
-    blocks.forEach(block => {
-      const rect = block.getBoundingClientRect();
-      const sentences = block.querySelectorAll(".sentence");
-
-      const start = window.innerHeight * 0.9;
-      const end = window.innerHeight * -0.6;
-
-      let progress = (start - rect.top) / (start - end);
-      progress = Math.max(0, Math.min(progress, 1));
-
-      const total = sentences.length;
-      const revealIndex = progress * total;
-
-      sentences.forEach((sentence, i) => {
-        if (sentence.dataset.revealed === "1") return;
-
-        const diff = revealIndex - i;
-
-        if (diff >= 1) {
-          sentence.style.opacity = "1";
-          sentence.style.transform = "translateY(0)";
-          sentence.dataset.revealed = "1";
-        } 
-        else if (diff > 0) {
-          sentence.style.opacity = diff;
-          sentence.style.transform = `translateY(${28*(1-diff)}px)`;
-        } 
-        else {
-          sentence.style.opacity = "0";
-          sentence.style.transform = "translateY(28px)";
-        }
-      });
-    });
-  });
+  document.querySelectorAll(".project-block").forEach(block => observer.observe(block));
 </script>
 <script>
-  // Disable right-click
-  document.addEventListener("contextmenu", e => e.preventDefault());
-  
-  // Disable inspect shortcuts
-  document.addEventListener("keydown", function(e) {
-    if (
-      e.key === "F12" ||
-      (e.ctrlKey && e.shiftKey && e.key === "I") ||
-      (e.ctrlKey && e.shiftKey && e.key === "J") ||
-      (e.ctrlKey && e.key === "U")
-    ) {
-      e.preventDefault();
-    }
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    mobileMenu.classList.toggle("open");
   });
-  
-  // Disable text selection
-  document.addEventListener("selectstart", e => e.preventDefault());
-  </script>
-  
+</script>
 
 </body>
 </html>
+
+
