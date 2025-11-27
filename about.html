@@ -55,18 +55,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
     }
 
 /* Match logo position from main site */
     .logo {
       height: 3rem;
+      width: auto;
       margin-left: -90px;
   }
     
     /* NAV WITH SLOT ANIMATION */
     .nav{ 
       display:flex; 
-      gap:1.5rem; 
+      gap:2rem; 
       align-items:center;
       margin-right: -110px;
     }
@@ -308,6 +310,77 @@
     footer a {
         text-decoration: none !important;
     }
+    .hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 9999;
+  margin-right: 20px;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: white;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+/* Mobile slide menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100vh;
+  background: white;
+  padding-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-left: 2rem;
+  transition: right 0.35s ease;
+  z-index: 9998;
+}
+
+.mobile-menu a {
+  color: black;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+/* When open */
+.mobile-menu.open {
+  right: 0;
+}
+
+/* Hamburger animation */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile layout */
+@media (max-width: 900px) {
+
+  .nav {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: flex !important;
+  }
+
+  .logo {
+    margin-left: 0 !important;
+  }
+}
 
 
   </style>
@@ -317,7 +390,7 @@
   <header class="header" id="header">
     <div class="header-container">
       <a href="d4a1.html" style="line-height:0;">
-        <img src="img.jpeg" class="logo" alt="D4A logo">
+        <img src="logo.jpg" class="logo" alt="D4A logo">
       </a>
   
       <nav class="nav">
@@ -339,14 +412,25 @@
             <span class="bottom">Our Works</span>
           </span>
         </a>
-        <a href="about.html" aria-current="page">
+        <a href="aboutus.html" aria-current="page">
           <span class="slot">
             <span class="top">About Us</span>
             <span class="bottom">About Us</span>
           </span>
         </a>
       </nav>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
+        <div class="mobile-menu" id="mobileMenu">
+        <a href="d4a1.html#home">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="d4a1.html#works">Our Works</a>
+     <a href="d4a1.html#about">About Us</a>
+  </div>
   </header>
   
 
@@ -538,25 +622,18 @@
     });
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   </script>
-    <script>
-        // Disable right-click
-        document.addEventListener("contextmenu", e => e.preventDefault());
-        
-        // Disable inspect shortcuts
-        document.addEventListener("keydown", function(e) {
-          if (
-            e.key === "F12" ||
-            (e.ctrlKey && e.shiftKey && e.key === "I") ||
-            (e.ctrlKey && e.shiftKey && e.key === "J") ||
-            (e.ctrlKey && e.key === "U")
-          ) {
-            e.preventDefault();
-          }
-        });
-        
-        // Disable text selection
-        document.addEventListener("selectstart", e => e.preventDefault());
-        </script>
+  <script>
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    mobileMenu.classList.toggle("open");
+  });
+</script>
         
 </body>
 </html>
+
+
+
