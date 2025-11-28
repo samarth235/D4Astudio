@@ -36,7 +36,10 @@
       background: rgba(35,35,35,.75);
       backdrop-filter: blur(12px);
       padding:0.6rem 0;
-      border-radius:0 0 12px 12px;
+      border-radius:0;
+      box-shadow: none;
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .header-container { max-width:80rem; margin:0 auto; padding:0.3rem 0.8rem; display:flex; justify-content:space-between; align-items:center;padding-left: 0; }
@@ -73,9 +76,15 @@
       position: fixed;
       top: 0;
       left: 0;
+      right: 0;
       width: 100%;
       z-index: 9999 !important;
+
+      opacity: 0;              /* Hidden initially */
+      pointer-events: none;    /* Prevent accidental clicks */
+      transition: opacity .6s ease;
     }
+
 
     .vanta-canvas {
       position: absolute !important;
@@ -1211,23 +1220,7 @@ html, body {
     });
 
     /* CHANGE 1: HEADER ON SCROLL - SHOW ONLY AT WORKS */
-    const header = document.getElementById("header");
-    const worksSection = document.getElementById("works");
 
-    window.addEventListener("scroll", () => {
-      // Check if Works section exists
-      if(worksSection) {
-        // Get the distance of the "Works" section from the top of the screen
-        const worksPosition = worksSection.getBoundingClientRect().top;
-
-        // If Works section is entering the viewport (less than 300px from top), show header
-        if (worksPosition < 300) {
-          header.classList.add("visible");
-        } else {
-          header.classList.remove("visible");
-        }
-      }
-    });
 
     /* GALLERY MOTION */
     const row1 = document.querySelector(".row-1 .gallery-track");
@@ -1389,10 +1382,20 @@ setTimeout(() => {
       const contentWrapper = document.getElementById('contentWrapper');
   
       splashVideo.addEventListener("ended", () => {
-        splash.classList.add("fade-out");
-        setTimeout(() => contentWrapper.classList.add("animate"), 200);
-        setTimeout(() => splash.style.display = "none", 800);
-      });
+      splash.classList.add("fade-out");
+
+      setTimeout(() => {
+        contentWrapper.classList.add("animate");
+
+        // Show navbar (works on all breakpoints)
+        document.getElementById("header").classList.add("visible");
+      }, 200);
+
+      setTimeout(() => {
+        splash.style.display = "none";
+      }, 800);
+    });
+
     }
     else {
       // CASE 2: Internal navigation → hide splash instantly
