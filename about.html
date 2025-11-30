@@ -229,7 +229,7 @@
 }
 
 .hero-right-full:hover img{ 
-  transform:scale(1.03) 
+  transform: none;
 }
 .hero-img-hover-wrapper {
   position: relative;
@@ -274,7 +274,7 @@
  margin-top:3rem;
 }
 .story-text p{ 
- color:var(--muted); 
+ color:black; 
  margin-bottom:1rem; 
 }
 .collage{ 
@@ -319,7 +319,37 @@
  position:relative; overflow:hidden;
 }
 .team-card:hover{ transform:translateY(-10px); box-shadow:0 20px 40px rgba(0,0,0,0.6) }
-.team-card img{ width:96px; height:96px; border-radius:50%; object-fit:cover; display:block; margin:0 auto 10px; transition:transform .4s ease }
+.team-card img{ width:170px; height:170px; border-radius:50%; object-fit:cover; display:block; margin:0 auto 10px; transition:transform .4s ease }
+.team-img-wrapper {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: visible;
+  z-index: 5;
+}
+
+.team-img-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 105%;
+  height: 105%;
+  object-fit: cover;
+  transform: translate(-2.5%, -2.5%); /* centers after 105% scaling */
+  transition: opacity .7s ease, transform .6s ease;
+}
+
+
+.team-img-wrapper .hover-img {
+  opacity: 0;
+}
+
+.team-card:hover .hover-img {
+  opacity: 1;
+}
+
 .team-card:hover img{ transform:scale(1.06) }
 .team-card h4{ margin-bottom:6px; font-size:1.05rem }
 .team-card p{ color:var(--muted); font-size:.95rem; }
@@ -526,12 +556,9 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
      <a href="d4a1.html#about">About Us</a>
   </div>
   </header>
-  
-
   <main>
     <div class="container">
         </div> 
-
         <section class="hero reveal" id="hero">
         <div class="hero-left">
           <h1></h1> 
@@ -542,20 +569,16 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
   <img src="Slide1.JPG" class="base-img">
   <img src="Slide2.JPG" class="hover-img">
 </div>
-
 <div class="hero-img-hover-wrapper">
   <img src="Slide1 (1).JPG" class="base-img">
   <img src="Slide2 (1).JPG" class="hover-img">
 </div>
-
 <div class="hero-img-hover-wrapper">
-  <img src="Slide1 (3).JPG" class="base-img">
+  <img src="Slide1 (4).JPG" class="base-img">
   <img src="Slide2 (2).JPG" class="hover-img">
 </div>
 </div>
       </section>
-
-
     <div class="container" style="padding-top: 0; margin-top: 3.5rem;"> 
       
             <section id="story" class="story reveal">
@@ -563,14 +586,13 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
           <div class="section-title">Our Story</div>
           <div class="section-sub">From a small studio to an international practice</div>
           <p>D4A Studio began as a conversation between designers who believed good architecture is rooted in empathy and craft. Over the years we've grown, but our approach remains the same: listen first, design second. We work closely with clients to refine intention, materials, and light — creating calm, functional spaces that feel settled.</p>
-          <p style="margin-top:1rem;color:var(--muted)">We collaborate with a curated group of craftspeople and consultants to ensure each project receives the right level of attention — from concept through construction.</p>
         </div>
 
         <aside class="collage">
           <img src="img1.jpg" alt="collage 1" loading="lazy">
           <img src="img2.jpg" alt="collage 2" loading="lazy">
           <img src="img3.jpg" alt="collage 3" loading="lazy">
-          <img src="img4.jpg" alt="collage 4" loading="lazy">
+          <img src="img5.jpg" alt="collage 4" loading="lazy">
         </aside>
       </section>
 
@@ -620,21 +642,26 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
           </div>
         </div>
       </section>
-
             <section id="team" class="team reveal">
         <div class="section-title">Meet the Team</div>
         <div class="section-sub">A small team of thoughtful designers and collaborators</div>
 
         <div class="team-grid">
           <div class="team-card">
-            <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=800" alt="Aryan">
-            <h4>Aryan Mehta</h4>
-            <p>Founder & Creative Director</p>
+            <div class="team-img-wrapper">
+              <img src="01_DHYAN SRINIVASA_FOUNDER.PNG" class="base-img" alt="Dhyan">
+              <img src="01_D.png" class="hover-img" alt="Dhyan Hover">
+            </div>
+            <h4>Dhyan Srinivas</h4>
+            <p>Founder</p>
           </div>
 
           <div class="team-card">
-            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800" alt="Riya">
-            <h4>Riya Sharma</h4>
+            <div class="team-img-wrapper">
+              <img src="02_SANATH.PNG" alt="Sanath">
+              <img src="02_S.PNG" class="hover-img" alt="Sanath Hover">
+            </div>
+            <h4>Sanath Veeru KS</h4>
             <p>Lead Architect</p>
           </div>
 
@@ -651,18 +678,6 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
           </div>
         </div>
       </section>
-
-            <section id="awards" class="reveal" style="margin-top:3rem;">
-        <div class="section-title">Awards & Recognition</div>
-        <div class="section-sub">Selected honors and features</div>
-
-        <div class="awards">
-          <div class="award">International Design Award — 2023</div>
-          <div class="award">Best Residential Project — 2022</div>
-          <div class="award">Architectural Digest — Feature 2021</div>
-        </div>
-      </section>
-
             <section class="cta reveal" style="margin-top:3rem;">
         <div class="left">
           <h3>Interested in collaborating?</h3>
@@ -675,7 +690,6 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
 
     </div>
   </main>
-
   <footer>
     <p>
       Contact Us:
@@ -683,7 +697,6 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
         d4astudios@gmail.com
       </a>
     </p>
-  
     <div style="margin-top:0.6rem;">
       <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
         <i class="fa-brands fa-instagram"></i>
@@ -693,8 +706,6 @@ footer{ padding:2.2rem 1.5rem; text-align:center; color:var(--muted); border-top
       </a>
     </div>
   </footer>
-  
-
   <script>
     const reveals = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries)=>{
@@ -731,7 +742,5 @@ setTimeout(() => {
   hoverWrappers.forEach(w => w.classList.add("ready"));
 }, 600 * 3 + 200); 
 </script>
-
-        
 </body>
 </html>
