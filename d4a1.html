@@ -934,12 +934,12 @@ html, body {
             </span>
           </a>
         
-          <a href="d4a1.html#works">
+          <a href="#approach">
             <span class="slot">
-              <span class="top">Our Works</span>
-              <span class="bottom">Our Works</span>
+              <span class="top">Our Approach</span>
+              <span class="bottom">Our Approach</span>
             </span>
-          </a>
+          </a>          
         
           <a href="about.html">
             <span class="slot">
@@ -997,114 +997,6 @@ html, body {
     <div class="gallery-btn-wrapper">
       <a href="projects.html" class="gallery-btn premium-btn">View More Projects →</a>
   </div>  
-      
-  </section>
-
-  <section class="works-section" id="works">
-    <h2 class="works-title">Our Works</h2>
-    <div class="works-grid">
-      <div class="work-card">
-        <div class="work-card-content">
-          <div class="work-card-image">
-            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900" loading="lazy">
-          </div>
-      
-          <div class="work-card-info-wrapper">
-            <div class="work-card-info">
-              <div class="work-card-info-title">
-                <h3>Modern Interior</h3>
-                <h4>A fresh blend of minimalist geometry and warm tones.</h4>
-              </div>
-            </div>
-          </div>
-      
-        </div>
-      </div>  
-      <div class="work-card">
-        <div class="work-card-content">
-          <div class="work-card-image">
-            <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" loading="lazy"">
-          </div>
-      
-          <div class="work-card-info-wrapper">
-            <div class="work-card-info">
-              <div class="work-card-info-title">
-                <h3>Lux Living Space</h3>
-                <h4>Designed for elegance — a spacious ambience filled with soft lighting accents.</h4>
-              </div>
-            </div>
-          </div>
-      
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-card-content">
-          <div class="work-card-image">
-            <img src="https://images.unsplash.com/photo-1586105251261-d138005dbe69?w=900" loading="lazy">
-          </div>
-      
-          <div class="work-card-info-wrapper">
-            <div class="work-card-info">
-              <div class="work-card-info-title">
-                <h3>Workplace Retreat</h3>
-                <h4>A calm and productive environment shaped through light, texture, and form.</h4>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-card-content">
-          <div class="work-card-image">
-            <img src="https://images.unsplash.com/photo-1521782462922-8101f3a83d47?w=900" loading="lazy">
-          </div>
-      
-          <div class="work-card-info-wrapper">
-            <div class="work-card-info">
-              <div class="work-card-info-title">
-                <h3>Outdoor Architecture</h3>
-                <h4>Bringing nature and structure together to build immersive outdoor experiences.</h4>
-              </div>
-            </div>
-          </div>
-      
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-card-content">
-          <div class="work-card-image">
-            <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353?w=900" loading="lazy">
-          </div>
-      
-          <div class="work-card-info-wrapper">
-            <div class="work-card-info">
-              <div class="work-card-info-title">
-                <h3>Urban Studio Loft</h3>
-                <h4>A compact yet expressive space designed with clean lines and industrial textures.</h4>
-              </div>
-            </div>
-          </div>
-      
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-card-content">
-          <div class="work-card-image">
-            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=900" loading="lazy">
-          </div>
-      
-          <div class="work-card-info-wrapper">
-            <div class="work-card-info">
-              <div class="work-card-info-title">
-                <h3>Minimalist Bedroom</h3>
-                <h4>Soft lighting and neutral tones create a peaceful and modern sleeping environment.</h4>
-              </div>
-            </div>
-          </div>
-      
-        </div>
-      </div>
       
   </section>
   <section class="approach" id="approach">
@@ -1398,9 +1290,9 @@ setTimeout(() => {
 
     }
     else {
-      // CASE 2: Internal navigation → hide splash instantly
-      document.getElementById("splash").style.display = "none";
-    }
+    document.getElementById("splash").style.display = "none";
+    document.getElementById("header").classList.add("visible");  // <-- FIX HERE
+  }
   </script>
   <script>
     const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -1427,8 +1319,16 @@ setTimeout(() => {
       }
     });
   </script>
-  
-  
-  
+  <script>
+    /* ALWAYS show navbar if navigating from another page */
+    window.addEventListener("DOMContentLoaded", () => {
+      const header = document.getElementById("header");
+    
+      // If splash is hidden (internal navigation)
+      if (document.getElementById("splash").style.display === "none") {
+        header.classList.add("visible");
+      }
+    });
+    </script>
 </body>
 </html>
