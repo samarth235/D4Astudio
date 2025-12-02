@@ -379,12 +379,7 @@
       <a href="projects.html" class="slot active">
         <span class="top">Projects</span><span class="bottom">Projects</span>
       </a>
-
-      <a href="d4a1.html#works" class="slot">
-        <span class="top">Our Works</span><span class="bottom">Our Works</span>
-      </a>
-
-      <a href="d4a1.html#about" class="slot">
+      <a href="aboutus.html" class="slot">
         <span class="top">About Us</span><span class="bottom">About Us</span>
       </a>
     </nav>
@@ -397,8 +392,7 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="d4a1.html#home">Home</a>
   <a href="projects.html">Projects</a>
-  <a href="d4a1.html#works">Our Works</a>
-  <a href="d4a1.html#about">About Us</a>
+  <a href="aboutus.html">About Us</a>
 </div>
 
 
@@ -440,18 +434,22 @@
     <div class="project-inner">
 
       <div class="img-wrapper">
-        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800" class="project-img">
+        <img src="Amarta MO.png" class="project-img">
       </div>
 
       <div class="text-col">
         <h3 class="project-title">Amarta</h3>
 
         <p class="paragraph">
-          <span class="sentence">A modern kitchen designed with clarity and precision.</span>
-          <span class="sentence">Lighting defines movement and enhances usability.</span>
-          <span class="sentence">Simple surfaces create a timeless, clean aesthetic.</span>
-          <span class="sentence">Every element supports a functional workflow.</span>
-          <span class="sentence">Subtle textures keep the environment warm and livable.</span>
+          <span class="sentence">The Amarta Marketing Office by D4A STUDIO is not just a workspace; it's a</span>
+          <span class="sentence">strategically designed client experience. The project redefines the traditional</span>
+          <span class="sentence">corporate environment by integrating hospitality and engagement into its core.</span>
+          <span class="sentence">The design guides visitors through a seamless and engaging journey. The reception</span>
+          <span class="sentence">area sets a welcoming tone, leading into focused discussion rooms for detailed conversations.</span>
+          <span class="sentence">The central feature of the project is a captivating central courtyard. A tranquil water</span>
+          <span class="sentence"> body surrounds a central tree, creating a peaceful oasis accessible to clients.</span>
+          <span class="sentence">This courtyard serves as a symbolic and 	functional focal point, reflecting the peaceful</span>
+          <span class="sentence">and community-oriented nature of the properties being marketed.</span>
         </p>
       </div>
 
@@ -461,14 +459,11 @@
   <!-- PROJECT 3 -->
   <div class="project-block" data-animated="false">
     <div class="project-inner">
-
       <div class="img-wrapper">
         <img src="Scene2.png" class="project-img">
       </div>
-
       <div class="text-col">
         <h3 class="project-title">RRN LUX</h3>
-
         <p class="paragraph">
           <span class="sentence">D4A Studio presents an uber-luxury residential address in RR Nagar</span>
           <span class="sentence">that blends timeless architecture with contemporary living.</span>
@@ -480,39 +475,74 @@
           <span class="sentence">to the periphery, preserving a pedestrian-first central quiet interiors.</span>
         </p>
       </div>
-
     </div>
   </div>
 
-</div>
+  <!--project 4-->
+    <div class="project-block" data-animated="false">
+    <div class="project-inner">
+      <div class="img-wrapper">
+        <img src="Suresh Residence .JPG" class="project-img">
+      </div>
+      <div class="text-col">
+        <h3 class="project-title">Suresh Residence</h3>
+        <p class="paragraph">
+          <span class="sentence">This is a design for a four-story, East-facing residential building</span>
+          <span class="sentence"> on a 40' x 60' site in Sarjapur, created for the Suresh Residence.</span>
+          <span class="sentence">The architecture, by D4A STUDIO, combines modern aesthetics with</span>
+          <span class="sentence">functional spaces, focusing on natural light, open-plan living,</span>
+          <span class="sentence">and unique features like a double-height dining area and an integrated waterfall.</span>
+          <span class="sentence">The East-facing orientation is utilized to maximize morning sunlight</span>
+          <span class="sentence">,creating bright and inviting living spaces. The design incorporates </span>
+          <span class="sentence">a setback for a small garden and sit-out area, positioned to catch the morning sun. </span>
+          <span class="sentence">The site dimensions are 40 feet in width and 60 feet in depth.</span>
+        </p>
+      </div>
+    </div>
+  </div>
 
+    <!--project 5-->
+    <div class="project-block" data-animated="false">
+    <div class="project-inner">
+      <div class="img-wrapper">
+        <img src="Sumukha Residence.jpg" class="project-img">
+      </div>
+      <div class="text-col">
+        <h3 class="project-title">Sumukha Residence</h3>
+        <p class="paragraph">
+          <span class="sentence">This project, "Sumukha Residence," is a modern renovation of a residential</span>
+          <span class="sentence">building on a 30' x 50' East-facing site The design focuses on updating the </span>
+          <span class="sentence">existing structure to meet contemporary living standards,maximizing space,</span>
+          <span class="sentence">improving natural light and ventilation, and introducing a sleek, modern aesthetic.</span>
+          <span class="sentence">The renovation aims to create a more functional and elegant home without</span>
+          <span class="sentence">expanding the original footprint.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
+  
   /* Fade out title */
   window.addEventListener("scroll", () => {
     const title = document.querySelector(".left-title");
     title.style.opacity = window.scrollY > 50 ? "0" : "1";
   });
-
   /* Smooth unified reveal sequence */
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting && entry.target.dataset.animated !== "true") {
-
         entry.target.dataset.animated = "true"; 
         const block = entry.target;
-
         const title = block.querySelector(".project-title");
         const image = block.querySelector(".project-img");
         const sentences = block.querySelectorAll(".sentence");
-
         /* 1) Title reveal */
         if (title) title.classList.add("show");
-
         /* 2) Image reveal (Smoother, reduced delay) */
         setTimeout(() => {
           image.classList.add("show");
         }, 400); 
-
         /* 3) Sentence reveal (Start earlier for smooth flow) */
         setTimeout(() => {
           sentences.forEach((sentence, index) => {
@@ -527,23 +557,15 @@
       }
     });
   }, { threshold: 0.25 }); // slightly earlier trigger → smoother feel
-
   document.querySelectorAll(".project-block").forEach(block => observer.observe(block));
 </script>
 <script>
   const hamburger = document.getElementById("hamburger");
   const mobileMenu = document.getElementById("mobileMenu");
-
   hamburger.addEventListener("click", () => {
     hamburger.classList.toggle("active");
     mobileMenu.classList.toggle("open");
   });
 </script>
-
 </body>
 </html>
-
-
-
-
-
