@@ -8,660 +8,789 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<style>
+  <style>
+    :root{
+      --bg:#fff;
+      --card:#0f0f10;
+      --muted:#bdbdbd;
+      --accent:#c9a15b;
+      --glass: rgba(255,255,255,0.06);
+      --radius:12px;
+      --site-max:80rem;
+      --header-height: 70px; 
+    }
 
-/* =========================================================
-   ROOT
-========================================================= */
-:root{
-  --accent:#c9a15b;
-  --muted:#6b6b6b;
-  --header-height:72px;
-  --site-max:80rem;
-}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:#FBFCF6;
+      color:black;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    a { color:inherit; }
 
-/* =========================================================
-   RESET
-========================================================= */
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;overflow-x:hidden;}
-body{
-  font-family:"Inter",sans-serif;
-  background:white;
-  color:black;
-  line-height:1.6;
-}
+    /* FIXED HEADER */
+    header.header{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 60;
+      padding: 0.6rem 0;
+      background:white;
+      color:black;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+    .header-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 0.3rem 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
 
-/* =========================================================
-   NAVBAR
-========================================================= */
-header.header{
-  position:fixed;
-  top:0; left:0; right:0;
-  height:var(--header-height);
-  background:white;
-  box-shadow:0 1px 4px rgba(0,0,0,.08);
-  z-index:9999;
-  display:flex;
-  align-items:center;
-}
-.header-container{
-  max-width:var(--site-max);
-  width:100%;
-  margin:auto;
-  padding:0 1rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.logo{height:3rem;}
+    .logo {
+      height: 3rem;
+      width: auto;
+      margin-left: -90px;
+    }
 
-.header-container {
-  padding-left: 0.5rem;
-}
+    /* NAV WITH SLOT ANIMATION */
+    .nav{ 
+      display:flex; 
+      gap:2rem; 
+      align-items:center;
+      margin-right: -110px;
+    }
+    .nav a{ 
+      color:black;
+      text-decoration:none;
+      font-weight:400;
+      font-size:1rem;
+      padding:10px 0;
+      transition:color 0.3s ease;
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      cursor:pointer;
+    }
+    .nav a:hover{ 
+      color:#555;
+    }
+    
+    .slot {
+      position:relative;
+      overflow:hidden;
+      display:inline-block;
+      height:1.1em;
+      line-height:1.1em;
+      transition:transform 0.3s ease;
+    }
+    .slot:hover {
+      transform:translateY(-2px);
+    }
+    .slot span {
+      display:block;
+      transition:transform 0.6s ease;
+      line-height:1.1em;
+    }
+    .slot .top {
+      transform:translateY(0);
+    }
+    .slot .bottom {
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      transform:translateY(-100%);
+    }
+    .slot:hover .top {
+      transform:translateY(100%);
+    }
+    .slot:hover .bottom {
+      transform:translateY(0);
+    }
+    
+    .nav a::after {
+      content:"";
+      position:absolute;
+      bottom:-0.5px;
+      left:0;
+      right:0;
+      height:2px;
+      background:black;
+      border-radius:2px;
+      transform:scaleX(0);
+      transition:transform 0.3s ease;
+    }
+    .nav a[aria-current="page"] {
+      color:black; 
+    }
+    .nav a[aria-current="page"] .slot span {
+      transform:translateY(0) !important;
+    }
+    .nav a[aria-current="page"] .slot:hover {
+      transform:none !important;
+    }
+    .nav a[aria-current="page"] .slot:hover .top,
+    .nav a[aria-current="page"] .slot:hover .bottom {
+      transform:translateY(0) !important;
+    }
+    .nav a[aria-current="page"]::after {
+      transform:scaleX(1);
+    }
 
-.logo {
-  margin-left: 0;      /* clean alignment */
-}
+    main{ padding-top:5px; }
 
+    .container{ 
+      max-width:var(--site-max); 
+      margin:0 auto; 
+      padding:3.5rem 1.5rem; 
+    }
 
-/* NAV */
-.nav{
-  display:flex;
-  align-items:center;
-  gap:2rem;
-}
-.nav a{
-  color:black;
-  text-decoration:none;
-  position:relative;
-  overflow:hidden;
-}
-
-/* SLOT ANIMATION — FIXED */
-.slot {
-  position: relative;
-  display: inline-block;
-  height: 1.25em;    /* height of one line */
-  overflow: hidden;
-}
-
-.slot span {
-  display: block;
-  line-height: 1.25em;
-  transform: translateY(0);
-  transition: transform .45s cubic-bezier(.25,.46,.45,.94);
-}
-
-/* Hover animation */
-.nav a:hover .slot span {
-  transform: translateY(-1.25em); /* shifts one full line up */
-}
-
-
-/* Underline (hover + active) */
-.nav a::after{
-  content:"";
-  position:absolute;
-  left:0; 
-  bottom:-4px;
-  width:100%;
-  height:2px;
-  background:black;
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform .25s ease;
-}
-
-/* Hover underline */
-.nav a:hover::after{
-  transform:scaleX(1);
-}
-
-/* ACTIVE underline (when on that page) */
-.nav a[aria-current="page"]::after{
-  height: 3px;
-  transform:scaleX(1);
-}
-
-
-/* MOBILE NAV */
-.hamburger{
-  display:none;
-  background:none;
-  border:none;
-  font-size:2rem;
-  color:black;
-}
-.mobile-menu{
-  position:fixed;
-  top:0; right:-100%;
-  width:70%;
-  height:100vh;
-  background: black !important;
-  padding-top:calc(var(--header-height) + 20px);
-  padding-left:1.5rem;
-  display:flex;
-  flex-direction:column;
-  gap:1.8rem;
-  transition:right .35s ease;
-  z-index:9998;
-}
-.mobile-menu a{
-  text-decoration:none;
-  color:white !important;
-  font-size:1.3rem;
-}
-
-.mobile-menu.open{ right:0; }
-
-@media(max-width:900px){
-  .nav{display:none;}
-  .hamburger{display:block;}
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-.hero{margin-top:var(--header-height);}
-.hero-right-full{
-  width:100vw;
-  margin-left:calc(-50vw + 50%);
-  height:calc(100vh - var(--header-height));
-  display:flex;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-}
-.hero-img-hover-wrapper{
-  width:calc(100%/3);
-  position:relative;
-  overflow:hidden;
-  pointer-events:none;
-}
-.hero-img-hover-wrapper.ready{pointer-events:auto;}
-.hero-img-hover-wrapper img{
-  position:absolute;
-  inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  transition:opacity 1s ease,transform 1.2s ease;
-}
-.base-img{opacity:0; transform:translateX(40px);}
-.base-img.visible{opacity:1; transform:translateX(0);}
-.hover-img{opacity:0;}
-.hero-img-hover-wrapper:hover .hover-img{opacity:1;}
-
-@media(max-width:768px){
-  .hero-right-full{
-    overflow-x:auto;
-    height:80vw;
-    max-height:380px;
-    border-radius:0;
-    scroll-snap-type:x mandatory;
-  }
-  .hero-img-hover-wrapper{
-    min-width:100%;
-    scroll-snap-align:center;
-  }
-  .hero-right-full::-webkit-scrollbar{display:none;}
+    /* HERO */
+    .hero{
+      display:block; 
+      padding: 0; 
+      margin-top: calc(var(--header-height) -45px); 
+    }
+    .container:first-of-type {
+  padding-top: 8px;
 }
 
-/* =========================================================
-   CONTENT
-========================================================= */
-.container{
-  max-width:var(--site-max);
-  margin:auto;
-  padding:2.5rem 1.25rem;
-}
-.story{
-  margin-top:3rem;
-  display:grid;
-  grid-template-columns:1fr 420px;
-  gap:2rem;
-}
-.section-title{
-  font-size:2rem;
-  font-weight:600;
-  margin-bottom:4px;
-}
-.section-sub{
-  font-size:1.05rem;
-  color:var(--muted);
-  margin-bottom:1rem;
-}
+    .hero-left {
+      display: none; 
+    }
 
-/* COLLAGE */
-.collage{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.collage img{
-  width:100%; height:180px;
-  border-radius:10px;
-  object-fit:cover;
-  transition:transform .35s;
-}
-.collage img:hover{transform:scale(1.04);}
+    .hero-right-full{
+      width: 100vw; 
+      margin-left: calc(-50vw + 50%); 
+      height: calc(100vh - var(--header-height)); 
+      border-radius:14px; 
+      overflow:hidden; 
+      box-shadow:0 20px 50px rgba(0,0,0,0.6);
+      display: flex; 
+      gap: 0; 
+    }
 
-/* =========================================================
-   PROCESS
-========================================================= */
-.process-grid{
-  margin-top:2rem;
-  display:flex;
-  flex-direction:column;
-  gap:1.2rem;
-}
-.process-step{
-  background:white;
-  display:flex;
-  gap:1.2rem;
-  padding:1.3rem;
-  border-radius:12px;
-  border:1px solid rgba(0,0,0,.06);
-  transition:.3s ease;
-}
-.process-step:hover{
-  transform:translateY(-8px);
-  box-shadow:0 20px 40px rgba(0,0,0,.10);
-}
-.num-box{
-  width:56px; height:56px;
-  border-radius:12px;
-  background:linear-gradient(180deg,var(--accent),#d9b776);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-weight:700;
-  color:black;
-}
-.p-text h4{font-size:1.05rem;margin-bottom:4px;}
-.p-text p{margin:0;color:var(--muted);}
+    .hero-right-full img {
+      width: calc(100% / 3);
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 1.4s ease, opacity 1.4s ease;
+      transform: translateX(40px);
+      opacity: 0;
+    }
 
-@media(max-width:767px){
-  .process-step{flex-direction:column;}
-  .num-box{width:48px;height:48px;}
-}
+    .hero-right-full img.visible {
+      transform: translateX(0);
+      opacity: 1;
+    }
 
-/* =========================================================
-   TEAM
-========================================================= */
-.team-grid{
-  margin-top:1.5rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:1.25rem;
-}
-.team-card{
-  background:white;
-  padding:1.3rem;
-  border-radius:12px;
-  border:1px solid rgba(0,0,0,.05);
-  transition:.35s;
-  position:relative;
-  overflow:hidden;
-}
-.team-card::before{
-  content:"";
-  position:absolute; inset:0;
-  background:linear-gradient(180deg,rgba(201,161,91,.22),rgba(0,0,0,.15));
-  opacity:0;
-  transition:.35s;
-}
-.team-card:hover::before{opacity:1;}
-.team-card:hover{
-  transform:translateY(-8px);
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
-}
-.team-img-wrapper{
-  width:170px; height:170px;
-  margin:0 auto 10px;
-  border-radius:50%;
-  overflow:hidden;
-  position:relative;
-}
-.team-img-wrapper img{
-  width:100%; height:100%;
-  object-fit:cover;
-  position:absolute;
-  transition:.45s;
-}
-.team-img-wrapper .hover-img{opacity:0;}
-.team-card:hover .hover-img{opacity:1;}
+    .hero-right-full:hover img{ 
+      transform: none;
+    }
 
-/* =========================================================
-   CTA
-========================================================= */
-.cta{
-  margin-top:3rem;
-  background:white;
-  padding:2rem;
-  border-radius:12px;
-  border:1px solid rgba(0,0,0,.05);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.cta a{
-  text-decoration:none;
-  background:black;
-  padding:0.7rem 1.1rem;
-  border-radius:6px;
-  color:white;
-  font-weight:600;
-}
+    .hero-img-hover-wrapper {
+      position: relative;
+      width: calc(100% / 3);
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
 
-/* =========================================================
-   FOOTER (MATCH HOME PAGE)
-========================================================= */
-footer{
-  margin-top:3rem;
-  background:#0a0a0a;
-  padding:2.5rem;
-  text-align:center;
-  color:#ccc;
-}
-footer a{
-  text-decoration:none !important;
-  color:white !important;
-  font-size:1.9rem;
-  margin:0 .5rem;
-}
-footer .email-link{
-  color:#ffffff !important;
-  font-size:1rem;
-}
-footer i {
-  font-size: 1.5rem;        /* Exact size from d4a1.html */
-  color: white;
-  vertical-align: middle;
-  transition: .25s ease;
-}
+    .hero-img-hover-wrapper.ready {
+      pointer-events: auto;
+    }
 
-footer a.icon-link {
-  margin: 0 4px;            /* EXACT gap used in d4a1.html */
-  color: white !important;
-  text-decoration: none !important;
-}
+    .hero-img-hover-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1.1s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
 
-footer i:hover {
-  color: var(--accent);
-}
+    .hero-img-hover-wrapper img.hover-img {
+      opacity: 0;
+    }
 
+    .hero-img-hover-wrapper:hover img.hover-img {
+      opacity: 1;
+    }
 
-/* =========================================================
-   REVEAL ANIMATION
-========================================================= */
-.reveal{
-  opacity:0;
-  transform:translateY(24px);
-  transition:.9s ease;
-}
-.reveal.visible{
-  opacity:1;
-  transform:translateY(0);
-}
+    /* STORY + PHOTO COLLAGE */
+    .story{
+      display:grid; 
+      grid-template-columns:1fr 520px; 
+      gap:2rem; 
+      align-items:center; 
+      margin-top:3rem;
+    }
+    .story-text p{ 
+      color:black; 
+      margin-bottom:1rem; 
+    }
+    .section-title{
+      font-size:1.7rem;
+      font-weight:600;
+      margin-bottom:6px;
+    }
+    .section-sub{
+      font-size:1rem;
+      color:#777;
+      margin-bottom:0.8rem;
+    }
+    .collage{ 
+      display:grid; 
+      grid-template-columns:1fr 1fr; 
+      gap:10px; 
+    }
+    .collage img{ 
+      width:300px; 
+      height:270px; 
+      object-fit:cover; 
+      border-radius:10px; 
+      transition:transform .45s ease; 
+    }
+    .collage img:hover{ 
+      transform:scale(1.04) 
+    }
 
-</style>
+    /* PROCESS TIMELINE */
+    .timeline{ 
+      margin-top:3rem; 
+      display:flex; 
+      gap:1rem; 
+      flex-direction:column 
+    }
+    .timeline-step{
+      display:flex; 
+      gap:1rem; 
+      align-items:flex-start; 
+      padding:1rem; 
+      background:rgba(255,255,255,0.02);
+      border-radius:10px; 
+      border:1px solid rgba(0,0,0,0.05);
+      transition:transform .3s ease, box-shadow .3s ease;
+    }
+    .timeline-step:hover{ 
+      transform:translateY(-8px);
+      box-shadow:0 14px 30px rgba(0,0,0,0.12);
+    }
+    .timeline-step .number{
+      width:56px; 
+      height:56px; 
+      border-radius:12px; 
+      background:linear-gradient(180deg,var(--accent), #d9b776);
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      font-weight:700; 
+      color:#071219;
+      flex-shrink:0;
+    }
+    .timeline-step h4{ 
+      margin-bottom:6px 
+    }
+    .timeline-step p{ 
+      color:var(--muted); 
+      margin:0 
+    }
+
+    /* TEAM */
+    .team{ margin-top:3rem; }
+    .team-grid{ 
+      display:grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); 
+      gap:1.25rem; 
+      margin-top:1rem; 
+    }
+    .team-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px; 
+      padding:1.35rem; 
+      text-align:center; 
+      border:1px solid rgba(0,0,0,0.04);
+      transition:transform .35s ease, box-shadow .35s ease;
+      position:relative; 
+      overflow:hidden;
+    }
+    .team-card:hover{ 
+      transform:translateY(-10px); 
+      box-shadow:0 20px 40px rgba(0,0,0,0.2) 
+    }
+    .team-card img{ 
+      width:170px; 
+      height:170px; 
+      border-radius:50%; 
+      object-fit:cover; 
+      display:block; 
+      margin:0 auto 10px; 
+      transition:transform .4s ease 
+    }
+
+    .team-img-wrapper {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      overflow: visible;
+      z-index: 5;
+    }
+    .team-img-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 105%;
+      height: 105%;
+      object-fit: cover;
+      transform: translate(-2.5%, -2.5%);
+      transition: opacity .7s ease, transform .6s ease;
+    }
+    .team-img-wrapper .hover-img {
+      opacity: 0;
+    }
+    .team-card:hover .hover-img {
+      opacity: 1;
+    }
+    .team-card h4{ 
+      margin-bottom:6px; 
+      font-size:1.05rem 
+    }
+    .team-card p{ 
+      color:var(--muted); 
+      font-size:.95rem; 
+    }
+
+    /* CTA */
+    .cta{
+      margin-top:3.75rem; 
+      padding:2.5rem; 
+      border-radius:12px; 
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      gap:1rem;
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    .cta .left h3{ 
+      font-size:1.2rem; 
+      margin-bottom:.4rem 
+    }
+    .cta .left p{ 
+      color:var(--muted) 
+    }
+    .cta .right a{ 
+      padding:10px 18px; 
+      border-radius:10px; 
+      background:linear-gradient(90deg,var(--accent), #d9b776); 
+      color:#071219; 
+      text-decoration:none; 
+      font-weight:600 
+    }
+
+    /* Footer */
+    footer{ 
+      padding:2.2rem 1.5rem; 
+      text-align:center; 
+      color:var(--muted); 
+      border-top:1px solid rgba(0,0,0,0.04); 
+      margin-top:3rem 
+    }
+
+    .reveal{ 
+      opacity:0; 
+      transform:translateY(32px); 
+      transition:opacity .9s ease, transform .9s ease; 
+    }
+    .reveal.visible{ 
+      opacity:1; 
+      transform:translateY(0) 
+    }
+
+    footer .email-link {
+      color: #000 !important;
+      text-decoration: none;
+    }
+    footer .email-link:hover {
+      text-decoration: underline;
+    }
+    footer a i,
+    footer a {
+      text-decoration: none !important;
+    }
+
+    /* HAMBURGER + MOBILE MENU */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 9999;
+      margin-right: 20px;
+    }
+    .hamburger span {
+      width: 28px;
+      height: 3px;
+      background: black;  /* visible on white header */
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background: white;
+      padding-top: 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-left: 2rem;
+      transition: right 0.35s ease;
+      z-index: 9998;
+    }
+    .mobile-menu a {
+      color: black;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    .mobile-menu.open {
+      right: 0;
+    }
+
+    /* ======================= RESPONSIVENESS ======================= */
+
+    /* Navbar & logo on mobile */
+    @media (max-width: 900px) {
+      .nav {
+        display: none !important;
+      }
+      .hamburger {
+        display: flex !important;
+      }
+      .logo {
+        margin-left: 0 !important;
+      }
+      .story{
+        grid-template-columns:1fr;
+      }
+    }
+
+    /* Hero horizontal scroll like first code */
+    @media (max-width: 768px) {
+      .hero-right-full {
+        overflow-x: auto;
+        height: 80vw;
+        max-height: 380px;
+        border-radius: 0;
+        scroll-snap-type: x mandatory;
+        display: flex !important;
+        flex-direction: row !important;
+      }
+      .hero-img-hover-wrapper {
+        min-width: 100%;
+        height: 100%;
+        scroll-snap-align: center;
+      }
+      .hero-right-full::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    /* Process timeline stack on mobile */
+    @media (max-width: 767px) {
+      .timeline-step {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+      .timeline-step .number {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    /* Collage & team tightening */
+    @media (max-width: 560px) {
+      .collage img {
+        height: 140px !important;
+        width: 100%;
+      }
+      .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- =============================== NAV =============================== -->
-<header class="header">
-  <div class="header-container">
-
-    <a href="d4a1.html"><img src="img.jpeg" class="logo"></a>
-
-    <nav class="nav">
-      <a href="d4a1.html"><div class="slot"><span>Home<br>Home</span></div></a>
-      <a href="d4a1.html#gallery"><div class="slot"><span>Projects<br>Projects</span></div></a>
-      <a href="d4a1.html#works"><div class="slot"><span>Our Works<br>Our Works</span></div></a>
-      <a href="about.html" aria-current="page"><div class="slot"><span>About Us<br>About Us</span></div></a>
-    </nav>
-
-    <!-- NEW HAMBURGER (same as homepage) -->
-    <button class="hamburger" id="hamburgerBtn">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-
-  </div>
-
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="d4a1.html">Home</a>
-    <a href="projects.html">Projects</a>
-    <a href="d4a1.html#works">Our Works</a>
-    <a href="about.html">About Us</a>
-  </div>
-</header>
-
-<!-- =============================== HERO =============================== -->
-<section class="hero reveal">
-  <div class="hero-right-full">
-
-    <div class="hero-img-hover-wrapper">
-      <img src="Slide1.JPG" class="base-img">
-      <img src="Slide2.JPG" class="hover-img">
+  <header class="header" id="header">
+    <div class="header-container">
+      <a href="d4a1.html" style="line-height:0;">
+        <img src="logo.jpg" class="logo" alt="D4A logo">
+      </a>
+  
+      <nav class="nav">
+        <a href="d4a1.html">
+          <span class="slot">
+            <span class="top">Home</span>
+            <span class="bottom">Home</span>
+          </span>
+        </a>
+                <a href="d4a1.html">
+          <span class="slot">
+            <span class="top">Our Approach</span>
+            <span class="bottom">Our Approach</span>
+          </span>
+        </a>
+        <a href="d4a1.html#gallery">
+          <span class="slot">
+            <span class="top">Projects</span>
+            <span class="bottom">Projects</span>
+          </span>
+        </a>
+        <a href="aboutus.html" aria-current="page">
+          <span class="slot">
+            <span class="top">About Us</span>
+            <span class="bottom">About Us</span>
+          </span>
+        </a>
+      </nav>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
 
-    <div class="hero-img-hover-wrapper">
-      <img src="Slide1 (1).JPG" class="base-img">
-      <img src="Slide2 (1).JPG" class="hover-img">
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="d4a1.html#home">Home</a>
+      <a href ="d4a1.html#gallery">Our Approach</a>
+      <a href="projects.html">Projects</a>
+      <a href="d4a1.html#about">About Us</a>
     </div>
+  </header>
 
-    <div class="hero-img-hover-wrapper">
-      <img src="Slide1 (4).JPG" class="base-img">
-      <img src="Slide2 (2).JPG" class="hover-img">
+  <main>
+    <div class="container"></div>
+
+    <section class="hero reveal" id="hero">
+      <div class="hero-left">
+        <h1></h1> 
+        <p class="lead"></p>
+      </div>
+
+      <div class="hero-right-full">
+        <div class="hero-img-hover-wrapper">
+          <img src="Slide1.JPG" class="base-img">
+          <img src="Slide2.JPG" class="hover-img">
+        </div>
+        <div class="hero-img-hover-wrapper">
+          <img src="Slide1 (1).JPG" class="base-img">
+          <img src="Slide2 (1).JPG" class="hover-img">
+        </div>
+        <div class="hero-img-hover-wrapper">
+          <img src="Slide1 (4).JPG" class="base-img">
+          <img src="Slide2 (2).JPG" class="hover-img">
+        </div>
+      </div>
+    </section>
+
+    <div class="container" style="padding-top: 0; margin-top: 3.5rem;"> 
+      <section id="story" class="story reveal">
+        <div class="story-text">
+          <div class="section-title">Our Story</div>
+          <div class="section-sub">From a small studio to an international practice</div>
+          <p>D4A Studio began as a conversation between designers who believed good architecture is rooted in empathy and craft. Over the years we've grown, but our approach remains the same: listen first, design second. We work closely with clients to refine intention, materials, and light — creating calm, functional spaces that feel settled.</p>
+        </div>
+
+        <aside class="collage">
+          <img src="img1.jpg" alt="collage 1" loading="lazy">
+          <img src="img2.jpg" alt="collage 2" loading="lazy">
+          <img src="img3.jpg" alt="collage 3" loading="lazy">
+          <img src="img5.jpg" alt="collage 4" loading="lazy">
+        </aside>
+      </section>
+
+      <section id="process" class="reveal" style="margin-top:3rem;">
+        <div class="section-title">Our Process</div>
+        <div class="section-sub">A considered sequence from idea to place</div>
+
+        <div class="timeline">
+          <div class="timeline-step">
+            <div class="number">01</div>
+            <div>
+              <h4>Discovery</h4>
+              <p class="muted">Research, site study, and aligning on brief and goals.</p>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="number">02</div>
+            <div>
+              <h4>Concept</h4>
+              <p class="muted">Schematic design, massing, and mood — defining the core idea.</p>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="number">03</div>
+            <div>
+              <h4>Develop</h4>
+              <p class="muted">Detailed design, material selection, coordination with engineers.</p>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="number">04</div>
+            <div>
+              <h4>Build & Refine</h4>
+              <p class="muted">Construction oversight, quality control and final adjustments.</p>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="number">05</div>
+            <div>
+              <h4>Live</h4>
+              <p class="muted">Post-occupancy review and long-term care recommendations.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="team" class="team reveal">
+        <div class="section-title">Meet the Team</div>
+        <div class="section-sub">A small team of thoughtful designers and collaborators</div>
+
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-img-wrapper">
+              <img src="01_DHYAN SRINIVASA_FOUNDER.PNG" class="base-img" alt="Dhyan">
+              <img src="01_D.png" class="hover-img" alt="Dhyan Hover">
+            </div>
+            <h4>Dhyan Srinivas</h4>
+            <p>Founder</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-img-wrapper">
+              <img src="02_SANATH.PNG" alt="Sanath">
+              <img src="02_S.PNG" class="hover-img" alt="Sanath Hover">
+            </div>
+            <h4>Sanath Veeru KS</h4>
+            <p>Lead Architect</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-img-wrapper">
+            <img src="03_PRASHANT D_JUNIOR ARCHITECT.PNG" alt="Prashant D">
+            <img src="03_P.png" class="hover-img" alt="Prashant Hover">
+            </div>
+            <h4>Prashant D</h4>
+            <p>Junior Architect</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-img-wrapper">
+            <img src="04_AR1.PNG" alt="Arsalan">
+            <img src="04_AR.png" class="hover-img" alt="Arsalan Hover">
+            </div>
+            <h4>Arsalan R K</h4>
+            <p>Junior Architect</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta reveal" style="margin-top:3rem;">
+        <div class="left">
+          <h3>Interested in collaborating?</h3>
+          <p style="color:var(--muted)">Tell us about your project — we'll respond within 48 hours.</p>
+        </div>
+        <div class="right">
+          <a href="mailto:d4astudios@gmail.com">Let's Talk</a>
+        </div>
+      </section>
     </div>
+  </main>
 
-  </div>
-</section>
+  <footer>
+    <p>
+      Contact Us:
+      <a class="email-link" href="mailto:d4astudios@gmail.com" target="_blank">
+        d4astudios@gmail.com
+      </a>
+    </p>
+    <div style="margin-top:0.6rem;">
+      <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" style="margin-right:12px;">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://in.linkedin.com/company/d4astudio" target="_blank">
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
+    </div>
+  </footer>
 
-<!-- =============================== MAIN =============================== -->
-<main>
-  <div class="container">
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },{
+      threshold: 0.08,
+      rootMargin: "0px 0px -10% 0px"
+    });
+    reveals.forEach(el => revealObserver.observe(el));
+  </script>
 
-    <!-- STORY -->
-    <section id="story" class="story reveal">
-      <div>
-        <div class="section-title">Our Story</div>
-        <div class="section-sub">From a small studio to an international practice</div>
-        <p>D4A Studio began as a conversation between designers who believed good architecture is rooted in empathy and craft.</p>
-      </div>
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
 
-      <aside class="collage">
-        <img src="img1.jpg">
-        <img src="img2.jpg">
-        <img src="img3.jpg">
-        <img src="img5.jpg">
-      </aside>
-    </section>
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      mobileMenu.classList.toggle("open");
+    });
+  </script>
 
-    <!-- PROCESS -->
-    <section id="process" class="reveal">
-      <div class="section-title">Our Process</div>
-      <div class="section-sub">A considered sequence from idea to place</div>
-
-      <div class="process-grid">
-
-        <div class="process-step">
-          <div class="num-box">01</div>
-          <div class="p-text">
-            <h4>Discovery</h4>
-            <p>Research, site study, and aligning on goals.</p>
-          </div>
-        </div>
-
-        <div class="process-step">
-          <div class="num-box">02</div>
-          <div class="p-text">
-            <h4>Concept</h4>
-            <p>Schematic design & defining the core idea.</p>
-          </div>
-        </div>
-
-        <div class="process-step">
-          <div class="num-box">03</div>
-          <div class="p-text">
-            <h4>Develop</h4>
-            <p>Detailed design, materials, and coordination.</p>
-          </div>
-        </div>
-
-        <div class="process-step">
-          <div class="num-box">04</div>
-          <div class="p-text">
-            <h4>Build & Refine</h4>
-            <p>Construction quality & adjustments.</p>
-          </div>
-        </div>
-
-        <div class="process-step">
-          <div class="num-box">05</div>
-          <div class="p-text">
-            <h4>Live</h4>
-            <p>Post-occupancy review.</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- TEAM -->
-    <section id="team" class="team reveal">
-      <div class="section-title">Meet the Team</div>
-      <div class="section-sub">Thoughtful designers and collaborators</div>
-
-      <div class="team-grid">
-
-        <div class="team-card">
-          <div class="team-img-wrapper">
-            <img src="01_DHYAN SRINIVASA_FOUNDER.PNG" class="base-img">
-            <img src="01_D.png" class="hover-img">
-          </div>
-          <h4>Dhyan Srinivas</h4>
-          <p>Founder</p>
-        </div>
-
-        <div class="team-card">
-          <div class="team-img-wrapper">
-            <img src="02_SANATH.PNG">
-            <img src="02_S.PNG" class="hover-img">
-          </div>
-          <h4>Sanath Veeru KS</h4>
-          <p>Lead Architect</p>
-        </div>
-
-        <div class="team-card">
-          <div class="team-img-wrapper">
-            <img src="03_PRASHANT D_JUNIOR ARCHITECT.png">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800" class="hover-img">
-          </div>
-          <h4>Prashant D</h4>
-          <p>Interior Designer</p>
-        </div>
-
-        <div class="team-card">
-          <div class="team-img-wrapper">
-            <img src="04_ARSALAN R K_JUNIOR ARCHITECT.png">
-            <img src="#" class="hover-img">
-          </div>
-          <h4>Arsalan R K</h4>
-          <p>3D Visualization</p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta reveal">
-      <div>
-        <h3>Interested in collaborating?</h3>
-        <p style="color:var(--muted);">Tell us about your project — we'll respond within 48 hours.</p>
-      </div>
-      <a href="mailto:d4astudios@gmail.com">Let's Talk</a>
-    </section>
-
-  </div>
-</main>
-
-<!-- =============================== FOOTER =============================== -->
-<footer>
-  <p style="margin-bottom: 0.8rem;">
-    Contact Us:
-    <a class="email-link" href="mailto:d4astudios@gmail.com">d4astudios@gmail.com</a>
-  </p>
-
-  <p style="margin-top: 0.4rem;">
-    <i class="fa-solid fa-phone"></i> +91 98765 43210
-  </p>
-
-  <p style="margin-top: 0.4rem;">
-    <i class="fa-solid fa-location-dot"></i> Bengaluru, Karnataka
-  </p>
-
-  <div style="margin-top:0.6rem;">
-    <a class="icon-link" href="https://www.instagram.com/d4a_studio/?hl=en"><i class="fa-brands fa-instagram"></i></a>
-    <a class="icon-link" href="https://in.linkedin.com/company/d4astudio"><i class="fa-brands fa-linkedin"></i></a>
-  </div>
-</footer>
-
-<!-- =============================== JS =============================== -->
-<script>
-
-/* Reveal */
-const reveals=document.querySelectorAll('.reveal');
-const obs=new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-      obs.unobserve(entry.target);
-    }
-  });
-},{threshold:0.12});
-reveals.forEach(r=>obs.observe(r));
-
-/* Hamburger Menu */
-const hamb = document.getElementById("hamburgerBtn");
-const menu = document.getElementById("mobileMenu");
-
-// OPEN / CLOSE on hamburger click
-hamb.addEventListener("click", (e) => {
-  e.stopPropagation();
-  menu.classList.toggle("open");
-
-  hamb.innerHTML = menu.classList.contains("open")
-    ? `<i class="fa-solid fa-xmark"></i>`
-    : `<i class="fa-solid fa-bars"></i>`;
-});
-
-// CLOSE when clicking outside
-document.addEventListener("click", (e) => {
-  const insideMenu = menu.contains(e.target);
-  const insideHamb = hamb.contains(e.target);
-
-  if (!insideMenu && !insideHamb) {
-    menu.classList.remove("open");
-    hamb.innerHTML = `<i class="fa-solid fa-bars"></i>`;
-  }
-});
-
-
-
-/* Hero slide-in */
-const baseImgs=document.querySelectorAll(".base-img");
-const wrap=document.querySelectorAll(".hero-img-hover-wrapper");
-
-baseImgs.forEach((img,i)=>{
-  setTimeout(()=>img.classList.add("visible"),i*600);
-});
-
-setTimeout(()=>wrap.forEach(w=>w.classList.add("ready")),baseImgs.length*700);
-
-</script>
-
+  <script>
+    const heroImgs = document.querySelectorAll(".hero-right-full .base-img");
+    const hoverWrappers = document.querySelectorAll(".hero-img-hover-wrapper");
+    heroImgs.forEach((img, index) => {
+      setTimeout(() => {
+        img.classList.add("visible");
+      }, index * 600);
+    });
+    setTimeout(() => {
+      hoverWrappers.forEach(w => w.classList.add("ready"));
+    }, 600 * 3 + 200); 
+  </script>
 </body>
 </html>
