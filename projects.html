@@ -51,110 +51,107 @@
       align-items: center;
       justify-content: space-between;
     }
-
     .logo {
       height: 3rem;
       width: auto;
       margin-left: -90px;
     }
-
     .nav {
       display: flex;
       align-items: center;
       gap: 2rem;
       margin-right: -110px;
     }
+/* Container for the link */
+.nav a {
+  color: black;
+  text-decoration: none;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: 10px 0;
+  cursor: pointer;
+}
 
-    .nav a {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.3s;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      font-weight: 400;
-    }
+/* --- THE SLOT ANIMATION --- */
+.slot {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  height: 1.1em;
+  line-height: 1.1em;
+}
 
-    .nav a.active .bottom {
-      text-decoration: underline;
-      text-underline-offset: 20px;
-      text-decoration-thickness: 2px;
-    }
+.slot span {
+  display: block;
+  transition: transform 0.6s ease;
+  line-height: 1.1em;
+}
 
-    /* Slot hover animation (do not change) */
-    .slot {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      height: 1.1em;
-      transition: transform 0.3s ease;
-    }
+.slot .bottom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(-100%); /* Start hidden above */
+}
 
-    .slot span {
-      display: block;
-      transition: transform 0.6s ease;
-    }
+/* Hover State for Slot */
+.nav a:hover .slot .top {
+  transform: translateY(100%); /* Push top text down */
+}
 
-    .slot .bottom {
-      position: absolute;
-      top: -100%;
-      left: 0;
-    }
+.nav a:hover .slot .bottom {
+  transform: translateY(0); /* Pull bottom text into view */
+}
 
-    .slot:hover {
-      transform: translateY(-2px);
-    }
-    .slot:hover .top {
-      transform: translateY(100%);
-    }
-    .slot:hover .bottom {
-      transform: translateY(100%);
-    }
+/* --- THE UNDERLINE ANIMATION --- */
+/* --- THE UNDERLINE LOGIC --- */
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: black;
+  border-radius: 2px;
+  /* Start hidden for all links */
+  transform: scaleX(0); 
+  transition: transform 0.3s ease;
+}
 
-    .slot.active span {
-      transform: translateY(0) !important;
-    }
-    .slot.active:hover {
-      transform: none !important;
-    }
-    .slot.active .top,
-    .slot.active .bottom {
-      transform: translateY(0) !important;
-    }
+/* ONLY the active page gets the underline.
+   There is NO hover state here, so other links stay clean.
+*/
+.nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Keep the slot animation working for other links on hover */
+.nav a:hover .slot .top {
+  transform: translateY(100%);
+}
+
+.nav a:hover .slot .bottom {
+  transform: translateY(0);
+}
+
+/* Disable the text-sliding for the active page if you want it stationary */
+.nav a[aria-current="page"] .slot .top,
+.nav a[aria-current="page"] .slot .bottom {
+  transform: translateY(0) !important;
+}
 
     /* HAMBURGER */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      z-index: 9999;
-    }
+    .hamburger {display: none;flex-direction: column;gap: 6px;cursor: pointer;z-index: 9999;}
+    .hamburger span {width: 28px;height: 3px;background: black;border-radius: 6px;transition: 0.3s;}
+    .hamburger.active span {background: white;}
+    .hamburger.active span:nth-child(1) {transform: translateY(9px) rotate(45deg);}
+    .hamburger.active span:nth-child(2) {opacity: 0;}
+    .hamburger.active span:nth-child(3) {transform: translateY(-9px) rotate(-45deg);}
 
-    .hamburger span {
-      width: 28px;
-      height: 3px;
-      background: black;
-      border-radius: 6px;
-      transition: 0.3s;
-    }
-
-    .hamburger.active span {
-      background: white;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: translateY(9px) rotate(45deg);
-    }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active span:nth-child(3) {
-      transform: translateY(-9px) rotate(-45deg);
-    }
-
-    /* MOBILE MENU */
     .mobile-menu {
       position: fixed;
       top: 0;
@@ -199,13 +196,15 @@
        BLUEPRINT-STYLE HERO SECTION (updated)
     ========================================= */
     .hero-section {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      height: 600px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #f9fafb 0%, #ffffff 50%, #f3f4f6 100%);
-    }
+  position: relative;
+  width: 100%;
+  height: 220px;      
+  min-height: 180px;
+  max-height: 260px; 
+  overflow: hidden;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 50%, #f3f4f6 100%);
+}
+
 
     /* Blueprint Grid Background */
     .blueprint-grid {
@@ -836,22 +835,33 @@
       border-radius: 14px;
       min-height: 120px;
     }
+.project-img {
+  width: 100%;
+  height: 0;
+  object-fit: cover;
 
-    .project-img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      transform: scale(.95);
-      transition:
-        height 1.3s cubic-bezier(0.19, 1, 0.22, 1),
-        transform 1s ease;
-      background-color: #333;
-    }
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(6px);
 
-    .project-img.show {
-      height: 430px;
-      transform: scale(1);
-    }
+  transition:
+    height 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.9s ease,
+    filter 1.4s ease;
+
+  background-color: #333;
+  will-change: height, transform, opacity;
+}
+
+
+.project-img.show {
+  height: 430px;
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
 
     .text-col {
       flex: 1;
@@ -932,24 +942,39 @@
 
     <div class="logo-container">
       <a href="d4a1.html" style="line-height:0;">
-        <img src="img.jpeg" class="logo" alt="D4A logo">
+        <img src="logo.jpg" class="logo" alt="D4A logo">
       </a>
     </div>
 
-    <nav class="nav">
-      <a href="d4a1.html#home" class="slot">
-        <span class="top">Home</span><span class="bottom">Home</span>
-      </a>
-      <a href="d4a1.html#our-approach" class="slot">
-        <span class="top">Our Approach</span><span class="bottom">Our Approach</span>
-      </a>
-      <a href="projects.html" class="slot active">
-        <span class="top">Projects</span><span class="bottom">Projects</span>
-      </a>
-      <a href="d4a1.html#about" class="slot">
-        <span class="top">About Us</span><span class="bottom">About Us</span>
-      </a>
-    </nav>
+<nav class="nav">
+  <a href="d4a1.html">
+    <span class="slot">
+      <span class="top">Home</span>
+      <span class="bottom">Home</span>
+    </span>
+  </a>
+
+  <a href="d4a1.html">
+    <span class="slot">
+      <span class="top">Our Approach</span>
+      <span class="bottom">Our Approach</span>
+    </span>
+  </a>
+
+  <a href="projects.html" aria-current="page">
+    <span class="slot">
+      <span class="top">Projects</span>
+      <span class="bottom">Projects</span>
+    </span>
+  </a>
+
+  <a href="aboutus.html">
+    <span class="slot">
+      <span class="top">About Us</span>
+      <span class="bottom">About Us</span>
+    </span>
+  </a>
+</nav>
 
     <div class="hamburger" id="hamburger">
       <span></span>
@@ -1088,7 +1113,6 @@
         </div>
       </div>
 
-      <p class="subtitle">ARCHITECTURAL PORTFOLIO</p>
     </div>
   </div>
 
@@ -1124,10 +1148,10 @@
 <div class="content">
 
   <!-- PROJECT 1 -->
-  <div class="project-block" data-animated="false">
+  <div class="project-block first-project" data-animated="false">
     <div class="project-inner">
       <div class="img-wrapper">
-        <img src="Urban Edge.png" class="project-img">
+        <img src="Scene1.png" class="project-img">
       </div>
 
       <div class="text-col">
@@ -1174,7 +1198,7 @@
   <div class="project-block" data-animated="false">
     <div class="project-inner">
       <div class="img-wrapper">
-        <img src="RRN LUX.png" class="project-img">
+        <img src="Scene2.png" class="project-img">
       </div>
       <div class="text-col">
         <h3 class="project-title">RRN LUX</h3>
@@ -1250,6 +1274,10 @@
         const title = block.querySelector(".project-title");
         const image = block.querySelector(".project-img");
         const sentences = block.querySelectorAll(".sentence");
+
+      const isFirst = block.classList.contains("first-project");
+
+      const baseDelay = isFirst ? 2000 : 0;
 
         if (title) title.classList.add("show");
 
