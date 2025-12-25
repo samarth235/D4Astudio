@@ -15,7 +15,7 @@
    ROOT
 ========================================================= */
 :root{
-  --accent:#c9a15b;
+  --accent:#7AA5FF;
   --muted:#6b6b6b;
   --header-height:72px;
   --site-max:80rem;
@@ -108,7 +108,7 @@ header.header{
   bottom:-4px;
   width:100%;
   height:2px;
-  background:black;
+  background:var(--accent);
   transform:scaleX(0);
   transform-origin:left;
   transition:transform .25s ease;
@@ -134,27 +134,6 @@ header.header{
   font-size:2rem;
   color:black;
 }
-.mobile-menu{
-  position:fixed;
-  top:0; right:-100%;
-  width:70%;
-  height:100vh;
-  background: black !important;
-  padding-top:calc(var(--header-height) + 20px);
-  padding-left:1.5rem;
-  display:flex;
-  flex-direction:column;
-  gap:1.8rem;
-  transition:right .35s ease;
-  z-index:9998;
-}
-.mobile-menu a{
-  text-decoration:none;
-  color:white !important;
-  font-size:1.3rem;
-}
-
-.mobile-menu.open{ right:0; }
 
 @media(max-width:900px){
   .nav{display:none;}
@@ -314,9 +293,9 @@ header.header{
 .story-divider {
   width: 48px;
   height: 1px;
-  background: #000;
+  background: var(--accent);
   margin-bottom: 1.8rem;
-  opacity: .2;
+  opacity: .5;
 }
 
 .story-future-content p {
@@ -359,12 +338,12 @@ header.header{
 .num-box{
   width:56px; height:56px;
   border-radius:12px;
-  background:linear-gradient(180deg,var(--accent),#d9b776);
+  background:linear-gradient(180deg,#293e91,#bbc5fc);
   display:flex;
   justify-content:center;
   align-items:center;
   font-weight:700;
-  color:black;
+  color:whitesmoke;
 }
 .p-text h4{font-size:1.05rem;margin-bottom:4px;}
 .p-text p{margin:0;color:var(--muted);}
@@ -492,6 +471,73 @@ footer i:hover {
   opacity:1;
   transform:translateY(0);
 }
+/* ===============================
+   STAGGERED MOBILE MENU
+=============================== */
+
+.sm-wrapper{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2147483647; /* max safe */
+}
+.sm-wrapper.active{
+  pointer-events:auto;
+}
+
+/* backdrop */
+.sm-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  opacity:0;
+}
+
+/* panel */
+.sm-panel{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(80vw,360px);
+  height:100%;
+  background:#fff;
+  padding:calc(var(--header-height) + 2rem) 1.8rem;
+}
+
+/* list */
+.sm-list{
+  list-style:none;
+  padding:0;
+}
+.sm-list li{
+  overflow:hidden;
+  margin-bottom:1.2rem;
+}
+
+/* LINKS — FIXED SIZE + SINGLE LINE */
+.sm-list a{
+  display:block;
+  font-size:clamp(1.4rem,4.5vw,1.9rem);
+  font-weight:500;
+  color:#000 !important;
+  text-decoration:none;
+  line-height:1.2;
+  white-space:nowrap;
+}
+
+/* mobile only */
+@media(min-width:901px){
+  .sm-wrapper{display:none;}
+}
+
+/* hamburger polish */
+.hamburger i{
+  transition:transform .35s ease;
+}
+.hamburger.active i{
+  transform:rotate(90deg);
+}
+
 
 </style>
 </head>
@@ -507,7 +553,7 @@ footer i:hover {
     <nav class="nav">
       <a href="d4a1.html"><div class="slot"><span>Home<br>Home</span></div></a>
       <a href="d4a1.html#gallery"><div class="slot"><span>Projects<br>Projects</span></div></a>
-      <a href="d4a1.html#works"><div class="slot"><span>Our Works<br>Our Works</span></div></a>
+      <a href="d4a1.html#works"><div class="slot"><span>Our Approach<br>Our Approach</span></div></a>
       <a href="about.html" aria-current="page"><div class="slot"><span>About Us<br>About Us</span></div></a>
     </nav>
 
@@ -517,14 +563,22 @@ footer i:hover {
     </button>
 
   </div>
-
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="d4a1.html">Home</a>
-    <a href="projects.html">Projects</a>
-    <a href="d4a1.html#works">Our Works</a>
-    <a href="about.html">About Us</a>
-  </div>
+  <!-- STAGGERED MOBILE MENU -->
 </header>
+<div class="sm-wrapper" id="smWrapper">
+
+  <div class="sm-backdrop" id="smBackdrop"></div>
+
+  <aside class="sm-panel" id="smPanel">
+    <ul class="sm-list">
+      <li><a href="d4a1.html">Home</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="d4a1.html#works">Our Approach</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+</div>
 
 <!-- =============================== HERO =============================== -->
 <section class="hero reveal">
@@ -728,6 +782,7 @@ footer i:hover {
 </footer>
 
 <!-- =============================== JS =============================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 
 /* Reveal */
@@ -742,33 +797,6 @@ const obs=new IntersectionObserver((entries)=>{
 },{threshold:0.12});
 reveals.forEach(r=>obs.observe(r));
 
-/* Hamburger Menu */
-const hamb = document.getElementById("hamburgerBtn");
-const menu = document.getElementById("mobileMenu");
-
-// OPEN / CLOSE on hamburger click
-hamb.addEventListener("click", (e) => {
-  e.stopPropagation();
-  menu.classList.toggle("open");
-
-  hamb.innerHTML = menu.classList.contains("open")
-    ? `<i class="fa-solid fa-xmark"></i>`
-    : `<i class="fa-solid fa-bars"></i>`;
-});
-
-// CLOSE when clicking outside
-document.addEventListener("click", (e) => {
-  const insideMenu = menu.contains(e.target);
-  const insideHamb = hamb.contains(e.target);
-
-  if (!insideMenu && !insideHamb) {
-    menu.classList.remove("open");
-    hamb.innerHTML = `<i class="fa-solid fa-bars"></i>`;
-  }
-});
-
-
-
 /* Hero slide-in */
 const baseImgs=document.querySelectorAll(".base-img");
 const wrap=document.querySelectorAll(".hero-img-hover-wrapper");
@@ -780,6 +808,55 @@ baseImgs.forEach((img,i)=>{
 setTimeout(()=>wrap.forEach(w=>w.classList.add("ready")),baseImgs.length*700);
 
 </script>
+<script>
+  const hamburger = document.getElementById("hamburgerBtn");
+  const wrapper = document.getElementById("smWrapper");
+  const panel = document.getElementById("smPanel");
+  const backdrop = document.getElementById("smBackdrop");
+  const items = document.querySelectorAll(".sm-list a");
+  
+  let open = false;
+  
+  // initial states
+  gsap.set(panel, { xPercent: 100 });
+  gsap.set(items, { yPercent: 140 });
+  gsap.set(backdrop, { opacity: 0 });
+  
+  const tl = gsap.timeline({ paused:true });
+  
+  tl.to(backdrop, { opacity:1, duration:.3 })
+    .to(panel, { xPercent:0, duration:.65, ease:"power4.out" }, 0)
+    .to(items,{
+      yPercent:0,
+      duration:1,
+      ease:"power4.out",
+      stagger:.1
+    }, .2);
 
+    function toggleMenu(){
+  open = !open;
+
+  wrapper.classList.toggle("active", open);
+  document.body.style.overflow = open ? "hidden" : "";
+
+  hamburger.classList.toggle("active", open);
+
+  if (open) {
+    tl.play(0);      // let GSAP control everything
+  } else {
+    tl.reverse();    // reverse animation cleanly
+  }
+}
+
+
+  
+  hamburger.addEventListener("click", e=>{
+    e.stopPropagation();
+    toggleMenu();
+  });
+  
+  backdrop.addEventListener("click", toggleMenu);
+  items.forEach(link=>link.addEventListener("click", toggleMenu));
+  </script>
 </body>
 </html>
