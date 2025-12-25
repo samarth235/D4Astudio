@@ -925,7 +925,6 @@ html, body {
   line-height: 1.2;
   color: #000 !important;
   text-decoration: none;
-  transform: translateY(140%);
   white-space: nowrap; /* ⬅ ensures one line */
 }
 .sm-list li {
@@ -1386,16 +1385,20 @@ setTimeout(() => {
       }, 0.2);
     
     function toggleMenu() {
-      open = !open;
-      wrapper.classList.toggle("active");
-      document.body.style.overflow = open ? "hidden" : "";
-    
-      hamburger.innerHTML = open
-        ? `<i class="fa-solid fa-xmark"></i>`
-        : `<i class="fa-solid fa-bars"></i>`;
-    
-      open ? tl.play() : tl.reverse();
-    }
+        open = !open;
+
+        wrapper.classList.toggle("active", open);
+        document.body.style.overflow = open ? "hidden" : "";
+
+        hamburger.classList.toggle("active", open);
+
+        if (open) {
+          tl.play(0);
+        } else {
+          tl.reverse();
+        }
+}
+
     
     hamburger.addEventListener("click", e => {
       e.stopPropagation();
@@ -1419,6 +1422,6 @@ setTimeout(() => {
         header.classList.add("visible");
       }
     });
-    </script>
+    </script>      
 </body>
 </html>
