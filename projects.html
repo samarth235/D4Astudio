@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>D4A Studio – Projects</title>
-
+  <script type="module">
+  import { Renderer, Program, Mesh, Triangle, Color } from 'https://cdn.skypack.dev/ogl';
+  window.OGL = { Renderer, Program, Mesh, Triangle, Color };
+</script>
   <!-- Inter font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -197,611 +200,69 @@
         margin-left: 0 !important;
       }
     }
-
-    /* =========================================
-       BLUEPRINT-STYLE HERO SECTION (updated)
-    ========================================= */
-    .hero-section {
+    /* Threads Hero Styles */
+.threads-hero {
   position: relative;
   width: 100%;
-  height: 220px;      
-  min-height: 180px;
-  max-height: 260px; 
+  height: 60vh;
+  min-height: 400px; /* Adjust height as needed */
+  background: #000;
   overflow: hidden;
-  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 50%, #f3f4f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -6rem; /* Offsets the body padding to sit flush under header */
 }
 
-
-    /* Blueprint Grid Background */
-    .blueprint-grid {
-      position: absolute;
-      inset: 0;
-      opacity: 0.1;
-      background-image: 
-        repeating-linear-gradient(0deg, transparent, transparent 19px, #0066cc 19px, #0066cc 20px),
-        repeating-linear-gradient(90deg, transparent, transparent 19px, #0066cc 19px, #0066cc 20px),
-        repeating-linear-gradient(0deg, transparent, transparent 99px, #0066cc 99px, #0066cc 100px),
-        repeating-linear-gradient(90deg, transparent, transparent 99px, #0066cc 99px, #0066cc 100px);
-      background-size: 100px 100px;
-    }
-
-    /* Technical Lines SVG */
-    .tech-lines {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .dimension-line {
-      stroke: #000000;
-      stroke-width: 1;
-      opacity: 0;
-      animation: fadeInLine 1s forwards;
-    }
-
-    .horizontal-dimension {
-      animation-delay: 0.5s;
-      stroke-dasharray: 2000;
-      stroke-dashoffset: 2000;
-      animation: fadeInLine 1s 0.5s forwards, drawLine 2s 0.8s forwards;
-    }
-
-    .vertical-dimension {
-      animation-delay: 0.7s;
-      stroke-dasharray: 2000;
-      stroke-dashoffset: 2000;
-      animation: fadeInLine 1s 0.7s forwards, drawLine 2s 1s forwards;
-    }
-
-    .section-cut {
-      stroke: #000000;
-      stroke-width: 2;
-      stroke-dasharray: 10 5;
-      opacity: 0;
-      stroke-dashoffset: 3000;
-      animation: fadeInCut 1s 1.2s forwards, drawLine 3s 1.2s forwards;
-    }
-
-    @keyframes fadeInLine {
-      to { opacity: 0.15; }
-    }
-
-    @keyframes fadeInCut {
-      to { opacity: 0.08; }
-    }
-
-    @keyframes drawLine {
-      to { stroke-dashoffset: 0; }
-    }
-
-    /* Dimension Circles */
-    .dimension-circle {
-      fill: #000000;
-      opacity: 0;
-      animation: fadeInCircle 1s forwards;
-    }
-
-    @keyframes fadeInCircle {
-      to { opacity: 0.15; }
-    }
-
-    /* Dimension Text */
-    .dimension-text {
-      fill: #000000;
-      opacity: 0;
-      font-size: 10px;
-      animation: fadeInText 1s forwards;
-    }
-
-    @keyframes fadeInText {
-      to { opacity: 0.3; }
-    }
-
-    /* Wireframe Box */
-    .wireframe-box {
-      position: absolute;
-      top: 80px;
-      left: 8%;
-      width: 140px;
-      height: 140px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      transform-style: preserve-3d;
-      opacity: 0;
-      animation: fadeInElement 1s 0.8s forwards, float3D 12s 0.8s infinite ease-in-out;
-    }
-
-    .wireframe-box::before,
-    .wireframe-box::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .wireframe-box::before {
-      transform: translate(-10px, -10px);
-    }
-
-    .wireframe-box::after {
-      transform: translate(10px, 10px);
-    }
-
-    @keyframes float3D {
-      0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
-      50% { transform: perspective(1000px) rotateX(10deg) rotateY(15deg); }
-    }
-
-    @keyframes fadeInElement {
-      to { opacity: 1; }
-    }
-
-    /* Isometric Cube */
-    .isometric-cube {
-      position: absolute;
-      top: 110px;
-      right: 12%;
-      opacity: 0;
-      animation: fadeInElement 1s 1.5s forwards, floatCube 8s 1.5s infinite ease-in-out;
-    }
-
-    @keyframes floatCube {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(5deg); }
-    }
-
-    .cube-path {
-      fill: none;
-      stroke: #000000;
-      stroke-width: 1;
-      opacity: 0.15;
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-    }
-
-    .cube-path-1 { animation: drawCubePath 2s 1.5s forwards; }
-    .cube-path-2 { animation: drawCubePath 1.5s 1.7s forwards; }
-    .cube-path-3 { animation: drawCubePath 1.5s 1.9s forwards; }
-
-    @keyframes drawCubePath {
-      to { stroke-dashoffset: 0; }
-    }
-
-    /* Compass */
-    .compass {
-      position: absolute;
-      bottom: 120px;
-      right: 8%;
-      opacity: 0;
-      transform: rotate(-180deg);
-      animation: rotateCompass 2s 2s forwards;
-    }
-
-    @keyframes rotateCompass {
-      to { 
-        opacity: 0.12; 
-        transform: rotate(0deg);
-      }
-    }
-
-    /* Scale Ruler */
-    .scale-ruler {
-      position: absolute;
-      bottom: 60px;
-      left: 8%;
-      opacity: 0;
-      transform: translateX(-60px);
-      animation: slideInRuler 1.5s 2.2s forwards;
-    }
-
-    @keyframes slideInRuler {
-      to {
-        opacity: 0.15;
-        transform: translateX(0);
-      }
-    }
-
-    /* Building Silhouette */
-    .building-silhouette {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      animation: riseBuildings 2s 1s forwards;
-    }
-
-    @keyframes riseBuildings {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(60px);
-      }
-      to {
-        opacity: 0.06;
-        transform: translateX(-50%) translateY(0);
-      }
-    }
-
-    /* Parallax Dots */
-    .parallax-dots {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .parallax-dot {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(30, 58, 138, 0.2);
-      border-radius: 50%;
-      transition: transform 0.15s ease-out;
-      will-change: transform;
-    }
-
-    /* Contour Lines */
-    .contour-lines {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .contour-line {
-      fill: none;
-      stroke: #000000;
-      stroke-width: 1;
-      opacity: 0;
-      stroke-dasharray: 2000;
-      stroke-dashoffset: 2000;
-    }
-
-    .contour-1 { animation: drawContour 2s 1.5s forwards; }
-    .contour-2 { animation: drawContour 2s 1.7s forwards; }
-    .contour-3 { animation: drawContour 2s 1.9s forwards; }
-    .contour-4 { animation: drawContour 2s 2.1s forwards; }
-    .contour-5 { animation: drawContour 2s 2.3s forwards; }
-
-    @keyframes drawContour {
-      to {
-        opacity: 0.05;
-        stroke-dashoffset: 0;
-      }
-    }
-
-    /* Gradient Orb */
-    .gradient-orb {
-      position: absolute;
-      top: 30%;
-      left: 30%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(239, 246, 255, 0.5) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(100px);
-      animation: pulseOrb 8s infinite ease-in-out;
-      pointer-events: none;
-    }
-
-    @keyframes pulseOrb {
-      0%, 100% { 
-        transform: scale(1);
-        opacity: 0.3;
-      }
-      50% { 
-        transform: scale(1.15);
-        opacity: 0.5;
-      }
-    }
-
-    /* Title Container */
-    .title-container {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      padding: 40px 20px;
-    }
-
-    .title-content {
-      text-align: center;
-    }
-
-    .main-title {
-      font-size: clamp(2.5rem, 8vw, 5.5rem);
-      font-weight: 300;
-      letter-spacing: 0.3em;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeInUp 1s forwards;
-      position: relative;
-      color: #000000;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Crosshair */
-    .crosshair {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 140px;
-      height: 140px;
-      opacity: 0;
-      animation: scaleInCrosshair 1.2s 0.5s forwards;
-      pointer-events: none;
-    }
-
-    @keyframes scaleInCrosshair {
-      from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0) rotate(45deg);
-      }
-      to {
-        opacity: 0.1;
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
-      }
-    }
-
-    .crosshair-h,
-    .crosshair-v {
-      position: absolute;
-      background: #000000;
-    }
-
-    .crosshair-h {
-      width: 100%;
-      height: 1px;
-      top: 50%;
-    }
-
-    .crosshair-v {
-      height: 100%;
-      width: 1px;
-      left: 50%;
-    }
-
-    .crosshair-mark {
-      position: absolute;
-      background: #000000;
-    }
-
-    .mark-top { 
-      width: 1px; 
-      height: 14px; 
-      top: 0; 
-      left: 50%; 
-    }
-    
-    .mark-bottom { 
-      width: 1px; 
-      height: 14px; 
-      bottom: 0; 
-      left: 50%; 
-    }
-    
-    .mark-left { 
-      left: 0; 
-      top: 50%; 
-      width: 14px; 
-      height: 1px; 
-    }
-    
-    .mark-right { 
-      right: 0; 
-      top: 50%; 
-      width: 14px; 
-      height: 1px; 
-    }
-
-    /* Decorative Lines directly under title */
-    .decorative-lines {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeInElement 1s 0.4s forwards;
-    }
-
-    .dec-line {
-      width: 48px;
-      height: 2px;
-      background: #000000;
-      transform: scaleX(0);
-      transform-origin: center;
-    }
-
-    .dec-line:nth-child(1) { animation: scaleLineX 0.6s 0.6s forwards; }
-    .dec-line:nth-child(2) { animation: scaleLineX 0.6s 0.7s forwards; }
-    .dec-line:nth-child(3) { animation: scaleLineX 0.6s 0.8s forwards; }
-    .dec-line:nth-child(4) { animation: scaleLineX 0.6s 0.9s forwards; }
-    .dec-line:nth-child(5) { animation: scaleLineX 0.6s 1.0s forwards; }
-
-    @keyframes scaleLineX {
-      to { transform: scaleX(1); }
-    }
-
-    /* Subtitle */
-    .subtitle {
-      margin-top: 1.5rem;
-      letter-spacing: 0.3em;
-      opacity: 0;
-      font-size: clamp(0.7rem, 2vw, 0.9rem);
-      color: #000000;
-      font-weight: 400;
-      animation: fadeInElement 1.2s 1s forwards;
-    }
-
-    /* Corner Registration Marks */
-    .corner-mark {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      opacity: 0;
-      transform: scale(0);
-      pointer-events: none;
-    }
-
-    .corner-top-left {
-      top: 30px;
-      left: 30px;
-      animation: scaleCorner 0.7s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    .corner-top-right {
-      top: 30px;
-      right: 30px;
-      animation: scaleCorner 0.7s 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    .corner-bottom-left {
-      bottom: 30px;
-      left: 30px;
-      animation: scaleCorner 0.7s 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    .corner-bottom-right {
-      bottom: 30px;
-      right: 30px;
-      animation: scaleCorner 0.7s 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    @keyframes scaleCorner {
-      to {
-        opacity: 0.15;
-        transform: scale(1);
-      }
-    }
-
-    .corner-line-h,
-    .corner-line-v {
-      position: absolute;
-      background: #000000;
-    }
-
-    .corner-line-h {
-      width: 100%;
-      height: 1px;
-    }
-
-    .corner-line-v {
-      height: 100%;
-      width: 1px;
-    }
-
-    .corner-circle {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      border: 1px solid #000000;
-      border-radius: 50%;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 1024px) {
-      .hero-section {
-        height: 500px;
-      }
-
-      .wireframe-box {
-        width: 100px;
-        height: 100px;
-        top: 60px;
-      }
-
-      .isometric-cube {
-        top: 80px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero-section {
-        height: 450px;
-      }
-
-      .main-title {
-        letter-spacing: 0.2em;
-        margin-bottom: 1rem;
-      }
-
-      .subtitle {
-        letter-spacing: 0.2em;
-      }
-
-      .wireframe-box,
-      .isometric-cube,
-      .compass,
-      .scale-ruler {
-        display: none;
-      }
-
-      .corner-mark {
-        width: 35px;
-        height: 35px;
-      }
-
-      .corner-top-left,
-      .corner-top-right {
-        top: 20px;
-      }
-
-      .corner-bottom-left,
-      .corner-bottom-right {
-        bottom: 20px;
-      }
-
-      .corner-top-left,
-      .corner-bottom-left {
-        left: 20px;
-      }
-
-      .corner-top-right,
-      .corner-bottom-right {
-        right: 20px;
-      }
-
-      .dec-line {
-        width: 32px;
-      }
-
-      .gradient-orb {
-        width: 400px;
-        height: 400px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-section {
-        height: 400px;
-      }
-
-      .crosshair {
-        width: 100px;
-        height: 100px;
-      }
-
-      .building-silhouette {
-        transform: translateX(-50%) scale(0.7);
-      }
-    }
-
-    .hero-section * {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+.threads-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+#threads-container {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#threads-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-title-wrapper {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hero-main-title {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 300;
+  color: white;
+  letter-spacing: 0.5rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.hero-dec-line {
+  width: 60px;
+  height: 2px;
+  background: white;
+  margin: 20px auto 0;
+}
+
+/* Ensure the first project block spaces correctly below hero */
+.content {
+  position: relative;
+  z-index: 10;
+  background: white;
+}
 
     /* ===========================
        PROJECTS LAYOUT
@@ -1007,13 +468,13 @@
   <div class="header-container">
 
     <div class="logo-container">
-      <a href="d4a1.html" style="line-height:0;">
-        <img src="img.jpeg" class="logo" alt="D4A logo">
+      <a href="index.html" style="line-height:0;">
+        <img src="logo.jpg" class="logo" alt="D4A logo">
       </a>
     </div>
 
 <nav class="nav">
-  <a href="d4a1.html">
+  <a href="index.html">
     <span class="slot">
       <span class="top">Home</span>
       <span class="bottom">Home</span>
@@ -1034,7 +495,7 @@
     </span>
   </a>
 
-  <a href="about.html">
+  <a href="aboutus.html">
     <span class="slot">
       <span class="top">About Us</span>
       <span class="bottom">About Us</span>
@@ -1050,169 +511,28 @@
 
   </div>
 </header>
+
+<section class="threads-hero">
+  <div id="threads-container" class="threads-container"></div>
+  <div class="hero-title-wrapper">
+    <h1 class="hero-main-title">PROJECTS</h1>
+    <div class="hero-dec-line"></div>
+  </div>
+</section>
+
 <div class="sm-wrapper" id="smWrapper">
   <div class="sm-backdrop" id="smBackdrop"></div>
 
   <aside class="sm-panel" id="smPanel">
     <ul class="sm-list">
-      <li><a href="d4a1.html">Home</a></li>
-      <li><a href="d4a1.html#our-approach">Our Approach</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#our-approach">Our Approach</a></li>
       <li><a href="projects.html">Projects</a></li>
-      <li><a href="about.html">About Us</a></li>
+      <li><a href="aboutus.html">About Us</a></li>
     </ul>
   </aside>
 </div>
 
-
-<!-- ===========================
-     BLUEPRINT HERO
-=========================== -->
-<div class="hero-section">
-  <!-- Blueprint Grid -->
-  <div class="blueprint-grid"></div>
-
-  <!-- Technical Lines -->
-  <svg class="tech-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <!-- Horizontal dimension line -->
-    <line class="dimension-line horizontal-dimension" x1="10" y1="14" x2="90" y2="14" />
-    <circle class="dimension-circle" cx="10" cy="14" r="0.5" style="animation-delay: 0.8s;" />
-    <circle class="dimension-circle" cx="90" cy="14" r="0.5" style="animation-delay: 0.8s;" />
-    <text class="dimension-text" x="50" y="12" text-anchor="middle" style="animation-delay: 0.8s;">
-      ━━━━━━━━━━━━━━━━━━━
-    </text>
-
-    <!-- Vertical dimension line -->
-    <line class="dimension-line vertical-dimension" x1="10" y1="15" x2="10" y2="85" />
-    <circle class="dimension-circle" cx="10" cy="15" r="0.5" style="animation-delay: 1s;" />
-    <circle class="dimension-circle" cx="10" cy="85" r="0.5" style="animation-delay: 1s;" />
-
-    <!-- Section cut line -->
-    <line class="section-cut" x1="0" y1="50" x2="100" y2="50" />
-  </svg>
-
-  <!-- Wireframe Box -->
-  <div class="wireframe-box"></div>
-
-  <!-- Isometric Cube -->
-  <div class="isometric-cube">
-    <svg width="90" height="90" viewBox="0 0 100 100">
-      <path class="cube-path cube-path-1" d="M 50 10 L 90 30 L 90 70 L 50 90 L 10 70 L 10 30 Z" />
-      <path class="cube-path cube-path-2" d="M 50 10 L 50 90" />
-      <path class="cube-path cube-path-3" d="M 10 30 L 50 50 L 90 30" />
-    </svg>
-  </div>
-
-  <!-- Compass -->
-  <div class="compass">
-    <svg width="70" height="70" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="42" fill="none" stroke="black" stroke-width="1" />
-      <path d="M 50 12 L 56 50 L 50 50 Z" fill="black" />
-      <path d="M 50 88 L 44 50 L 50 50 Z" fill="black" opacity="0.4" />
-      <text x="50" y="8" text-anchor="middle" font-size="14" font-weight="bold" font-family="Inter, sans-serif">N</text>
-    </svg>
-  </div>
-
-  <!-- Scale Ruler -->
-  <div class="scale-ruler">
-    <svg width="220" height="35" viewBox="0 0 220 35">
-      <line x1="0" y1="17" x2="220" y2="17" stroke="black" stroke-width="2" />
-      <line x1="0" y1="17" x2="0" y2="0" stroke="black" stroke-width="2" />
-      <text x="0" y="32" text-anchor="middle" font-size="9" font-family="Inter, sans-serif">0m</text>
-      <line x1="22" y1="17" x2="22" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="44" y1="17" x2="44" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="66" y1="17" x2="66" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="88" y1="17" x2="88" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="110" y1="17" x2="110" y2="0" stroke="black" stroke-width="2" />
-      <text x="110" y="32" text-anchor="middle" font-size="9" font-family="Inter, sans-serif">5m</text>
-      <line x1="132" y1="17" x2="132" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="154" y1="17" x2="154" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="176" y1="17" x2="176" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="198" y1="17" x2="198" y2="9" stroke="black" stroke-width="1.5" />
-      <line x1="220" y1="17" x2="220" y2="0" stroke="black" stroke-width="2" />
-      <text x="220" y="32" text-anchor="middle" font-size="9" font-family="Inter, sans-serif">10m</text>
-    </svg>
-  </div>
-
-  <!-- Building Silhouette -->
-  <div class="building-silhouette">
-    <svg width="700" height="110" viewBox="0 0 700 110">
-      <rect x="60" y="35" width="85" height="75" fill="black" />
-      <rect x="165" y="25" width="105" height="85" fill="black" />
-      <rect x="295" y="45" width="75" height="65" fill="black" />
-      <rect x="395" y="15" width="95" height="95" fill="black" />
-      <rect x="515" y="40" width="85" height="70" fill="black" />
-    </svg>
-  </div>
-
-  <!-- Parallax Dots Container -->
-  <div class="parallax-dots" id="parallaxDots"></div>
-
-  <!-- Contour Lines -->
-  <svg class="contour-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <ellipse class="contour-line contour-1" cx="78" cy="28" rx="12" ry="8" />
-    <ellipse class="contour-line contour-2" cx="78" cy="28" rx="18" ry="12" />
-    <ellipse class="contour-line contour-3" cx="78" cy="28" rx="24" ry="16" />
-    <ellipse class="contour-line contour-4" cx="78" cy="28" rx="30" ry="20" />
-    <ellipse class="contour-line contour-5" cx="78" cy="28" rx="36" ry="24" />
-  </svg>
-
-  <!-- Gradient Orb -->
-  <div class="gradient-orb"></div>
-
-  <!-- Title Container -->
-  <div class="title-container">
-    <div class="title-content">
-      <div style="position: relative;">
-        <h1 class="main-title">PROJECTS</h1>
-
-        <!-- Decorative Lines below title -->
-        <div class="decorative-lines">
-          <div class="dec-line"></div>
-          <div class="dec-line"></div>
-          <div class="dec-line"></div>
-          <div class="dec-line"></div>
-          <div class="dec-line"></div>
-        </div>
-
-        <!-- Crosshair -->
-        <div class="crosshair">
-          <div class="crosshair-h"></div>
-          <div class="crosshair-v"></div>
-          <div class="crosshair-mark mark-top"></div>
-          <div class="crosshair-mark mark-bottom"></div>
-          <div class="crosshair-mark mark-left"></div>
-          <div class="crosshair-mark mark-right"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Corner Marks -->
-  <div class="corner-mark corner-top-left">
-    <div class="corner-line-h" style="top: 0;"></div>
-    <div class="corner-line-v" style="left: 0;"></div>
-    <div class="corner-circle" style="top: -4.5px; left: -4.5px;"></div>
-  </div>
-
-  <div class="corner-mark corner-top-right">
-    <div class="corner-line-h" style="top: 0;"></div>
-    <div class="corner-line-v" style="right: 0;"></div>
-    <div class="corner-circle" style="top: -4.5px; right: -4.5px;"></div>
-  </div>
-
-  <div class="corner-mark corner-bottom-left">
-    <div class="corner-line-h" style="bottom: 0;"></div>
-    <div class="corner-line-v" style="left: 0;"></div>
-    <div class="corner-circle" style="bottom: -4.5px; left: -4.5px;"></div>
-  </div>
-
-  <div class="corner-mark corner-bottom-right">
-    <div class="corner-line-h" style="bottom: 0;"></div>
-    <div class="corner-line-v" style="right: 0;"></div>
-    <div class="corner-circle" style="bottom: -4.5px; right: -4.5px;"></div>
-  </div>
-</div>
 
 <!-- ===========================
      PROJECTS CONTENT
@@ -1223,7 +543,7 @@
   <div class="project-block first-project" data-animated="false">
     <div class="project-inner">
       <div class="img-wrapper">
-        <img src="Urban Edge.png" class="project-img">
+        <img src="Scene1.png" class="project-img">
       </div>
 
       <div class="text-col">
@@ -1270,7 +590,7 @@
   <div class="project-block" data-animated="false">
     <div class="project-inner">
       <div class="img-wrapper">
-        <img src="RRN LUX.png" class="project-img">
+        <img src="Scene2.png" class="project-img">
       </div>
       <div class="text-col">
         <h3 class="project-title">RRN LUX</h3>
@@ -1374,81 +694,6 @@
   document.querySelectorAll(".project-block").forEach(block => observer.observe(block));
 </script>
 
-
-<!-- Blueprint hero parallax dots (updated) -->
-<script>
-  (function() {
-    const dotsContainer = document.getElementById('parallaxDots');
-    if (!dotsContainer) return;
-
-    const dots = [];
-    const numDots = 35;
-
-    for (let i = 0; i < numDots; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'parallax-dot';
-      const xPos = Math.random() * 100;
-      const yPos = Math.random() * 100;
-      dot.style.left = xPos + '%';
-      dot.style.top = yPos + '%';
-      dotsContainer.appendChild(dot);
-      
-      dots.push({
-        element: dot,
-        factor: 80 + (i * 3)
-      });
-    }
-
-    let ticking = false;
-    let lastMouseX = window.innerWidth / 2;
-    let lastMouseY = 300;
-
-    function updateParallax(mouseX, mouseY) {
-      const centerX = window.innerWidth / 2;
-      const centerY = 300;
-
-      dots.forEach(dot => {
-        const offsetX = (mouseX - centerX) / dot.factor;
-        const offsetY = (mouseY - centerY) / dot.factor;
-        dot.element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-      });
-
-      ticking = false;
-    }
-
-    function onMouseMove(e) {
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
-
-      if (!ticking) {
-        window.requestAnimationFrame(function() {
-          updateParallax(lastMouseX, lastMouseY);
-        });
-        ticking = true;
-      }
-    }
-
-    document.addEventListener('mousemove', onMouseMove, { passive: true });
-
-    document.addEventListener('touchmove', function(e) {
-      if (e.touches.length > 0) {
-        lastMouseX = e.touches[0].clientX;
-        lastMouseY = e.touches[0].clientY;
-
-        if (!ticking) {
-          window.requestAnimationFrame(function() {
-            updateParallax(lastMouseX, lastMouseY);
-          });
-          ticking = true;
-        }
-      }
-    }, { passive: true });
-
-    window.addEventListener('beforeunload', function() {
-      document.removeEventListener('mousemove', onMouseMove);
-    });
-  })();
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
   const hamburger = document.getElementById("hamburger");
@@ -1494,6 +739,120 @@ hamburger.addEventListener("click", (e) => {
 
 backdrop.addEventListener("click", toggleMenu);
 items.forEach(link=>link.addEventListener("click", toggleMenu));
+</script>
+<script>
+const startEffect = () => {
+    const lib = window.OGL;
+    if (!lib) return;
+
+    const { Renderer, Program, Mesh, Triangle, Color } = lib;
+
+    const container = document.getElementById('threads-container');
+    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    const gl = renderer.gl;
+    container.appendChild(gl.canvas);
+
+    const vertexShader = `
+        attribute vec2 position;
+        attribute vec2 uv;
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 0.0, 1.0);
+        }
+    `;
+
+    const fragmentShader = `
+        precision highp float;
+        uniform float iTime;
+        uniform vec3 iResolution;
+        uniform vec3 uColor;
+        uniform float uAmplitude;
+        uniform float uDistance;
+        uniform vec2 uMouse;
+
+        const int u_line_count = 40;
+        const float u_line_width = 2.0;
+        const float u_line_blur = 3.0;
+
+        float Perlin2D(vec2 P) {
+            vec2 Pi = floor(P);
+            vec4 Pf_Pfmin1 = P.xyxy - vec4(Pi, Pi + 1.0);
+            vec4 Pt = vec4(Pi.xy, Pi.xy + 1.0);
+            Pt = Pt - floor(Pt * (1.0 / 71.0)) * 71.0;
+            Pt += vec2(26.0, 161.0).xyxy;
+            Pt *= Pt;
+            Pt = Pt.xzxz * Pt.yyww;
+            vec4 hash_x = fract(Pt * (1.0 / 951.135664));
+            vec4 hash_y = fract(Pt * (1.0 / 642.949883));
+            vec4 grad_x = hash_x - 0.49999;
+            vec4 grad_y = hash_y - 0.49999;
+            vec4 grad_results = inversesqrt(grad_x * grad_x + grad_y * grad_y) * (grad_x * Pf_Pfmin1.xzxz + grad_y * Pf_Pfmin1.yyww);
+            grad_results *= 1.4142;
+            vec2 blend = Pf_Pfmin1.xy * Pf_Pfmin1.xy * Pf_Pfmin1.xy * (Pf_Pfmin1.xy * (Pf_Pfmin1.xy * 6.0 - 15.0) + 10.0);
+            vec4 blend2 = vec4(blend, vec2(1.0 - blend));
+            return dot(grad_results, blend2.zxzx * blend2.wwyy);
+        }
+
+        void main() {
+            vec2 uv = gl_FragCoord.xy / iResolution.xy;
+            float line_total = 0.0;
+            
+            for (int i = 0; i < u_line_count; i++) {
+                float p = float(i) / float(u_line_count);
+                float split = 0.1 + (p * 0.4);
+                float amp = smoothstep(split, 0.7, uv.x) * 0.5 * uAmplitude;
+                float xn = Perlin2D(vec2(iTime * 0.1, uv.x + p) * 2.5);
+                float y = 0.5 + (p - 0.5) * uDistance + xn / 2.0 * amp;
+                
+                float blur = (u_line_blur / iResolution.y) * p;
+                float l = smoothstep(y + (u_line_width/iResolution.y) + blur, y, uv.y) - 
+                          smoothstep(y, y - (u_line_width/iResolution.y) - blur, uv.y);
+                line_total += clamp(l * (1.0 - pow(p, 0.3)), 0.0, 1.0);
+            }
+            gl_FragColor = vec4(uColor, clamp(line_total, 0.0, 1.0));
+        }
+    `;
+
+    const program = new Program(gl, {
+        vertex: vertexShader,
+        fragment: fragmentShader,
+        uniforms: {
+            iTime: { value: 0 },
+            iResolution: { value: new Color() },
+            uColor: { value: new Color(1, 1, 1) },
+            uAmplitude: { value: 1.0 },
+            uDistance: { value: 0.25 },
+            uMouse: { value: new Float32Array([0.5, 0.5]) }
+        },
+        transparent: true
+    });
+
+    const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
+
+    function resize() {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        renderer.setSize(w, h);
+        program.uniforms.iResolution.value.set(w, h, w / h);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    function update(t) {
+        program.uniforms.iTime.value = t * 0.001;
+        renderer.render({ scene: mesh });
+        requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+};
+
+// This ensures everything is loaded before trying to start
+window.addEventListener('load', () => {
+    // Small delay to ensure the module script has set window.OGL
+    setTimeout(startEffect, 100);
+});
 </script>
 </body>
 </html>
