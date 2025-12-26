@@ -987,6 +987,12 @@ html, body {
 
   z-index: -1;
 }
+#splash video {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+}
 
 
   </style>
@@ -996,10 +1002,21 @@ html, body {
 <body>
 
   <div id="splash">
-    <video id="splashVideo" autoplay muted>
+    <video
+      id="splashVideo"
+      muted
+      autoplay
+      playsinline
+      webkit-playsinline
+      preload="metadata"
+      poster="img.jpeg"
+    >
       <source src="logoanim.mp4" type="video/mp4" />
+      <!-- iOS fallback text -->
+      Your browser does not support the video tag.
     </video>
   </div>
+  
 
   <header class="header" id="header">
     <div class="header-container">
@@ -1456,6 +1473,27 @@ setTimeout(() => {
         header.classList.add("visible");
       }
     });
-    </script>      
+    </script> 
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const v = document.getElementById("splashVideo");
+        if (!v) return;
+      
+        v.muted = true;
+        v.setAttribute("playsinline", "");
+      
+        const playPromise = v.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            document.body.addEventListener(
+              "touchstart",
+              () => v.play(),
+              { once: true }
+            );
+          });
+        }
+      });
+      </script>
+           
 </body>
 </html>
