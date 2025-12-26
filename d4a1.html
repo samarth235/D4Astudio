@@ -976,6 +976,17 @@ html, body {
 .hamburger.active i {
   transform: rotate(90deg);
 }
+.projects-bg {
+  position: absolute;
+  inset: 0;
+
+  background-image: url("backgroundforprojects.jpeg");
+  background-size: cover;        /* or contain */
+  background-position: center;
+  background-repeat: no-repeat;
+
+  z-index: -1;
+}
 
 
   </style>
@@ -1054,7 +1065,7 @@ html, body {
   </section>
 
   <section class="gallery-section" id="gallery">
-    <img src="backgroundforprojects.jpeg" class="projects-bg-img">
+    <div class="projects-bg"></div>
     <div class="gallery-header">
       <h2 class="gallery-title">Our Projects</h2>
       <p class="gallery-subtitle">Explore our collection of thoughtfully designed spaces</p>
