@@ -360,44 +360,70 @@
     font-size: .9rem;
   }
   
-  /* SLOT HOVER EFFECT - WITH 'j' TAIL FIX */
-  .slot {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      height: 1.3em;
-      transition: transform 0.3s ease;
+ /* SLOT BASE */
+.slot {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+
+  height: 1.6em;              /* ✅ FIX: room for descenders */
+  line-height: 1.6em;
+
+  will-change: transform;
+}
+
+/* Inner text */
+.slot span {
+  display: block;
+  will-change: transform;
+  transform: translateZ(0);
+  transition: transform 0.45s cubic-bezier(.22,.61,.36,1);
+}
+
+/* Top text (visible) */
+.slot .top {
+  transform: translateY(0%);
+}
+
+/* Bottom text (hidden below) */
+.slot .bottom {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  transform: translateY(100%);   /* ✅ TRANSFORM ONLY */
+}
+
+/* Hover animation */
+.slot:hover .top {
+  transform: translateY(-100%);
+}
+
+.slot:hover .bottom {
+  transform: translateY(0%);
+}
+/* Active link = no animation */
+.slot.active .top {
+  transform: translateY(0%);
+}
+
+.slot.active .bottom {
+  transform: translateY(100%);
+}
+
+.slot.active:hover .top,
+.slot.active:hover .bottom {
+  transform: translateY(0%);
+}
+.header {
+  will-change: opacity;
+}
+@media (max-width: 1024px) {
+  .slot:hover .top,
+  .slot:hover .bottom {
+    transform: none !important;
   }
-
-  /* Disable slot animation for the active link */
-  .slot.active span {
-      transform: translateY(0) !important;
-  }
-
-  .slot.active:hover {
-      transform: none !important;
-  }
-
-  /* Make sure the hover animation doesn’t move anything */
-  .slot.active .top,
-  .slot.active .bottom {
-      transform: translateY(0) !important;
-  }
-
-  .slot:hover { transform: translateY(-2px); }
-  .slot span { display:block; transition: transform 0.6s ease; }
-
-  .slot .top { transform: translateY(0); }
-
-  .slot .bottom {
-      position:absolute; 
-      top: -110%; /* Pushed higher to hide tail */
-      left:0;
-      transform:translateY(0);
-  }
-
-  .slot:hover .top { transform:translateY(110%); }
-  .slot:hover .bottom { transform:translateY(110%); }
+}
 
 
     /*Our Approach*/
