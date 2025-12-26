@@ -1327,25 +1327,23 @@ setTimeout(() => {
 </script>
 
   
-  <script>
-    const navType = performance.getEntriesByType("navigation")[0].type;
-    const hasVisited = sessionStorage.getItem("hasVisitedHome");
-  
-    // CASE 1: First load OR reload → play video
-    if (navType === "reload" || !hasVisited) {
-      sessionStorage.setItem("hasVisitedHome", "true"); // Mark as visited
-  
-      const splash = document.getElementById('splash');
-      const splashVideo = document.getElementById('splashVideo');
-      const contentWrapper = document.getElementById('contentWrapper');
-  
-      splashVideo.addEventListener("ended", () => {
+<script>
+  const navType = performance.getEntriesByType("navigation")[0].type;
+  const hasVisited = sessionStorage.getItem("hasVisitedHome");
+
+  // Play splash ONLY on first load or reload
+  if (!hasVisited || navType === "reload") {
+    sessionStorage.setItem("hasVisitedHome", "true");
+
+    const splash = document.getElementById("splash");
+    const splashVideo = document.getElementById("splashVideo");
+    const contentWrapper = document.getElementById("contentWrapper");
+
+    splashVideo.addEventListener("ended", () => {
       splash.classList.add("fade-out");
 
       setTimeout(() => {
         contentWrapper.classList.add("animate");
-
-        // Show navbar (works on all breakpoints)
         document.getElementById("header").classList.add("visible");
       }, 200);
 
@@ -1353,13 +1351,12 @@ setTimeout(() => {
         splash.style.display = "none";
       }, 800);
     });
-
-    }
-    else {
+  } else {
+    // Internal navigation → NO SPLASH
     document.getElementById("splash").style.display = "none";
-    document.getElementById("header").classList.add("visible");  // <-- FIX HERE
+    document.getElementById("header").classList.add("visible");
   }
-  </script>
+</script>
   <script>
     const hamburger = document.getElementById("hamburgerBtn");
     const wrapper = document.getElementById("smWrapper");
