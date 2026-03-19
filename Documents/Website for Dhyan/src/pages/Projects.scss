@@ -1,0 +1,449 @@
+#projects-page {
+  
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    body {
+      background: white;
+      color: black;
+      overflow-x: hidden;
+      padding-top: 6rem; /* for fixed header */
+      max-width:100vm;
+    }
+
+    /* ===========================
+       HEADER
+    ============================ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2000;
+      background: #ffffff;
+      backdrop-filter: blur(12px);
+      padding: 0.8rem 0;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: background 0.4s ease, padding 0.4s ease;
+    }
+
+    .header-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 0.3rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      height: 3rem;
+      width: auto;
+      margin-left: -90px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-right: -110px;
+    }
+/* Container for the link */
+.nav a {
+  color: black;
+  text-decoration: none;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+/* --- THE SLOT ANIMATION --- */
+.slot {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  height: 1.1em;
+  line-height: 1.1em;
+}
+
+.slot span {
+  display: block;
+  transition: transform 0.6s ease;
+  line-height: 1.1em;
+}
+
+.slot .bottom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(-100%); /* Start hidden above */
+}
+
+/* Hover State for Slot */
+.nav a:hover .slot .top {
+  transform: translateY(100%); /* Push top text down */
+}
+
+.nav a:hover .slot .bottom {
+  transform: translateY(0); /* Pull bottom text into view */
+}
+
+/* --- THE UNDERLINE ANIMATION --- */
+/* --- THE UNDERLINE LOGIC --- */
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: black;
+  border-radius: 2px;
+  /* Start hidden for all links */
+  transform: scaleX(0); 
+  transition: transform 0.3s ease;
+}
+
+/* ONLY the active page gets the underline.
+   There is NO hover state here, so other links stay clean.
+*/
+.nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Keep the slot animation working for other links on hover */
+.nav a:hover .slot .top {
+  transform: translateY(100%);
+}
+
+.nav a:hover .slot .bottom {
+  transform: translateY(0);
+}
+
+/* Disable the text-sliding for the active page if you want it stationary */
+.nav a[aria-current="page"] .slot .top,
+.nav a[aria-current="page"] .slot .bottom {
+  transform: translateY(0) !important;
+}
+
+    /* HAMBURGER */
+    .hamburger {display: none;flex-direction: column;gap: 6px;cursor: pointer;z-index: 9999;}
+    .hamburger span {width: 28px;height: 3px;background: black;border-radius: 6px;transition: 0.3s;}
+    .hamburger.active span {background: white;}
+    .hamburger.active span:nth-child(1) {transform: translateY(9px) rotate(45deg);}
+    .hamburger.active span:nth-child(2) {opacity: 0;}
+    .hamburger.active span:nth-child(3) {transform: translateY(-9px) rotate(-45deg);}
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background: black;
+      padding-top: 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-left: 2rem;
+      transition: right 0.35s ease;
+      z-index: 9998;
+    }
+
+    .mobile-menu a {
+      color: white;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    .mobile-menu.open {
+      right: 0;
+    }
+    @media (max-width: 900px) {
+  .header-container {
+    padding: 0.4rem 1rem;
+  }
+}
+
+    @media (max-width: 900px) {
+      .nav {
+        display: none !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .logo {
+        margin-left: 0 !important;
+      }
+    }
+    /* Threads Hero Styles */
+.threads-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 400px; /* Adjust height as needed */
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -6rem; /* Offsets the body padding to sit flush under header */
+}
+
+.threads-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+#threads-container {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#threads-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-title-wrapper {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hero-main-title {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 300;
+  color: white;
+  letter-spacing: 0.5rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.hero-dec-line {
+  width: 60px;
+  height: 2px;
+  background: white;
+  margin: 20px auto 0;
+}
+
+/* Ensure the first project block spaces correctly below hero */
+.content {
+  position: relative;
+  z-index: 10;
+  background: white;
+}
+
+    /* ===========================
+       PROJECTS LAYOUT
+    ============================ */
+    .content {
+      width: 100%;
+    }
+
+    .project-block {
+      margin-bottom: 2.5rem;
+      padding: 3rem 0;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      margin-left: -50vw;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(0,0,0,0.08) inset;
+    }
+
+    .project-block:nth-child(odd) { background: white; color: black; }
+    .project-block:nth-child(even) { background: black; color: white; }
+
+    .project-inner {
+      max-width: 1200px;
+      width: 100%;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+
+    .img-wrapper {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 14px;
+      min-height: 120px;
+    }
+.project-img {
+  width: 100%;
+  height: 0;
+  object-fit: cover;
+
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(6px);
+
+  transition:
+    height 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.9s ease,
+    filter 1.4s ease;
+
+  background-color: #333;
+  will-change: height, transform, opacity;
+}
+
+
+.project-img.show {
+  height: 430px;
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+
+    .text-col {
+      flex: 1;
+    }
+
+    .project-title {
+      font-size: 1.9rem;
+      font-weight: 400;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.7s ease;
+    }
+
+    .project-title.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .paragraph {
+      font-size: 1rem;
+      letter-spacing: .2px;
+      line-height: 1.75;
+      margin-top: 1.5rem;
+    }
+
+    .sentence {
+      opacity: 0;
+      display: inline;
+      width: auto;
+      transform: translateY(50px);
+      transition:
+        opacity .55s ease-out,
+        transform .65s cubic-bezier(0.25, 0.8, 0.25, 1);
+      white-space: normal;
+    }
+
+    /* Responsive for projects */
+    @media (max-width: 900px) {
+      .project-inner {
+        flex-direction: column;
+        padding: 0 1rem;
+      }
+
+      .project-block:nth-child(odd) .project-inner,
+      .project-block:nth-child(even) .project-inner {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .project-img.show {
+        height: 300px;
+      }
+
+      p, .paragraph {
+        line-height: 1.75;
+      }
+    }
+
+    /* Flip layout on desktop for even blocks */
+    .project-block:nth-child(even) .project-inner {
+      flex-direction: row-reverse;
+    }
+
+    @media (max-width: 900px) {
+      .project-block:nth-child(even) .project-inner {
+        flex-direction: column;
+      }
+    }
+    /* ===============================
+   STAGGERED MOBILE MENU
+=============================== */
+.sm-wrapper{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:200000;
+}
+.sm-wrapper.active{
+  pointer-events:auto;
+}
+
+/* backdrop */
+.sm-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  opacity:0;
+}
+
+/* panel */
+.sm-panel{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(80vw,360px);
+  height:100%;
+  background:#fff;
+  padding:6.5rem 2rem;
+}
+
+/* list */
+.sm-list{
+  list-style:none;
+  padding:0;
+}
+.sm-list li{
+  overflow:hidden;
+  margin-bottom:1.4rem;
+}
+
+.sm-list a{
+  display:block;
+  font-size:clamp(1.4rem,4.5vw,1.9rem);
+  font-weight:500;
+  color:#000;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.sm-list a:hover{
+  color:#7AA5FF;
+}
+
+/* desktop hidden */
+@media(min-width:901px){
+  .sm-wrapper{display:none;}
+}
+
+  
+}
