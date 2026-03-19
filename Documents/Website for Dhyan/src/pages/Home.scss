@@ -1,0 +1,991 @@
+#home-page {
+  
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:"Poppins",sans-serif; font-weight:100; overflow-x:hidden; background:black; color:white; }
+
+    /* SPLASH */
+    #splash { 
+      position: fixed; top:0; left:0; width:100%; height:100vh; background:black;
+      display:flex; align-items:center; justify-content:center; z-index:9999;
+      overflow:hidden; opacity:1; transition:opacity .8s ease; 
+    }
+    #splash video { width:50%; height:auto; }
+    #splash.fade-out { opacity:0; pointer-events:none; }
+
+    /* HEADER - UPDATED FOR HIDDEN DEFAULT STATE */
+    .header { 
+      position:fixed; top:0; left:0; right:0; z-index:50; 
+      
+      /* CHANGE 1: Hidden by default */
+      transform:translateY(0%); 
+      
+      transition:transform .4s ease;
+    }
+
+    /* CHANGE 1: New class to show header only when JS adds it */
+    .header.visible {
+      background: rgba(35,35,35,.75);
+      backdrop-filter: blur(12px);
+      padding:0.6rem 0;
+      border-radius:0;
+      box-shadow: none;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .header-container { max-width:80rem; margin:0 auto; padding:0.3rem 0.8rem; display:flex; justify-content:space-between; align-items:center;padding-left: 0; }
+    .logo { height:3rem; margin-left: -90px;}
+    
+    /* CHANGE 2: Navigation alignment (kept your margin-right setting) */
+    .nav { display:flex; gap:2rem; margin-right: -100px; }
+    
+    .nav a { color:white; text-decoration:none; font-size:1rem; transition:.3s; }
+    .nav a:hover { color:#b5b5b5; }
+
+
+    /* HERO */
+    .hero-section { 
+      min-height:100vh;
+      display:flex; 
+      align-items:center; 
+      justify-content:center;
+      background: url('/fallback.jpg') center/cover no-repeat;  /* optional */
+      background-color: #1a1a1a; /* FIX: solid fallback */
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      }
+    .content-wrapper { text-align:center; max-width:70rem; padding:0 2rem; }
+    .hero-title { font-size:2.3rem; line-height:1.5; font-weight:300; }
+
+    .hero-section {
+      position: relative;
+      z-index: 0;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 2000000 !important;
+      position: relative;
+      opacity: 0;              /* Hidden initially */
+      
+      transition: opacity .6s ease;
+    }
+    @media (max-width: 1024px) {
+  .header {
+    opacity: 1 !important;
+  }
+}
+    .vanta-canvas {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      z-index: -1 !important;
+      pointer-events: none !important;
+    }
+
+    /* GALLERY */
+    .gallery-section {
+        height: 100vh;             /* Fits exactly to screen height */
+        min-height: 600px;         /* Prevents it from getting too squashed on tiny screens */
+        padding: 0 !important;     /* Removes the huge padding you had before */
+        margin: 0;
+        display: flex;
+        flex-direction: column;    /* Stacks items vertically */
+        justify-content: center;   /* Centers them vertically */
+        align-items: center;
+        position: relative;
+        z-index: 10;               /* Ensures it sits above other elements */
+        background: black;         /* Ensures background is consistent */
+    }
+
+    .gallery-header {
+        text-align: center;
+        margin-bottom: 3vh;      /* Very small gap below title */
+        margin-top: -4vh;
+        flex-shrink: 0;          /* Prevents title from shrinking */
+    }
+    .gallery-title { font-size:3rem; color:white; }
+    .gallery-subtitle { color:#9ca3af; font-size:1.125rem; }
+
+    .gallery-outer {
+        position: relative;
+        height: auto;
+        width: 100%;
+        overflow: visible;        /* Allow images to be seen clearly */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 2vh 0;           /* Adds a tiny bit of breathing room */
+    }
+
+    .gallery-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      width: max-content;
+      transform: translateX(0);
+    }
+
+    .gallery-row { display:flex; }
+
+    .gallery-track img:hover {
+      transform:scale(1.1);
+      filter:brightness(1);
+    }
+
+    #galleryExpandOverlay {
+      position: fixed;
+      top: 50%; left: 0; width: 100%; height: 0;
+      background: #000000ee;
+      z-index: 9990;
+      transition: height .8s ease;
+      transform: translateY(-50%);
+      pointer-events:none;
+    }
+    .gallery-btn-wrapper {
+        text-align: center;
+        margin-top: 6vh;         /* Small gap above button */
+        margin-bottom: 0;
+        flex-shrink: 0;          /* Prevents button from shrinking */
+    }
+
+    .gallery-btn {
+      padding: 14px 32px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 10px;
+      display: inline-block;
+      color: white;
+      font-size: 1.05rem;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: 0.3s ease;
+    }
+
+    .gallery-btn:hover {
+      transform: scale(1.08);
+      background: rgba(255,255,255,0.22);
+    }
+
+
+    /* WORKS – PREMIUM LOOK */
+    .works-section {
+        min-height: 120vh;
+        background: #111;
+        padding-top: 7rem;
+        padding-bottom: 6rem;
+        margin-top: 2rem;
+    }
+
+    .works-title {
+        text-align: center;
+        font-size: 3.2rem;
+        margin-bottom: 3.5rem !important;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .works-title.visible {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+    .works-grid {
+        max-width: 80rem;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        padding: 1rem;
+    }
+
+    /* Card */
+    .work-card {
+        background: #181818;
+        border-radius: 16px;
+        overflow: hidden;
+        padding-bottom: 1.5rem;
+        transform: translateY(40px);
+        opacity: 1 !important;
+        transition: 0.6s ease;
+    }
+
+    /* Fade in + slide up on scroll */
+    .work-card.visible {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+    /* Image area */
+    .work-card img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        filter: brightness(0.9);
+        transition: 0.35s ease;
+    }
+
+    /* Hover animation */
+    .work-card:hover img {
+        transform: scale(1.08);
+        filter: brightness(1);
+    }
+    /* Alternating Hover Tilt */
+    .work-card:nth-child(odd):hover {
+        transform: translateY(-6px) rotateZ(-1.3deg);
+    }
+
+    .work-card:nth-child(even):hover {
+        transform: translateY(-6px) rotateZ(1.3deg);
+    }
+
+    /* Keep fade-in animation intact */
+    .work-card {
+        transition: 0.6s ease, transform 0.25s ease;
+    }
+    .work-title {
+        font-size: 1.3rem;
+        padding: 1rem;
+        color: white;
+    }
+
+    .work-desc {
+        padding: 0 1rem;
+        color: #bbb;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    /* --- Glow hover effect for WORKS cards --- */
+
+  .work-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+  }
+
+  .work-card::before,
+  .work-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .work-card::before {
+    background: radial-gradient(
+      700px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.08),
+      transparent 40%
+    );
+    z-index: 3;
+  }
+
+  .work-card::after {
+    background: radial-gradient(
+      400px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.35),
+      transparent 40%
+    );
+    z-index: 1;
+  }
+
+  .works-grid:hover .work-card::after {
+    opacity: 1;
+  }
+
+  .work-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Inner content wrapper */
+  .work-card-content {
+    background-color: #181818;
+    inset: 1px;
+    border-radius: inherit;
+    padding: 10px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+
+  /* Image styling */
+  .work-card-image img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    opacity: .9;
+    transition: .3s;
+  }
+
+  .work-card:hover img {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  /* Title & description */
+  .work-card-info-wrapper {
+    padding: 0 10px;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .work-card-info-title h3 {
+    margin: 10px 0 4px;
+    font-size: 1.1rem;
+  }
+
+  .work-card-info-title h4 {
+    color: #bbb;
+    font-size: .9rem;
+  }
+  
+ /* SLOT BASE */
+.slot {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+
+  height: 1.6em;              /* ✅ FIX: room for descenders */
+  line-height: 1.6em;
+
+  will-change: transform;
+}
+
+/* Inner text */
+.slot span {
+  display: block;
+  will-change: transform;
+  transform: translateZ(0);
+  transition: transform 0.45s cubic-bezier(.22,.61,.36,1);
+}
+
+/* Top text (visible) */
+.slot .top {
+  transform: translateY(0%);
+}
+
+/* Bottom text (hidden below) */
+.slot .bottom {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  transform: translateY(100%);   /* ✅ TRANSFORM ONLY */
+}
+
+/* Hover animation */
+.slot:hover .top {
+  transform: translateY(-100%);
+}
+
+.slot:hover .bottom {
+  transform: translateY(0%);
+}
+/* Active link = no animation */
+.slot.active .top {
+  transform: translateY(0%);
+}
+
+.slot.active .bottom {
+  transform: translateY(100%);
+}
+
+.slot.active:hover .top,
+.slot.active:hover .bottom {
+  transform: translateY(0%);
+}
+.header {
+  will-change: opacity;
+}
+@media (max-width: 1024px) {
+  .slot:hover .top,
+  .slot:hover .bottom {
+    transform: none !important;
+  }
+}
+
+
+    /*Our Approach*/
+    /* ---------- DARK MODE APPROACH SECTION ---------- */
+  .approach {
+      padding: 8rem 1.5rem;
+      background: #000;
+      color: white;
+  }
+
+  .section-header {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 0.8s ease;
+  }
+
+  .section-header.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  .section-badge {
+      color: #7aa5ff;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.85rem;
+      font-weight: 600;
+  }
+
+  .section-header h2 {
+      font-size: 3rem;
+      font-weight: 300;
+      margin-top: 1rem;
+      color: white;
+  }
+
+
+  /* Steps Grid */
+  .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+  }
+
+  .step-card {
+      background: #0d0d0d;
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 1px solid #1c1c1c;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      opacity: 0;
+      transform: translateY(70px);
+      transition: 0.8s ease, box-shadow 0.5s ease;
+  }
+
+  .step-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  /* Hover glow */
+  .step-card:hover {
+      box-shadow: 0 0 25px rgba(100,150,255,.25);
+      transform: translateY(-10px);
+  }
+
+  .step-number {
+      font-size: 2.8rem;
+      opacity: 0.18;
+      font-weight: 700;
+  }
+
+  .step-card h3 {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      font-weight: 400;
+  }
+
+  .step-card p {
+      margin-top: 0.5rem;
+      line-height: 1.7;
+      color: #cfcfcf;
+  }
+
+
+  /* Images */
+  .image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-top: 5rem;
+  }
+
+  .approach-image-wrapper {
+      position: relative;
+      border-radius: 1rem;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(70px);
+      transition: 1s ease;
+  }
+
+  .approach-image-wrapper.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  .approach-image-wrapper img {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      transition: 0.6s ease;
+      opacity: 1 !important;
+  }
+
+  .approach-image-wrapper:hover img {
+      transform: scale(1.1);
+  }
+
+  .approach-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,.7) 0%, transparent 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      opacity: 0;
+      transition: 0.4s ease;
+  }
+
+  .approach-image-wrapper:hover .approach-image-overlay {
+      opacity: 1;
+  }
+
+  .approach-image-overlay h3 {
+      font-size: 1.6rem;
+  }
+
+  .approach-image-overlay p {
+      color: #cfcfcf;
+  }
+
+
+  /* Responsive */
+  @media (max-width: 768px) {
+      .image-grid {
+          grid-template-columns: 1fr;
+      }
+      .section-header h2 {
+          font-size: 2rem;
+      }
+  }
+
+
+    /* ABOUT */
+    .about-section{
+      background:white;
+      color:black;
+      padding:6rem 2rem;
+      margin-top:3rem;
+      margin-bottom:5rem; /* FIX FOOTER OVERLAP */
+    }
+    .about-container{ max-width:80rem; margin:auto; }
+    .about-title{ font-size:3rem; margin-bottom:1rem; }
+    .about-text{ font-size:1.2rem; color:#444; }
+
+    /* FOOTER */
+    footer{
+    background:#0a0a0a;
+    text-align:center;
+    padding:2.5rem;
+    color:#ccc;
+    }
+    .socials{
+    margin-top:1rem;
+    display:flex;
+    justify-content:center;
+    gap:1.5rem;
+    }
+    /* Instagram & LinkedIn icons — always white, no hover color */
+  footer a.icon-link {
+      color: white !important;
+      text-decoration: none !important;
+      transition: none !important;
+      font-size: 2rem;
+  }
+
+  footer a.icon-link:hover {
+      color: white !important;  /* stays white */
+      text-decoration: none !important;
+  }
+
+
+    /*Footer links*/
+    /* Only email link in footer */
+    footer .email-link {
+        color: #ffffff !important;   /* gold color */
+        text-decoration: none;
+    }
+
+    footer .email-link:hover {
+        text-decoration: underline;
+    }
+    footer a i {
+        text-decoration: none !important;
+    }
+
+    footer a {
+        text-decoration: none !important;
+    }
+    .projects-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 105vh;   /* keep as you asked */
+    object-fit: cover;
+    z-index: -1;
+
+    opacity: 0;
+    transition: 
+        opacity 1.8s ease,
+        mask-image 2.2s ease-out,
+        -webkit-mask-image 2.2s ease-out;
+
+    /* Start hidden from left */
+    mask-image: linear-gradient(to right, transparent 0%, black 0%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 0%);
+}
+  /* MAIN FIX — prevent horizontal overflow */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+}
+
+/* Prevent Vanta canvas from stretching too wide */
+.hero-section canvas {
+  max-width: 100vw !important;
+  overflow: hidden !important;
+}
+/* ------------------------------
+   FINAL FIXED GALLERY SECTION
+   ------------------------------ */
+
+   .gallery-section {
+  width: 100%;
+  min-height: 110vh;                /* ⬅ ensures enough room for big images */
+  padding: 4vh 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background: black;
+  overflow: hidden;                 /* ⬅ CRITICAL: prevents images escaping */
+  position: relative;
+  z-index: 10;
+}
+
+/* header text inside */
+.gallery-header {
+  text-align: center;
+  margin-top: 4vh !important;
+  margin-bottom: 3vh !important;
+  z-index: 20;
+}
+
+/* outer wrapper clips the moving track */
+.gallery-outer {
+  width: 100%;
+  overflow: hidden !important;      /* ⬅ HARD CLIP */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* inner holds the track */
+.gallery-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* track moves horizontally */
+.gallery-track {
+  display: inline-flex;             /* ⬅ avoids infinite width problem */
+  gap: 3rem;
+  align-items: center;
+  will-change: transform;
+  padding: 2vh 0;
+}
+
+/* IMAGES */
+.gallery-track img {
+  height: 48vh !important;
+  width: auto !important;
+  object-fit: cover !important;
+  border-radius: 16px;
+  flex-shrink: 0;                   /* ⬅ prevents collapsing */
+  display: block;
+  transition: transform .35s ease, filter .35s ease;
+}
+
+.gallery-track img:hover {
+  transform: scale(1.06);
+  filter: brightness(1);
+}
+
+/* background image */
+.projects-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95vh !important;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+/* Tablets */
+@media (max-width: 1024px) {
+  .projects-bg-img {
+    height: 85vh !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .projects-bg-img {
+    height: 75vh !important;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .projects-bg-img {
+    height: 65vh !important;
+  }
+}
+/* MAKE PROJECT IMAGES SLIMMER — More images visible */
+.gallery-track img {
+  aspect-ratio: 5 / 8 !important;   /* slimmer portrait */
+  width: auto !important;
+}
+
+
+/* ------------------------------
+   RESPONSIVE SIZES
+   ------------------------------ */
+
+@media (max-width: 1024px) {
+  .gallery-track img {
+    height: 42vh !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-track img {
+    height: 36vh !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-track img {
+    height: 34vh !important;
+  }
+}
+
+
+
+
+/* Images causing overflow when scaling */
+.gallery-track img,
+.work-card img {
+  overflow: hidden;
+}
+  /* ===============================
+   HAMBURGER MENU
+   =============================== */
+
+/* Hidden on desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.9rem;
+  color: white;
+  cursor: pointer;
+  z-index: 99999 !important;
+}
+
+/* MOBILE NAV (hidden by default) */
+.nav {
+  transition: transform 0.35s ease;
+}
+
+/* ===============================
+   MOBILE HEADER FIX + SLIDE MENU
+   =============================== */
+   @media (max-width: 1024px) {
+    
+.header-container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.8rem 1.2rem !important;
+}
+
+/* Logo stays visible */
+.logo {
+  margin-left: 0 !important;
+  height: 2.4rem;
+  display: block !important;
+}
+
+/* Show hamburger */
+.hamburger {
+  display: block !important;
+  z-index: 999999;
+}
+
+/* Hide nav without collapsing header */
+.nav {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  pointer-events: none;
+}
+}
+/* ===============================
+   BIGGER PROJECT IMAGES (Desktop)
+   =============================== */
+  
+
+/* Increase spacing between images */
+.gallery-track {
+  gap: 3rem !important;
+}
+
+
+/* ===============================
+   TABLET SIZE IMAGES
+   =============================== */
+@media (max-width: 1024px) {
+  .gallery-track img {
+    height: 55vh !important;  /* larger than before */
+  }
+}
+
+/* ===============================
+   MOBILE SIZE IMAGES
+   =============================== */
+@media (max-width: 768px) {
+  .gallery-track {
+    gap: 1.8rem !important;
+  }
+
+  .gallery-track img {
+    height: 45vh !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-track img {
+    height: 42vh !important;
+  }
+}
+/* === FINAL PROJECT IMAGE SIZE OVERRIDE === */
+.gallery-track img {
+  height: 50vh !important;
+  width: auto !important;
+  object-fit: cover !important;
+  border-radius: 14px !important;
+}
+/* ===============================
+   STAGGERED MOBILE MENU
+   =============================== */
+
+   .sm-wrapper {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000000;
+}
+
+.sm-wrapper.active {
+  pointer-events: auto;
+}
+
+.sm-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  opacity: 0;
+}
+
+.sm-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(80vw, 360px);
+  height: 100%;
+  background: #ffffff !important;
+  padding: 6rem 2rem;
+}
+
+.sm-list {
+  list-style: none;
+  padding: 0;
+}
+
+.sm-list li {
+  overflow: hidden;
+}
+
+.sm-list a {
+  display: block;
+  font-size: clamp(1.4rem, 4.5vw, 1.9rem); /* responsive & single-line */
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: #000 !important;
+  text-decoration: none;
+  white-space: nowrap; /* ⬅ ensures one line */
+}
+.sm-list li {
+  margin-bottom: 1.2rem;
+}
+
+/* MOBILE ONLY */
+@media (min-width: 1025px) {
+  .sm-wrapper {
+    display: none;
+  }
+}
+@media (max-width: 1024px) {
+  .header {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+.hamburger i {
+  transition: transform .35s ease, opacity .25s ease;
+}
+
+.hamburger.active i {
+  transform: rotate(90deg);
+}
+.projects-bg {
+  position: absolute;
+  inset: 0;
+
+  background-image: url("/backgroundforprojects.jpeg");
+  background-size: cover;        /* or contain */
+  background-position: center;
+  background-repeat: no-repeat;
+
+  z-index: -1;
+}
+#splash video {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+}
+
+
+  
+}

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D4A Studio – Projects</title>
+  <script type="module">
+  import { Renderer, Program, Mesh, Triangle, Color } from 'https://cdn.skypack.dev/ogl';
+  window.OGL = { Renderer, Program, Mesh, Triangle, Color };
+</script>
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    body {
+      background: white;
+      color: black;
+      overflow-x: hidden;
+      padding-top: 6rem; /* for fixed header */
+      max-width:100vm;
+    }
+
+    /* ===========================
+       HEADER
+    ============================ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2000;
+      background: #ffffff;
+      backdrop-filter: blur(12px);
+      padding: 0.8rem 0;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: background 0.4s ease, padding 0.4s ease;
+    }
+
+    .header-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 0.3rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      height: 3rem;
+      width: auto;
+      margin-left: -90px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-right: -110px;
+    }
+/* Container for the link */
+.nav a {
+  color: black;
+  text-decoration: none;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+/* --- THE SLOT ANIMATION --- */
+.slot {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  height: 1.1em;
+  line-height: 1.1em;
+}
+
+.slot span {
+  display: block;
+  transition: transform 0.6s ease;
+  line-height: 1.1em;
+}
+
+.slot .bottom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(-100%); /* Start hidden above */
+}
+
+/* Hover State for Slot */
+.nav a:hover .slot .top {
+  transform: translateY(100%); /* Push top text down */
+}
+
+.nav a:hover .slot .bottom {
+  transform: translateY(0); /* Pull bottom text into view */
+}
+
+/* --- THE UNDERLINE ANIMATION --- */
+/* --- THE UNDERLINE LOGIC --- */
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: black;
+  border-radius: 2px;
+  /* Start hidden for all links */
+  transform: scaleX(0); 
+  transition: transform 0.3s ease;
+}
+
+/* ONLY the active page gets the underline.
+   There is NO hover state here, so other links stay clean.
+*/
+.nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Keep the slot animation working for other links on hover */
+.nav a:hover .slot .top {
+  transform: translateY(100%);
+}
+
+.nav a:hover .slot .bottom {
+  transform: translateY(0);
+}
+
+/* Disable the text-sliding for the active page if you want it stationary */
+.nav a[aria-current="page"] .slot .top,
+.nav a[aria-current="page"] .slot .bottom {
+  transform: translateY(0) !important;
+}
+
+    /* HAMBURGER */
+    .hamburger {display: none;flex-direction: column;gap: 6px;cursor: pointer;z-index: 9999;}
+    .hamburger span {width: 28px;height: 3px;background: black;border-radius: 6px;transition: 0.3s;}
+    .hamburger.active span {background: white;}
+    .hamburger.active span:nth-child(1) {transform: translateY(9px) rotate(45deg);}
+    .hamburger.active span:nth-child(2) {opacity: 0;}
+    .hamburger.active span:nth-child(3) {transform: translateY(-9px) rotate(-45deg);}
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background: black;
+      padding-top: 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-left: 2rem;
+      transition: right 0.35s ease;
+      z-index: 9998;
+    }
+
+    .mobile-menu a {
+      color: white;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    .mobile-menu.open {
+      right: 0;
+    }
+    @media (max-width: 900px) {
+  .header-container {
+    padding: 0.4rem 1rem;
+  }
+}
+
+    @media (max-width: 900px) {
+      .nav {
+        display: none !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .logo {
+        margin-left: 0 !important;
+      }
+    }
+    /* Threads Hero Styles */
+.threads-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 400px; /* Adjust height as needed */
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -6rem; /* Offsets the body padding to sit flush under header */
+}
+
+.threads-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+#threads-container {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#threads-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-title-wrapper {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hero-main-title {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 300;
+  color: white;
+  letter-spacing: 0.5rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.hero-dec-line {
+  width: 60px;
+  height: 2px;
+  background: white;
+  margin: 20px auto 0;
+}
+
+/* Ensure the first project block spaces correctly below hero */
+.content {
+  position: relative;
+  z-index: 10;
+  background: white;
+}
+
+    /* ===========================
+       PROJECTS LAYOUT
+    ============================ */
+    .content {
+      width: 100%;
+    }
+
+    .project-block {
+      margin-bottom: 2.5rem;
+      padding: 3rem 0;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      margin-left: -50vw;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(0,0,0,0.08) inset;
+    }
+
+    .project-block:nth-child(odd) { background: white; color: black; }
+    .project-block:nth-child(even) { background: black; color: white; }
+
+    .project-inner {
+      max-width: 1200px;
+      width: 100%;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+
+    .img-wrapper {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 14px;
+      min-height: 120px;
+    }
+.project-img {
+  width: 100%;
+  height: 0;
+  object-fit: cover;
+
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(6px);
+
+  transition:
+    height 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.9s ease,
+    filter 1.4s ease;
+
+  background-color: #333;
+  will-change: height, transform, opacity;
+}
+
+
+.project-img.show {
+  height: 430px;
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+
+    .text-col {
+      flex: 1;
+    }
+
+    .project-title {
+      font-size: 1.9rem;
+      font-weight: 400;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.7s ease;
+    }
+
+    .project-title.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .paragraph {
+      font-size: 1rem;
+      letter-spacing: .2px;
+      line-height: 1.75;
+      margin-top: 1.5rem;
+    }
+
+    .sentence {
+      opacity: 0;
+      display: inline;
+      width: auto;
+      transform: translateY(50px);
+      transition:
+        opacity .55s ease-out,
+        transform .65s cubic-bezier(0.25, 0.8, 0.25, 1);
+      white-space: normal;
+    }
+
+    /* Responsive for projects */
+    @media (max-width: 900px) {
+      .project-inner {
+        flex-direction: column;
+        padding: 0 1rem;
+      }
+
+      .project-block:nth-child(odd) .project-inner,
+      .project-block:nth-child(even) .project-inner {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .project-img.show {
+        height: 300px;
+      }
+
+      p, .paragraph {
+        line-height: 1.75;
+      }
+    }
+
+    /* Flip layout on desktop for even blocks */
+    .project-block:nth-child(even) .project-inner {
+      flex-direction: row-reverse;
+    }
+
+    @media (max-width: 900px) {
+      .project-block:nth-child(even) .project-inner {
+        flex-direction: column;
+      }
+    }
+    /* ===============================
+   STAGGERED MOBILE MENU
+=============================== */
+.sm-wrapper{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:200000;
+}
+.sm-wrapper.active{
+  pointer-events:auto;
+}
+
+/* backdrop */
+.sm-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  opacity:0;
+}
+
+/* panel */
+.sm-panel{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(80vw,360px);
+  height:100%;
+  background:#fff;
+  padding:6.5rem 2rem;
+}
+
+/* list */
+.sm-list{
+  list-style:none;
+  padding:0;
+}
+.sm-list li{
+  overflow:hidden;
+  margin-bottom:1.4rem;
+}
+
+.sm-list a{
+  display:block;
+  font-size:clamp(1.4rem,4.5vw,1.9rem);
+  font-weight:500;
+  color:#000;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.sm-list a:hover{
+  color:#7AA5FF;
+}
+
+/* desktop hidden */
+@media(min-width:901px){
+  .sm-wrapper{display:none;}
+}
+
+  </style>
+</head>
+
+<body>
+
+<header class="header" id="header">
+  <div class="header-container">
+
+    <div class="logo-container">
+      <a href="d4a1.html" style="line-height:0;">
+        <img src="img.jpeg" class="logo" alt="D4A logo">
+      </a>
+    </div>
+
+<nav class="nav">
+  <a href="d4a1.html">
+    <span class="slot">
+      <span class="top">Home</span>
+      <span class="bottom">Home</span>
+    </span>
+  </a>
+
+  <a href="d4a1.html">
+    <span class="slot">
+      <span class="top">Our Approach</span>
+      <span class="bottom">Our Approach</span>
+    </span>
+  </a>
+
+  <a href="projects.html" aria-current="page">
+    <span class="slot">
+      <span class="top">Projects</span>
+      <span class="bottom">Projects</span>
+    </span>
+  </a>
+
+  <a href="about.html">
+    <span class="slot">
+      <span class="top">About Us</span>
+      <span class="bottom">About Us</span>
+    </span>
+  </a>
+</nav>
+
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+  </div>
+</header>
+
+<section class="threads-hero">
+  <div id="threads-container" class="threads-container"></div>
+  <div class="hero-title-wrapper">
+    <h1 class="hero-main-title">PROJECTS</h1>
+    <div class="hero-dec-line"></div>
+  </div>
+</section>
+
+<div class="sm-wrapper" id="smWrapper">
+  <div class="sm-backdrop" id="smBackdrop"></div>
+
+  <aside class="sm-panel" id="smPanel">
+    <ul class="sm-list">
+      <li><a href="d4a1.html">Home</a></li>
+      <li><a href="d4a1.html">Our Approach</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+</div>
+
+
+<!-- ===========================
+     PROJECTS CONTENT
+=========================== -->
+<div class="content">
+
+  <!-- PROJECT 1 -->
+  <div class="project-block first-project" data-animated="false">
+    <div class="project-inner">
+      <div class="img-wrapper">
+        <img src="Urban Edge.png" class="project-img">
+      </div>
+
+      <div class="text-col">
+        <h3 class="project-title">Urban Edge</h3>
+        <p class="paragraph">
+          <span class="sentence">D4A Studio's proposal envisions an exclusive uber-luxury residential</span>
+          <span class="sentence">community in Sigehalli, crafted to offer calm,privacy, and sophistication.</span>
+          <span class="sentence">The architecture features contemporary tower forms, expansive decks,</span>
+          <span class="sentence">and a refined material palette that elevates modern living.Spacious</span>
+          <span class="sentence">3,3.5 & 4,4.5 BHK residences, duplex sky villas, and penthouses</span>
+          <span class="sentence">are planned with generous ceiling heights and premium finishes.</span>
+          <span class="sentence">A resort-style clubhouse, wellness spa, temperature-controlled pool,</span>
+          <span class="sentence">and sky terraces create a lifestyle of comfort and indulgence.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 2 -->
+  <div class="project-block" data-animated="false">
+    <div class="project-inner">
+      <div class="img-wrapper">
+        <img src="Amarta MO.png" class="project-img">
+      </div>
+
+      <div class="text-col">
+        <h3 class="project-title">Amarta</h3>
+        <p class="paragraph">
+          <span class="sentence">The Amarta Marketing Office by D4A STUDIO is not just a workspace; it's a</span>
+          <span class="sentence">strategically designed client experience. The project redefines the traditional</span>
+          <span class="sentence">corporate environment by integrating hospitality and engagement into its core.</span>
+          <span class="sentence">The design guides visitors through a seamless and engaging journey. The reception</span>
+          <span class="sentence">area sets a welcoming tone, leading into focused discussion rooms for detailed conversations.</span>
+          <span class="sentence">The central feature of the project is a captivating central courtyard. A tranquil water</span>
+          <span class="sentence"> body surrounds a central tree, creating a peaceful oasis accessible to clients.</span>
+          <span class="sentence">This courtyard serves as a symbolic and 	functional focal point, reflecting the peaceful</span>
+          <span class="sentence">and community-oriented nature of the properties being marketed.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 3 -->
+  <div class="project-block" data-animated="false">
+    <div class="project-inner">
+      <div class="img-wrapper">
+        <img src="RRN LUX.png" class="project-img">
+      </div>
+      <div class="text-col">
+        <h3 class="project-title">RRN LUX</h3>
+        <p class="paragraph">
+          <span class="sentence">D4A Studio presents an uber-luxury residential address in RR Nagar</span>
+          <span class="sentence">that blends timeless architecture with contemporary living.</span>
+          <span class="sentence">The design choreographs light, privacy, and landscape to create a calm,</span>
+          <span class="sentence">resort-grade,experience minutes from the city, yet worlds away from its</span>
+          <span class="sentence">pace.Set within a serene residential precinct of RR Nagar, the master plan</span>
+          <span class="sentence">orients towers to capture prevailing breezes and long views while</span>
+          <span class="sentence">minimizing heat gain and overlooking.Vehicular movement is pushed </span>
+          <span class="sentence">to the periphery, preserving a pedestrian-first central quiet interiors.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 4 -->
+  <div class="project-block" data-animated="false">
+    <div class="project-inner">
+      <div class="img-wrapper">
+        <img src="Suresh Residence .JPG" class="project-img">
+      </div>
+      <div class="text-col">
+        <h3 class="project-title">Suresh Residence</h3>
+        <p class="paragraph">
+          <span class="sentence">This is a design for a four-story, East-facing residential building</span>
+          <span class="sentence"> on a 40' x 60' site in Sarjapur, created for the Suresh Residence.</span>
+          <span class="sentence">The architecture, by D4A STUDIO, combines modern aesthetics with</span>
+          <span class="sentence">functional spaces, focusing on natural light, open-plan living,</span>
+          <span class="sentence">and unique features like a double-height dining area and an integrated waterfall.</span>
+          <span class="sentence">The East-facing orientation is utilized to maximize morning sunlight</span>
+          <span class="sentence">,creating bright and inviting living spaces. The design incorporates </span>
+          <span class="sentence">a setback for a small garden and sit-out area, positioned to catch the morning sun. </span>
+          <span class="sentence">The site dimensions are 40 feet in width and 60 feet in depth.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 5 -->
+  <div class="project-block" data-animated="false">
+    <div class="project-inner">
+      <div class="img-wrapper">
+        <img src="Sumukha Residence.jpg" class="project-img">
+      </div>
+      <div class="text-col">
+        <h3 class="project-title">Sumukha Residence</h3>
+        <p class="paragraph">
+          <span class="sentence">This project, "Sumukha Residence," is a modern renovation of a residential</span>
+          <span class="sentence">building on a 30' x 50' East-facing site The design focuses on updating the </span>
+          <span class="sentence">existing structure to meet contemporary living standards,maximizing space,</span>
+          <span class="sentence">improving natural light and ventilation, and introducing a sleek, modern aesthetic.</span>
+          <span class="sentence">The renovation aims to create a more functional and elegant home without</span>
+          <span class="sentence">expanding the original footprint.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================
+     SCRIPTS
+=========================== -->
+
+<!-- Project reveal animation -->
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.target.dataset.animated !== "true") {
+        entry.target.dataset.animated = "true";
+        const block = entry.target;
+        const title = block.querySelector(".project-title");
+        const image = block.querySelector(".project-img");
+        const sentences = block.querySelectorAll(".sentence");
+
+      const isFirst = block.classList.contains("first-project");
+
+      const baseDelay = isFirst ? 2000 : 0;
+
+        if (title) title.classList.add("show");
+
+        setTimeout(() => {
+          if (image) image.classList.add("show");
+        }, 400);
+
+        setTimeout(() => {
+          sentences.forEach((sentence, index) => {
+            setTimeout(() => {
+              sentence.style.opacity = "1";
+              sentence.style.transform = "translateY(0)";
+            }, index * 120);
+          });
+        }, 1100);
+
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll(".project-block").forEach(block => observer.observe(block));
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const wrapper = document.getElementById("smWrapper");
+  const panel = document.getElementById("smPanel");
+  const backdrop = document.getElementById("smBackdrop");
+  const items = document.querySelectorAll(".sm-list a");
+
+  let open = false;
+
+  gsap.set(panel, { xPercent:100 });
+  gsap.set(items, { yPercent:140 });
+
+  const tl = gsap.timeline({ paused:true });
+
+  tl.to(backdrop,{ opacity:1, duration:.3 })
+    .to(panel,{ xPercent:0, duration:.6, ease:"power4.out" },0)
+    .to(items,{
+      yPercent:0,
+      duration:1,
+      ease:"power4.out",
+      stagger:.1
+    },.2);
+
+    function toggleMenu(){
+      open = !open;
+
+      wrapper.classList.toggle("active", open);
+      document.body.style.overflow = open ? "hidden" : "";
+
+      hamburger.classList.toggle("active", open);
+
+      if (open) {
+        tl.play(0);
+      } else {
+        tl.reverse();
+      }
+}
+hamburger.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleMenu();
+});
+
+backdrop.addEventListener("click", toggleMenu);
+items.forEach(link=>link.addEventListener("click", toggleMenu));
+</script>
+<script>
+const startEffect = () => {
+    const lib = window.OGL;
+    if (!lib) return;
+
+    const { Renderer, Program, Mesh, Triangle, Color } = lib;
+
+    const container = document.getElementById('threads-container');
+    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    const gl = renderer.gl;
+    container.appendChild(gl.canvas);
+
+    const vertexShader = `
+        attribute vec2 position;
+        attribute vec2 uv;
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 0.0, 1.0);
+        }
+    `;
+
+    const fragmentShader = `
+        precision highp float;
+        uniform float iTime;
+        uniform vec3 iResolution;
+        uniform vec3 uColor;
+        uniform float uAmplitude;
+        uniform float uDistance;
+        uniform vec2 uMouse;
+
+        const int u_line_count = 40;
+        const float u_line_width = 2.0;
+        const float u_line_blur = 3.0;
+
+        float Perlin2D(vec2 P) {
+            vec2 Pi = floor(P);
+            vec4 Pf_Pfmin1 = P.xyxy - vec4(Pi, Pi + 1.0);
+            vec4 Pt = vec4(Pi.xy, Pi.xy + 1.0);
+            Pt = Pt - floor(Pt * (1.0 / 71.0)) * 71.0;
+            Pt += vec2(26.0, 161.0).xyxy;
+            Pt *= Pt;
+            Pt = Pt.xzxz * Pt.yyww;
+            vec4 hash_x = fract(Pt * (1.0 / 951.135664));
+            vec4 hash_y = fract(Pt * (1.0 / 642.949883));
+            vec4 grad_x = hash_x - 0.49999;
+            vec4 grad_y = hash_y - 0.49999;
+            vec4 grad_results = inversesqrt(grad_x * grad_x + grad_y * grad_y) * (grad_x * Pf_Pfmin1.xzxz + grad_y * Pf_Pfmin1.yyww);
+            grad_results *= 1.4142;
+            vec2 blend = Pf_Pfmin1.xy * Pf_Pfmin1.xy * Pf_Pfmin1.xy * (Pf_Pfmin1.xy * (Pf_Pfmin1.xy * 6.0 - 15.0) + 10.0);
+            vec4 blend2 = vec4(blend, vec2(1.0 - blend));
+            return dot(grad_results, blend2.zxzx * blend2.wwyy);
+        }
+
+        void main() {
+            vec2 uv = gl_FragCoord.xy / iResolution.xy;
+            float line_total = 0.0;
+            
+            for (int i = 0; i < u_line_count; i++) {
+                float p = float(i) / float(u_line_count);
+                float split = 0.1 + (p * 0.4);
+                float amp = smoothstep(split, 0.7, uv.x) * 0.5 * uAmplitude;
+                float xn = Perlin2D(vec2(iTime * 0.1, uv.x + p) * 2.5);
+                float y = 0.5 + (p - 0.5) * uDistance + xn / 2.0 * amp;
+                
+                float blur = (u_line_blur / iResolution.y) * p;
+                float l = smoothstep(y + (u_line_width/iResolution.y) + blur, y, uv.y) - 
+                          smoothstep(y, y - (u_line_width/iResolution.y) - blur, uv.y);
+                line_total += clamp(l * (1.0 - pow(p, 0.3)), 0.0, 1.0);
+            }
+            gl_FragColor = vec4(uColor, clamp(line_total, 0.0, 1.0));
+        }
+    `;
+
+    const program = new Program(gl, {
+        vertex: vertexShader,
+        fragment: fragmentShader,
+        uniforms: {
+            iTime: { value: 0 },
+            iResolution: { value: new Color() },
+            uColor: { value: new Color(1, 1, 1) },
+            uAmplitude: { value: 1.0 },
+            uDistance: { value: 0.25 },
+            uMouse: { value: new Float32Array([0.5, 0.5]) }
+        },
+        transparent: true
+    });
+
+    const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
+
+    function resize() {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        renderer.setSize(w, h);
+        program.uniforms.iResolution.value.set(w, h, w / h);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    function update(t) {
+        program.uniforms.iTime.value = t * 0.001;
+        renderer.render({ scene: mesh });
+        requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+};
+
+// This ensures everything is loaded before trying to start
+window.addEventListener('load', () => {
+    // Small delay to ensure the module script has set window.OGL
+    setTimeout(startEffect, 100);
+});
+</script>
+</body>
+</html>

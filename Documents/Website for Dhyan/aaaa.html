@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D4A Studio – Project Matrix</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif}
+body{background:#fff;color:#000}
+
+/* ===========================
+   PROJECT MATRIX
+=========================== */
+.project-matrix{
+  padding:7rem 2rem 6rem;
+  background:#fff;
+  border-bottom:1px solid rgba(0,0,0,.08)
+}
+.matrix-container{max-width:1200px;margin:auto}
+.matrix-header{text-align:center;margin-bottom:4rem}
+.matrix-label{
+  font-size:.7rem;
+  letter-spacing:.35em;
+  opacity:.5
+}
+.matrix-title{
+  margin-top:.8rem;
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:300;
+  letter-spacing:.25em
+}
+.matrix-line{
+  width:80px;
+  height:1px;
+  background:#000;
+  margin:2rem auto 0;
+  opacity:.25
+}
+
+/* GRID */
+.matrix-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:2rem
+}
+
+/* ITEM */
+.matrix-item{
+  position:relative;
+  padding:2.5rem 1.2rem;
+  cursor:pointer;
+  border-top:1px solid rgba(0,0,0,.15);
+  opacity:0;
+  transform:translateY(30px);
+  transition:transform .45s cubic-bezier(.22,1,.36,1)
+}
+.matrix-item:hover{transform:translateY(-8px)}
+
+.matrix-index{
+  font-size:.7rem;
+  letter-spacing:.25em;
+  opacity:.4
+}
+.matrix-item h4{
+  margin-top:.8rem;
+  font-weight:400;
+  letter-spacing:.04em
+}
+
+/* IMAGE PREVIEW */
+.matrix-preview{
+  position:absolute;
+  top:-140%;
+  left:50%;
+  transform:translateX(-50%) scale(.96);
+  width:240px;
+  height:150px;
+  opacity:0;
+  pointer-events:none;
+  transition:
+    opacity .35s ease,
+    transform .45s cubic-bezier(.22,1,.36,1)
+}
+.matrix-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 35px 70px rgba(0,0,0,.18)
+}
+.matrix-item:hover .matrix-preview{
+  opacity:1;
+  transform:translateX(-50%) scale(1)
+}
+
+/* ENTRY ANIMATION */
+.matrix-item:nth-child(1){animation:matrixIn .6s .1s forwards}
+.matrix-item:nth-child(2){animation:matrixIn .6s .2s forwards}
+.matrix-item:nth-child(3){animation:matrixIn .6s .3s forwards}
+.matrix-item:nth-child(4){animation:matrixIn .6s .4s forwards}
+.matrix-item:nth-child(5){animation:matrixIn .6s .5s forwards}
+
+@keyframes matrixIn{
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .matrix-grid{grid-template-columns:repeat(2,1fr)}
+  .matrix-preview{display:none}
+}
+@media(max-width:480px){
+  .matrix-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===========================
+     PROJECT MATRIX
+=========================== -->
+<section class="project-matrix">
+  <div class="matrix-container">
+
+    <div class="matrix-header">
+      <span class="matrix-label">SELECTED WORKS</span>
+      <h2 class="matrix-title">PROJECT INDEX</h2>
+      <div class="matrix-line"></div>
+    </div>
+
+    <div class="matrix-grid">
+
+      <div class="matrix-item" data-scroll="Urban Edge">
+        <span class="matrix-index">01</span>
+        <h4>Urban Edge</h4>
+        <div class="matrix-preview">
+          <img src="Urban Edge.png">
+        </div>
+      </div>
+
+      <div class="matrix-item" data-scroll="Amarta">
+        <span class="matrix-index">02</span>
+        <h4>Amarta</h4>
+        <div class="matrix-preview">
+          <img src="Amarta MO.png">
+        </div>
+      </div>
+
+      <div class="matrix-item" data-scroll="RRN LUX">
+        <span class="matrix-index">03</span>
+        <h4>RRN LUX</h4>
+        <div class="matrix-preview">
+          <img src="RRN LUX.png">
+        </div>
+      </div>
+
+      <div class="matrix-item" data-scroll="Suresh Residence">
+        <span class="matrix-index">04</span>
+        <h4>Suresh Residence</h4>
+        <div class="matrix-preview">
+          <img src="Suresh Residence .JPG">
+        </div>
+      </div>
+
+      <div class="matrix-item" data-scroll="Sumukha Residence">
+        <span class="matrix-index">05</span>
+        <h4>Sumukha Residence</h4>
+        <div class="matrix-preview">
+          <img src="Sumukha Residence.jpg">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll(".matrix-item").forEach(item=>{
+  item.addEventListener("click",()=>{
+    const target=item.dataset.scroll;
+    document.querySelectorAll(".project-title").forEach(title=>{
+      if(title.innerText.trim()===target){
+        title.scrollIntoView({behavior:"smooth",block:"center"});
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
