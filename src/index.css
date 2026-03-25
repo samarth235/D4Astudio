@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  background: black;
+  color: white;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+a {
+  text-decoration: none;
+}
