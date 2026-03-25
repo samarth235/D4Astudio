@@ -41,43 +41,39 @@ export default function Projects() {
     document.querySelectorAll(".project-block").forEach(block => observer.observe(block));
 
     // 2. Hamburger Menu GSAP
-    const hamburger = document.getElementById("hamburger");
+    const hamburger = document.getElementById("hamburgerBtn");
     const wrapper = document.getElementById("smWrapper");
     const panel = document.getElementById("smPanel");
     const backdrop = document.getElementById("smBackdrop");
     const items = document.querySelectorAll(".sm-list a");
+    let menuOpen = false;
 
-    let open = false;
-    let tl;
+    let tl_menu;
     if (panel && items.length) {
       gsap.set(panel, { xPercent: 100 });
       gsap.set(items, { yPercent: 140 });
-
-      tl = gsap.timeline({ paused: true });
-      tl.to(backdrop, { opacity: 1, duration: 0.3 })
-        .to(panel, { xPercent: 0, duration: 0.6, ease: "power4.out" }, 0)
-        .to(items, {
-          yPercent: 0,
-          duration: 1,
-          ease: "power4.out",
-          stagger: 0.1
-        }, 0.2);
+      tl_menu = gsap.timeline({ paused: true });
+      tl_menu.to(backdrop, { opacity: 1, duration: 0.3 })
+        .to(panel, { xPercent: 0, duration: 0.65, ease: "power4.out" }, 0)
+        .to(items, { yPercent: 0, duration: 1, ease: "power4.out", stagger: 0.1 }, 0.2);
 
       const toggleMenu = () => {
-        open = !open;
-        wrapper?.classList.toggle("active", open);
-        document.body.style.overflow = open ? "hidden" : "";
-        hamburger?.classList.toggle("active", open);
-        if (open) tl.play(0); else tl.reverse();
+        menuOpen = !menuOpen;
+        wrapper?.classList.toggle("active", menuOpen);
+        hamburger?.classList.toggle("active", menuOpen);
+        if (menuOpen) tl_menu.play(0); else tl_menu.reverse();
       };
 
-      hamburger?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        toggleMenu();
-      });
-
+      const stopProp = (e) => { e.stopPropagation(); toggleMenu(); };
+      hamburger?.addEventListener("click", stopProp);
       backdrop?.addEventListener("click", toggleMenu);
       items.forEach(link => link.addEventListener("click", toggleMenu));
+
+      return () => {
+        hamburger?.removeEventListener("click", stopProp);
+        backdrop?.removeEventListener("click", toggleMenu);
+        items.forEach(link => link.removeEventListener("click", toggleMenu));
+      };
     }
 
     // 3. OGL WebGL Effect
