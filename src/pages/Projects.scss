@@ -116,7 +116,7 @@
     display: none;
     flex-direction: column;
     gap: 6px;
-    cursor: none;
+    cursor: pointer;
     z-index: 9999;
 
     span {
@@ -219,7 +219,7 @@
     position: relative;
     overflow: hidden;
     border-radius: var(--radius);
-    cursor: none;
+    cursor: pointer;
 
     &:hover .card-img { transform: scale(1.04); }
     &:hover .card-overlay { background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 60%, transparent 100%); }
