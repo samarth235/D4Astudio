@@ -397,14 +397,15 @@
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px;
+    grid-template-rows: 320px 320px;
+    gap: 4px;
     max-width: 80rem;
     margin: 0 auto;
     padding: 0 1.5rem 1.5rem;
   }
 
   .proj-card--grid {
-    height: 340px;
+    min-height: 0; /* let grid-row control */
 
     .card-info {
       transform: translateY(12px);
@@ -412,15 +413,64 @@
     }
 
     .card-title { font-size: 1.3rem; }
+
+    /* ── Card 1: tall, spans 2 rows (left column) ── */
+    &:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+
+    /* ── Card 2: top-right area ── */
+    &:nth-child(2) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    /* ── Card 3: top-far-right ── */
+    &:nth-child(3) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    /* ── Card 4: wide, spans 2 columns, bottom-right ── */
+    &:nth-child(4) {
+      grid-column: 2 / span 2;
+      grid-row: 2;
+    }
   }
 
   @media (max-width: 1024px) {
-    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 280px 280px 280px;
+    }
+
+    .proj-card--grid {
+      /* reset all spans for tablet */
+      &:nth-child(1) { grid-column: 1; grid-row: 1 / span 2; }
+      &:nth-child(2) { grid-column: 2; grid-row: 1; }
+      &:nth-child(3) { grid-column: 2; grid-row: 2; }
+      &:nth-child(4) { grid-column: 1 / span 2; grid-row: 3; }
+    }
   }
 
   @media (max-width: 600px) {
-    .projects-grid { grid-template-columns: 1fr; }
-    .proj-card--grid { height: 280px; }
+    .projects-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+    }
+
+    .proj-card--grid {
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4) {
+        grid-column: 1;
+        grid-row: auto;
+        min-height: 260px;
+      }
+    }
+
     .proj-card--hero { height: 420px; }
   }
 
