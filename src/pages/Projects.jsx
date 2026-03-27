@@ -67,54 +67,12 @@ const projectsData = [
 
 export default function Projects() {
   const [activeModal, setActiveModal] = useState(null);
-  const cursorRef = useRef(null);
-  const cursorDotRef = useRef(null);
   const modalRef = useRef(null);
 
   useEffect(() => {
     document.body.style.background = '#0a0a0a';
     document.body.style.paddingTop = '0';
 
-    // ─── Custom Cursor ───────────────────────────────────────────
-    const cursor = cursorRef.current;
-    const dot = cursorDotRef.current;
-    let mouseX = 0, mouseY = 0;
-    let curX = 0, curY = 0;
-
-    const moveCursor = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (dot) {
-        dot.style.left = mouseX + 'px';
-        dot.style.top = mouseY + 'px';
-      }
-    };
-    document.addEventListener('mousemove', moveCursor);
-
-    const animateCursor = () => {
-      curX += (mouseX - curX) * 0.12;
-      curY += (mouseY - curY) * 0.12;
-      if (cursor) {
-        cursor.style.left = curX + 'px';
-        cursor.style.top = curY + 'px';
-      }
-      requestAnimationFrame(animateCursor);
-    };
-    animateCursor();
-
-    const hoverTargets = document.querySelectorAll('.proj-card, .modal-close-btn, .modal-inquire-btn, nav a, .hamburger');
-    const onEnter = () => {
-      cursor?.classList.add('cursor-hover');
-      dot?.classList.add('dot-hover');
-    };
-    const onLeave = () => {
-      cursor?.classList.remove('cursor-hover');
-      dot?.classList.remove('dot-hover');
-    };
-    hoverTargets.forEach(el => {
-      el.addEventListener('mouseenter', onEnter);
-      el.addEventListener('mouseleave', onLeave);
-    });
 
     // ─── Scroll-Reveal Cards ─────────────────────────────────────
     const cards = document.querySelectorAll('.proj-card');
@@ -227,10 +185,6 @@ export default function Projects() {
 
   return (
     <div id="projects-page">
-
-      {/* Custom Cursor */}
-      <div className="cursor-ring" ref={cursorRef}></div>
-      <div className="cursor-dot" ref={cursorDotRef}></div>
 
       {/* ─── NAVBAR ─── */}
       <header className="header" id="header">
