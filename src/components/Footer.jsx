@@ -35,27 +35,27 @@ export default function Footer() {
             </p>
             
             <div className="info-blocks">
-              <div className="info-block">
+              <a href="https://www.google.com/maps/search/D4A+STUDIO+Bengaluru" target="_blank" rel="noreferrer" className="info-block contact-link">
                 <div className="info-icon"><ion-icon name="location-outline"></ion-icon></div>
                 <div>
                   <p className="info-label">STUDIO</p>
                   <p className="info-text">Bengaluru, Karnataka</p>
                 </div>
-              </div>
-              <div className="info-block">
+              </a>
+              <a href="mailto:d4astudios@gmail.com" className="info-block contact-link">
                 <div className="info-icon"><ion-icon name="mail-outline"></ion-icon></div>
                 <div>
                   <p className="info-label">EMAIL</p>
                   <p className="info-text">d4astudios@gmail.com</p>
                 </div>
-              </div>
-              <div className="info-block">
+              </a>
+              <a href="tel:+919876543210" className="info-block contact-link">
                 <div className="info-icon"><ion-icon name="phone-portrait-outline"></ion-icon></div>
                 <div>
                   <p className="info-label">PHONE</p>
                   <p className="info-text">+91 98765 43210</p>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -99,6 +99,14 @@ export default function Footer() {
       <footer className="projects-footer">
         <div className="footer-inner">
           <div className="footer-brand">D4A STUDIO</div>
+          <div className="footer-socials">
+            <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+            <a href="https://in.linkedin.com/company/d4astudio" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </div>
           <div className="footer-copy">© 2024 D4A Studio. All rights reserved.</div>
         </div>
       </footer>

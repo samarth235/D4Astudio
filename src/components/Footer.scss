@@ -57,6 +57,13 @@
     display: flex;
     gap: 1.2rem;
     align-items: flex-start;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.8;
+    }
 
     .info-icon {
       width: 44px;
@@ -194,6 +201,26 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1.5rem;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 1.5rem;
+    
+    a {
+      color: var(--white);
+      font-size: 1.5rem;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover {
+        color: var(--gold);
+        transform: translateY(-2px);
+      }
+    }
   }
 
   .footer-brand {
