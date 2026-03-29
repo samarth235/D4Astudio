@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import './Home.scss';
+import Footer from '../components/Footer';
+
 
 export default function Home() {
   const projectImages = [
@@ -337,35 +339,8 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="legacy-footer">
-        <p style={{ marginBottom: "0.8rem" }}>
-          Contact Us:{" "}
-          <a className="email-link" href="mailto:d4astudios@gmail.com" target="_blank" rel="noreferrer">
-            d4astudios@gmail.com
-          </a>
-        </p>
+      <Footer />
 
-        <p style={{ marginTop: "0.4rem" }}>
-          <i className="fa-solid fa-phone"></i> +91 98765 43210
-        </p>
-
-        <p style={{ marginTop: "0.4rem" }}>
-          <a href="https://www.google.com/maps/dir//D4A+STUDIO,.../"
-            target="_blank" rel="noreferrer"
-            style={{ color: "white", textDecoration: "none" }}>
-            <i className="fa-solid fa-location-dot"></i> Bengaluru, Karnataka
-          </a>
-        </p>
-
-        <div style={{ marginTop: "0.6rem" }}>
-          <a className="icon-link" href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank" rel="noreferrer" style={{ marginRight: "12px" }}>
-            <i className="fa-brands fa-instagram"></i>
-          </a>
-          <a className="icon-link" href="https://in.linkedin.com/company/d4astudio" target="_blank" rel="noreferrer">
-            <i className="fa-brands fa-linkedin"></i>
-          </a>
-        </div>
-      </div>
     </div>
   );
 }

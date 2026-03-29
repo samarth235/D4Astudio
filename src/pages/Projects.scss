@@ -190,28 +190,74 @@
     margin: 0 auto;
   }
 
+  .hero-top-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
   .page-hero-label {
     font-size: 0.72rem;
     letter-spacing: 0.3em;
     color: var(--gold);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     font-weight: 500;
   }
 
   .page-hero-heading {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.5rem, 6vw, 4.2rem);
     font-weight: 400;
     color: var(--white);
     line-height: 1.1;
     letter-spacing: -0.01em;
   }
 
+  .category-filters {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid rgba(240, 237, 232, 0.15);
+    color: var(--muted);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgba(201, 168, 76, 0.4);
+      color: var(--white);
+    }
+
+    &.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--dark);
+    }
+  }
+
   .page-hero-line {
-    width: 48px;
+    width: 100%;
     height: 1px;
-    background: var(--gold);
-    margin-top: 1.5rem;
+    background: rgba(240, 237, 232, 0.1);
+  }
+
+  .no-projects {
+    padding: 5rem 1.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
   }
 
   /* ── PROJECT CARDS SHARED ────────────────────── */
@@ -452,49 +498,6 @@
     background: rgba(240, 237, 232, 0.12);
   }
 
-  /* ── FOOTER ─────────────────────────────────── */
-  .projects-footer {
-    border-top: 1px solid rgba(240, 237, 232, 0.08);
-    padding: 3rem 1.5rem;
-  }
-
-  .footer-inner {
-    max-width: 80rem;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .footer-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 2rem;
-
-    a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      transition: color 0.2s ease;
-
-      &:hover { color: var(--white); }
-    }
-  }
-
-  .footer-copy {
-    font-size: 0.72rem;
-    color: rgba(240, 237, 232, 0.3);
-    letter-spacing: 0.05em;
-  }
 
   /* ── MODAL ───────────────────────────────────── */
   .proj-modal-overlay {

@@ -67,17 +67,17 @@ const projectsData = [
 
 export default function Projects() {
   const [activeModal, setActiveModal] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('ALL');
   const modalRef = useRef(null);
 
   useEffect(() => {
     document.body.style.background = '#0a0a0a';
     document.body.style.paddingTop = '0';
 
-
     // ─── Scroll-Reveal Cards ─────────────────────────────────────
     const cards = document.querySelectorAll('.proj-card');
     const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           gsap.to(entry.target, {
             opacity: 1,
@@ -144,19 +144,31 @@ export default function Projects() {
       backdrop?.addEventListener('click', toggleMenu);
       items.forEach(link => link.addEventListener('click', toggleMenu));
 
+      // Add ionicons scripts
+      const script1 = document.createElement("script");
+      script1.type = "module";
+      script1.src = "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js";
+      document.body.appendChild(script1);
+
+      const script2 = document.createElement("script");
+      script2.noModule = true;
+      script2.src = "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js";
+      document.body.appendChild(script2);
+
       return () => {
         hamburger?.removeEventListener('click', stopProp);
         backdrop?.removeEventListener('click', toggleMenu);
         items.forEach(link => link.removeEventListener('click', toggleMenu));
+        if (script1.parentNode) document.body.removeChild(script1);
+        if (script2.parentNode) document.body.removeChild(script2);
       };
     }
 
     return () => {
-      document.removeEventListener('mousemove', moveCursor);
       revealObserver.disconnect();
       document.body.style.background = '';
     };
-  }, []);
+  }, [activeFilter]);
 
   // ─── Modal animations ─────────────────────────────────────────
   useEffect(() => {
@@ -180,8 +192,12 @@ export default function Projects() {
     gsap.to('.proj-modal-overlay', { opacity: 0, duration: 0.3, onComplete: () => setActiveModal(null) });
   };
 
-  const hero = projectsData[0];
-  const grid = projectsData.slice(1);
+  const filteredProjects = activeFilter === 'ALL' 
+    ? projectsData 
+    : projectsData.filter(p => p.category === activeFilter);
+
+  const hero = filteredProjects[0];
+  const grid = filteredProjects.slice(1);
 
   return (
     <div id="projects-page">
@@ -219,86 +235,94 @@ export default function Projects() {
         </aside>
       </div>
 
-      {/* ─── PAGE HERO TITLE ─── */}
+      {/* ─── PAGE HERO TITLE & FILTERS ─── */}
       <div className="page-hero">
-        <p className="page-hero-label">OUR WORK</p>
-        <h1 className="page-hero-heading">Selected Projects</h1>
+        <div className="hero-top-flex">
+          <div className="hero-title-group">
+            <p className="page-hero-label">PORTFOLIO</p>
+            <h1 className="page-hero-heading">Selected Projects</h1>
+          </div>
+          <div className="category-filters">
+            {['ALL', 'RESIDENTIAL', 'COMMERCIAL', 'CIVIC'].map(cat => (
+              <button 
+                key={cat}
+                className={`filter-btn ${activeFilter === cat ? 'active' : ''}`}
+                onClick={() => setActiveFilter(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="page-hero-line"></div>
       </div>
 
       {/* ─── FEATURED HERO CARD ─── */}
-      <div className="featured-section">
-        <div
-          className="proj-card proj-card--hero"
-          onClick={() => openModal(hero)}
-        >
-          <img src={hero.image} alt={hero.title} className="card-img" />
-          <div className="card-overlay">
-            <div className="card-meta-top">
-              <span className="card-tag">{hero.category}</span>
-              <span className="card-year">{hero.year}</span>
-            </div>
-            <div className="card-info">
-              <h2 className="hero-card-title">{hero.title}</h2>
-              <p className="card-sub">{hero.location} · {hero.area}</p>
-              <p className="card-desc">{hero.description.substring(0, 120)}...</p>
-              <div className="card-cta">
-                <span>VIEW PROJECT</span>
-                <span className="cta-arrow">→</span>
-              </div>
-              {hero.recognition && (
-                <div className="card-recognition">★ {hero.recognition}</div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ─── PROJECTS GRID ─── */}
-      <div className="projects-grid">
-        {grid.map((project) => (
+      {hero ? (
+        <div className="featured-section">
           <div
-            key={project.id}
-            className="proj-card proj-card--grid"
-            onClick={() => openModal(project)}
+            className="proj-card proj-card--hero"
+            onClick={() => openModal(hero)}
           >
-            <img src={project.image} alt={project.title} className="card-img" />
+            <img src={hero.image} alt={hero.title} className="card-img" />
             <div className="card-overlay">
               <div className="card-meta-top">
-                <span className="card-tag">{project.category}</span>
-                <span className="card-year">{project.year}</span>
+                <span className="card-tag">{hero.category}</span>
+                <span className="card-year">{hero.year}</span>
               </div>
               <div className="card-info">
-                <h3 className="card-title">{project.title}</h3>
-                <p className="card-sub">{project.location} · {project.area}</p>
-                {project.recognition && (
-                  <div className="card-recognition">★ {project.recognition}</div>
+                <h2 className="hero-card-title">{hero.title}</h2>
+                <p className="card-sub">{hero.location} · {hero.area}</p>
+                <p className="card-desc">{hero.description.substring(0, 120)}...</p>
+                <div className="card-cta">
+                  <span>VIEW PROJECT</span>
+                  <span className="cta-arrow">→</span>
+                </div>
+                {hero.recognition && (
+                  <div className="card-recognition">★ {hero.recognition}</div>
                 )}
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <div className="no-projects">No projects found in this category.</div>
+      )}
+
+      {/* ─── PROJECTS GRID ─── */}
+      {grid.length > 0 && (
+        <div className="projects-grid">
+          {grid.map((project) => (
+            <div
+              key={project.id}
+              className="proj-card proj-card--grid"
+              onClick={() => openModal(project)}
+            >
+              <img src={project.image} alt={project.title} className="card-img" />
+              <div className="card-overlay">
+                <div className="card-meta-top">
+                  <span className="card-tag">{project.category}</span>
+                  <span className="card-year">{project.year}</span>
+                </div>
+                <div className="card-info">
+                  <h3 className="card-title">{project.title}</h3>
+                  <p className="card-sub">{project.location} · {project.area}</p>
+                  {project.recognition && (
+                    <div className="card-recognition">★ {project.recognition}</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ─── PROJECTS COUNT ─── */}
       <div className="projects-count">
         <div className="count-line"></div>
-        <span>SHOWING {projectsData.length} OF {projectsData.length} PROJECTS</span>
+        <span>SHOWING {filteredProjects.length} OF {projectsData.length} PROJECTS</span>
         <div className="count-line"></div>
       </div>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="projects-footer">
-        <div className="footer-inner">
-          <div className="footer-brand">D4A STUDIO</div>
-          <div className="footer-links">
-            <a href="/">Home</a>
-            <a href="/projects.html">Projects</a>
-            <a href="/about.html">About</a>
-          </div>
-          <div className="footer-copy">© 2024 D4A Studio. All rights reserved.</div>
-        </div>
-      </footer>
 
       {/* ─── MODAL ─── */}
       {activeModal && (

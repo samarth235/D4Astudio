@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import './About.scss';
 import gsap from 'gsap';
+import Footer from '../components/Footer';
+
 
 export default function About() {
   useEffect(() => {
@@ -67,7 +69,9 @@ export default function About() {
   }, []);
 
   return (
-    <div id="about-page" dangerouslySetInnerHTML={{ __html: `
+    <div id="about-page">
+      <div dangerouslySetInnerHTML={{ __html: `
+
 
 <header class="header" id="header">
   <div class="header-container">
@@ -292,42 +296,13 @@ export default function About() {
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta reveal">
-      <div>
-        <h3>Interested in collaborating?</h3>
-        <p style="color:var(--muted);">Tell us about your project — we'll respond within 48 hours.</p>
-      </div>
-      <a href="mailto:d4astudios@gmail.com">Let's Talk</a>
-    </section>
 
   </div>
 </main>
 
-<!-- =============================== FOOTER =============================== -->
-<footer>
-  <p style="margin-bottom: 0.8rem;">
-    Contact Us:
-    <a class="email-link" href="mailto:d4astudios@gmail.com">d4astudios@gmail.com</a>
-  </p>
-
-  <p style="margin-top: 0.4rem;">
-    <i class="fa-solid fa-phone"></i> +91 98765 43210
-  </p>
-
-  <p style="margin-top: 0.4rem;">
-    <a href="https://www.google.com/maps/dir//D4A+STUDIO..." 
-       target="_blank" 
-       style="color:white; text-decoration:none;">
-      <i class="fa-solid fa-location-dot"></i> Bengaluru, Karnataka
-    </a>
-  </p>
-
-  <div style="margin-top:0.6rem;">
-    <a class="icon-link" href="https://www.instagram.com/d4a_studio/?hl=en"><i class="fa-brands fa-instagram"></i></a>
-    <a class="icon-link" href="https://in.linkedin.com/company/d4astudio"><i class="fa-brands fa-linkedin"></i></a>
-  </div>
-</footer>
-    ` }} />
+` }} />
+      <Footer />
+    </div>
   );
 }
+

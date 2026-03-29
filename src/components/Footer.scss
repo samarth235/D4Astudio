@@ -1,0 +1,213 @@
+.shared-footer-wrapper {
+  /* ── CONTACT SECTION ─────────────────────────── */
+  .contact-section {
+    padding: 8rem 1.5rem;
+    background: #0d0d0d;
+    border-top: 1px solid rgba(240, 237, 232, 0.05);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .contact-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 6rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .contact-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    color: var(--white);
+
+    span { font-style: italic; color: var(--gold); }
+  }
+
+  .contact-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(240, 237, 232, 0.6);
+    margin-bottom: 3.5rem;
+    max-width: 32rem;
+  }
+
+  .info-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .info-block {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+
+    .info-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(201, 168, 76, 0.08);
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .info-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+    }
+
+    .info-text {
+      font-size: 0.95rem;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+  }
+
+  /* CONTACT FORM */
+  .contact-form-box {
+    background: #111;
+    padding: 3.5rem;
+    border-radius: 6px;
+    border: 1px solid rgba(240, 237, 232, 0.04);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+
+    @media (max-width: 600px) { padding: 2rem 1.5rem; }
+  }
+
+  .form-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    font-weight: 500;
+  }
+
+  .form-group {
+    margin-bottom: 2rem;
+
+    label {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 4px;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: var(--gold);
+        background: rgba(201, 168, 76, 0.05);
+      }
+
+      &::placeholder { color: rgba(240, 237, 232, 0.2); }
+    }
+
+    textarea { min-height: 120px; resize: none; }
+  }
+
+  .form-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .form-pill {
+    background: transparent;
+    border: 1px solid rgba(240, 237, 232, 0.12);
+    color: var(--muted);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover { border-color: rgba(201, 168, 76, 0.4); color: var(--white); }
+    &.active { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 1.2rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+
+    &:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+  }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  .projects-footer {
+    border-top: 1px solid rgba(240, 237, 232, 0.05);
+    padding: 3rem 1.5rem;
+    background: #0a0a0a;
+  }
+
+  .footer-inner {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .footer-copy {
+    font-size: 0.7rem;
+    color: rgba(240, 237, 232, 0.25);
+    letter-spacing: 0.05em;
+    font-weight: 400;
+  }
+}
