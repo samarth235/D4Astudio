@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --gold: #8e9196; /* Cement Grey */
   --gold-light: #b0b3b8; /* Smoke Grey */
