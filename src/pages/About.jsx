@@ -66,12 +66,7 @@ export default function About() {
                 <span className="bottom">Projects</span>
               </span>
             </a>
-            <a href="/#approach">
-              <span className="slot">
-                <span className="top">Our Approach</span>
-                <span className="bottom">Our Approach</span>
-              </span>
-            </a>
+
             <a href="/about.html" aria-current="page">
               <span className="slot">
                 <span className="top">About Us</span>
@@ -101,10 +96,10 @@ export default function About() {
         ></div>
         <aside className="sm-panel" id="smPanel" ref={panelRef}>
           <ul className="sm-list">
-            {['Home', 'Projects', 'Our Approach', 'About Us'].map((text, i) => (
+            {['Home', 'Projects', 'About Us'].map((text, i) => (
               <li key={text}>
                 <a 
-                  href={text === 'Home' ? '/' : text === 'Our Approach' ? '/#approach' : `/${text.toLowerCase().replace(' ', '')}.html`}
+                  href={text === 'Home' ? '/' : `/${text.toLowerCase().replace(' ', '')}.html`}
                   ref={el => itemsRef.current[i] = el}
                   onClick={toggleMenu}
                 >

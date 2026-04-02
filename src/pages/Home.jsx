@@ -229,12 +229,7 @@ export default function Home() {
                 <span className="bottom">Home</span>
               </span>
             </Link>
-            <Link to="/#approach">
-              <span className="slot">
-                <span className="top">Our Approach</span>
-                <span className="bottom">Our Approach</span>
-              </span>
-            </Link>
+
             <Link to="/projects.html">
               <span className="slot">
                 <span className="top">Projects</span>
@@ -261,7 +256,7 @@ export default function Home() {
         <aside className="sm-panel" id="smPanel">
           <ul className="sm-list">
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/#approach">Our Approach</Link></li>
+
             <li><Link to="/projects.html">Projects</Link></li>
             <li><Link to="/about.html">About Us</Link></li>
           </ul>
