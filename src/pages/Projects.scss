@@ -6,8 +6,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap');
 
 #projects-page {
-  --gold: #c9a84c;
-  --gold-light: #e0c070;
+  --gold: #8e9196; /* Cement Grey */
+  --gold-light: #b0b3b8; /* Smoke Grey */
   --dark: #0a0a0a;
   --dark-2: #111111;
   --dark-3: #1a1a1a;
@@ -37,7 +37,7 @@
     z-index: 10000;
     background: rgba(10, 10, 10, 0.85);
     padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+    border-bottom: 1px solid rgba(142, 145, 150, 0.15);
     transition: background 0.4s ease;
 
     @supports (backdrop-filter: blur(15px)) or (-webkit-backdrop-filter: blur(15px)) {
@@ -160,7 +160,7 @@
     width: min(80vw, 360px);
     height: 100%;
     background: var(--dark-2);
-    border-left: 1px solid rgba(201, 168, 76, 0.2);
+    border-left: 1px solid rgba(142, 145, 150, 0.2);
     padding: 6.5rem 2rem;
   }
 
@@ -235,7 +235,7 @@
     cursor: pointer;
 
     &:hover {
-      border-color: rgba(201, 168, 76, 0.4);
+      border-color: rgba(142, 145, 150, 0.4);
       color: var(--white);
     }
 
@@ -304,7 +304,7 @@
     font-weight: 600;
     color: var(--gold);
     background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(201, 168, 76, 0.4);
+    border: 1px solid rgba(142, 145, 150, 0.4);
     padding: 0.25rem 0.6rem;
     border-radius: 2px;
   }
@@ -363,8 +363,8 @@
     margin-top: 0.6rem;
     font-size: 0.72rem;
     color: var(--gold);
-    background: rgba(201, 168, 76, 0.1);
-    border: 1px solid rgba(201, 168, 76, 0.3);
+    background: rgba(142, 145, 150, 0.1);
+    border: 1px solid rgba(142, 145, 150, 0.3);
     padding: 0.25rem 0.75rem;
     border-radius: 2px;
     letter-spacing: 0.05em;
@@ -518,7 +518,7 @@
 
   .proj-modal-box {
     background: var(--dark-2);
-    border: 1px solid rgba(201, 168, 76, 0.15);
+    border: 1px solid rgba(142, 145, 150, 0.15);
     border-radius: 8px;
     width: min(860px, 95vw);
     max-height: 90vh;
@@ -548,7 +548,7 @@
     transition: background 0.2s ease, border-color 0.2s ease;
 
     &:hover {
-      background: rgba(201, 168, 76, 0.15);
+      background: rgba(142, 145, 150, 0.15);
       border-color: var(--gold);
     }
   }
@@ -575,7 +575,7 @@
     letter-spacing: 0.2em;
     color: var(--gold);
     background: rgba(0,0,0,0.6);
-    border: 1px solid rgba(201, 168, 76, 0.4);
+    border: 1px solid rgba(142, 145, 150, 0.4);
     padding: 0.25rem 0.65rem;
     border-radius: 2px;
   }
@@ -650,9 +650,9 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 1rem 1.25rem;
-    border: 1px solid rgba(201, 168, 76, 0.2);
+    border: 1px solid rgba(142, 145, 150, 0.2);
     border-radius: 4px;
-    background: rgba(201, 168, 76, 0.05);
+    background: rgba(142, 145, 150, 0.05);
     margin-bottom: 2rem;
 
     .recog-star { color: var(--gold); font-size: 1rem; margin-top: 0.1rem; }

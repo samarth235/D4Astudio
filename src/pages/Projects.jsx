@@ -102,7 +102,7 @@ export default function Projects() {
     if (heroTitle) {
       const text = heroTitle.textContent;
       heroTitle.textContent = '';
-      heroTitle.style.borderRight = '2px solid #c9a84c';
+      heroTitle.style.borderRight = '2px solid #8e9196';
       let i = 0;
       const type = () => {
         if (i < text.length) {
