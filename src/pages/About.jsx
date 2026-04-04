@@ -121,7 +121,7 @@ export default function About() {
         scrollToExpand="Scroll down to expand"
         textBlend
       >
-        <div className="max-w-4xl mx-auto pt-20">
+        <div className="max-w-7xl mx-auto pt-20">
           <section className="story-future">
             <div className="story-future-grid">
               <div className="story-future-content">
@@ -154,6 +154,10 @@ export default function About() {
                 <p className="story-note">
                   Based in Bengaluru · Working across residential, commercial & turnkey projects
                 </p>
+              </div>
+              
+              <div className="story-future-image">
+                <img src="/img1.jpg" alt="About D4A Studio" />
               </div>
             </div>
           </section>

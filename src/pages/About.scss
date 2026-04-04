@@ -132,18 +132,34 @@ html,body{width:100%;overflow-x:hidden;}
 }
 
 
-/* MOBILE NAV */
-.hamburger{
-  display:none;
-  background:none;
-  border:none;
-  font-size:2rem;
-  color:black;
+/* MOBILE NAV HAMBURGER */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 99999 !important;
+  background: none;
+  border: none;
+  padding: 0;
+
+  span {
+    width: 28px;
+    height: 3px;
+    background: black;
+    border-radius: 6px;
+    transition: 0.3s;
+    display: block;
+  }
+
+  &.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+  &.active span:nth-child(2) { opacity: 0; }
+  &.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 }
 
-@media(max-width:900px){
-  .nav{display:none;}
-  .hamburger{display:block;}
+@media(max-width: 1024px){
+  .nav { display: none !important; }
+  .hamburger { display: flex !important; }
 }
 
 /* =========================================================
@@ -253,22 +269,35 @@ html,body{width:100%;overflow-x:hidden;}
 
 /* GRID */
 .story-future-grid {
-  max-width: 50rem;
+  max-width: 80rem;
   margin: auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
   align-items: center;
-  text-align: center;
-  gap: 2rem;
+  text-align: left;
+  gap: 6rem;
+
+  @media (max-width: 1100px) {
+    gap: 3rem;
+  }
+
+  @media (max-width: 901px) {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
 }
 
 /* IMAGE */
 .story-future-image img {
   width: 100%;
-  height: 420px;
+  aspect-ratio: 4/5;
+  height: auto;
+  min-height: 400px;
+  max-height: 600px;
   object-fit: cover;
   border-radius: 12px;
   filter: grayscale(100%) contrast(1.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
 /* TEXT */
@@ -296,7 +325,7 @@ html,body{width:100%;overflow-x:hidden;}
   width: 48px;
   height: 1px;
   background: var(--accent);
-  margin: 0 auto 1.8rem auto;
+  margin: 0 0 1.8rem 0;
   opacity: .5;
 }
 
@@ -506,13 +535,7 @@ html,body{width:100%;overflow-x:hidden;}
   .sm-wrapper{display:none;}
 }
 
-/* hamburger polish */
-.hamburger i{
-  transition:transform .35s ease;
-}
-.hamburger.active i{
-  transform:rotate(90deg);
-}
+/* hamburger active state is handled via spans above */
 
 
 

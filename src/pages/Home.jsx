@@ -17,36 +17,60 @@ export default function Home() {
   ];
 
   const [baseIndex, setBaseIndex] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const getImage = (index) => projectImages[(baseIndex + index) % projectImages.length];
 
   const triggerGridAnimation = () => {
     let tl = gsap.timeline();
-    tl.fromTo(".col .item img", 
+    // If zoomed, animate the single lightbox image
+    tl.fromTo(".lightbox-img-wrapper img", 
       { scale: 1.15, filter: "blur(12px)", opacity: 0 }, 
       { 
         scale: 1, 
         filter: "blur(0px)", 
         opacity: 1, 
         duration: 1.0, 
-        ease: "power2.out", 
-        stagger: {
-          amount: 0.35,
-          from: "center"
-        }
+        ease: "power2.out"
       }
     );
   };
 
   const handleNext = () => {
     setBaseIndex((prev) => (prev + 1) % projectImages.length);
-    triggerGridAnimation();
+    if (isZoomed) triggerGridAnimation();
   };
 
   const handlePrev = () => {
     setBaseIndex((prev) => (prev - 1 + projectImages.length) % projectImages.length);
-    triggerGridAnimation();
+    if (isZoomed) triggerGridAnimation();
   };
+
+  const handleImageClick = (indexOffset) => {
+    const clickedIndex = (baseIndex + indexOffset) % projectImages.length;
+    setBaseIndex(clickedIndex);
+    setIsZoomed(true);
+  };
+
+  // Lightbox Entrance GSAP
+  useEffect(() => {
+    if (isZoomed) {
+      let tl = gsap.timeline();
+      tl.to('.lightbox-overlay', { opacity: 1, duration: 0.4, ease: "power2.out", pointerEvents: 'auto' });
+      
+      tl.fromTo(".lightbox-overlay .nav-item a, .lightbox-overlay .title p, .lightbox-overlay .slide-num p, .lightbox-overlay .preview img", 
+         { top: 50 },
+         { top: 0, stagger: 0.075, duration: 0.8, ease: "power3.out" }, "-=0.2"
+      );
+
+      tl.fromTo(".lightbox-overlay .icon ion-icon, .lightbox-overlay .icon-2 ion-icon", 
+         { scale: 0 },
+         { scale: 1, stagger: 0.05, ease: "power3.out" }, "-=0.6"
+      );
+    } else {
+      gsap.to('.lightbox-overlay', { opacity: 0, duration: 0.3, ease: "power2.in", pointerEvents: 'none' });
+    }
+  }, [isZoomed]);
 
   useEffect(() => {
     // Splash Screen Logic
@@ -100,24 +124,7 @@ export default function Home() {
         ease: "power4.inOut"
       }, "-=4");
 
-      tl.to(".container", {
-        scale: 6,
-        duration: 4,
-        ease: "power4.inOut"
-      }, "-=2");
-
-      tl.to(".nav-item a, .title p, .slide-num p, .preview img", {
-        top: 0,
-        stagger: 0.075,
-        duration: 1,
-        ease: "power3.out",
-      }, "-=1.5");
-
-      tl.to(".icon ion-icon, .icon-2 ion-icon", {
-        scale: 1,
-        stagger: 0.05,
-        ease: "power3.out",
-      }, "-=1");
+      // The animation now stops here at the grid view!
     };
 
     if (!hasVisited || navType === "reload") {
@@ -266,43 +273,52 @@ export default function Home() {
       <section className="home-hero-section">
         <div className="container">
           <div className="col c-1">
-            <div className="item"><img src={getImage(0)} alt="" /></div>
-            <div className="item"><img src={getImage(1)} alt="" /></div>
-            <div className="item"><img src={getImage(2)} alt="" /></div>
-            <div className="item"><img src={getImage(3)} alt="" /></div>
-            <div className="item"><img src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(4)}><img src={getImage(4)} alt="" /></div>
           </div>
           <div className="col c-2">
-            <div className="item"><img src={getImage(5)} alt="" /></div>
-            <div className="item"><img src={getImage(6)} alt="" /></div>
-            <div className="item"><img src={getImage(0)} alt="" /></div>
-            <div className="item"><img src={getImage(1)} alt="" /></div>
-            <div className="item"><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(5)}><img src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(6)}><img src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
           </div>
           <div className="col c-3">
-            <div className="item"><img src={getImage(3)} alt="" /></div>
-            <div className="item"><img src={getImage(4)} alt="" /></div>
-            <div className="item"><img src={getImage(5)} alt="" /></div>
-            <div className="item"><img src={getImage(6)} alt="" /></div>
-            <div className="item"><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(4)}><img src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(5)}><img src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(6)}><img src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
           </div>
           <div className="col c-4">
-            <div className="item"><img src={getImage(1)} alt="" /></div>
-            <div className="item"><img src={getImage(2)} alt="" /></div>
-            <div className="item"><img src={getImage(3)} alt="" /></div>
-            <div className="item"><img src={getImage(4)} alt="" /></div>
-            <div className="item"><img src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(4)}><img src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(5)}><img src={getImage(5)} alt="" /></div>
           </div>
           <div className="col c-5">
-            <div className="item"><img src={getImage(6)} alt="" /></div>
-            <div className="item"><img src={getImage(0)} alt="" /></div>
-            <div className="item"><img src={getImage(1)} alt="" /></div>
-            <div className="item"><img src={getImage(2)} alt="" /></div>
-            <div className="item"><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(6)}><img src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
           </div>
         </div>
 
-        <div className="content-overlay">
+        <div className="lightbox-overlay" style={{ pointerEvents: isZoomed ? 'auto' : 'none' }}>
+          <div className="lightbox-img-wrapper">
+            <img src={getImage(0)} alt="" />
+          </div>
+
+          <button className="close-lightbox-btn" onClick={() => setIsZoomed(false)}>
+            <ion-icon name="close-sharp"></ion-icon>
+          </button>
+
+          <div className="content-overlay">
           <div className="hero">
             <div className="icon"><ion-icon name="add-sharp"></ion-icon></div>
             <div className="title"><p>D4A STUDIO</p></div>
@@ -331,6 +347,7 @@ export default function Home() {
 
             <div className="slide-num"><p>{baseIndex + 1} — {projectImages.length}</p></div>
           </footer>
+        </div>
         </div>
       </section>
 
