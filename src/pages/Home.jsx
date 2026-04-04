@@ -18,6 +18,7 @@ export default function Home() {
 
   const [baseIndex, setBaseIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [clickRect, setClickRect] = useState(null);
 
   const getImage = (index) => projectImages[(baseIndex + index) % projectImages.length];
 
@@ -46,7 +47,16 @@ export default function Home() {
     if (isZoomed) triggerGridAnimation();
   };
 
-  const handleImageClick = (indexOffset) => {
+  const handleImageClick = (indexOffset, e) => {
+    if (e && e.currentTarget) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setClickRect({
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+      });
+    }
     const clickedIndex = (baseIndex + indexOffset) % projectImages.length;
     setBaseIndex(clickedIndex);
     setIsZoomed(true);
@@ -54,23 +64,57 @@ export default function Home() {
 
   // Lightbox Entrance GSAP
   useEffect(() => {
-    if (isZoomed) {
+    if (isZoomed && clickRect) {
       let tl = gsap.timeline();
-      tl.to('.lightbox-overlay', { opacity: 1, duration: 0.4, ease: "power2.out", pointerEvents: 'auto' });
       
+      // Setup the overlay transparently first
+      gsap.set('.lightbox-overlay', { opacity: 1, backgroundColor: 'rgba(0,0,0,0)', pointerEvents: 'auto' });
+      
+      // GSAP FromTo to expand from the specific grid item
+      tl.fromTo(".lightbox-img-wrapper", 
+        { 
+          top: clickRect.top,
+          left: clickRect.left,
+          width: clickRect.width,
+          height: clickRect.height,
+          borderRadius: "8px"
+        },
+        { 
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          borderRadius: "0px",
+          duration: 1.5, 
+          ease: "expo.inOut" 
+        }
+      );
+
+      // Fade in background overlay
+      tl.to('.lightbox-overlay', { backgroundColor: 'rgba(0,0,0,1)', duration: 1.0, ease: "power2.inOut" }, 0.2);
+
+      // Fade in UI content
       tl.fromTo(".lightbox-overlay .nav-item a, .lightbox-overlay .title p, .lightbox-overlay .slide-num p, .lightbox-overlay .preview img", 
          { top: 50 },
-         { top: 0, stagger: 0.075, duration: 0.8, ease: "power3.out" }, "-=0.2"
+         { top: 0, stagger: 0.075, duration: 1.2, ease: "power3.out" }, "-=0.6"
       );
 
       tl.fromTo(".lightbox-overlay .icon ion-icon, .lightbox-overlay .icon-2 ion-icon", 
          { scale: 0 },
-         { scale: 1, stagger: 0.05, ease: "power3.out" }, "-=0.6"
+         { scale: 1, stagger: 0.05, ease: "power3.out", duration: 0.8 }, "-=0.8"
       );
+      
+      tl.fromTo(".close-lightbox-btn, .nav-btn", 
+         { opacity: 0, scale: 0.8 },
+         { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, "-=0.8"
+      );
+
+    } else if (isZoomed && !clickRect) {
+      gsap.to('.lightbox-overlay', { opacity: 1, backgroundColor: 'rgba(0,0,0,1)', duration: 0.4, pointerEvents: 'auto' });
     } else {
-      gsap.to('.lightbox-overlay', { opacity: 0, duration: 0.3, ease: "power2.in", pointerEvents: 'none' });
+      gsap.to('.lightbox-overlay', { opacity: 0, duration: 0.4, ease: "power2.in", pointerEvents: 'none' });
     }
-  }, [isZoomed]);
+  }, [isZoomed, clickRect]);
 
   useEffect(() => {
     // Splash Screen Logic
@@ -273,39 +317,39 @@ export default function Home() {
       <section className="home-hero-section">
         <div className="container">
           <div className="col c-1">
-            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(4)}><img src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(4, e)}><img src={getImage(4)} alt="" /></div>
           </div>
           <div className="col c-2">
-            <div className="item" onClick={() => handleImageClick(5)}><img src={getImage(5)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(6)}><img src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(5, e)}><img src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(6, e)}><img src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
           </div>
           <div className="col c-3">
-            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(4)}><img src={getImage(4)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(5)}><img src={getImage(5)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(6)}><img src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(4, e)}><img src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(5, e)}><img src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(6, e)}><img src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
           </div>
           <div className="col c-4">
-            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(4)}><img src={getImage(4)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(5)}><img src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(4, e)}><img src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(5, e)}><img src={getImage(5)} alt="" /></div>
           </div>
           <div className="col c-5">
-            <div className="item" onClick={() => handleImageClick(6)}><img src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(0)}><img src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(1)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(2)}><img src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={() => handleImageClick(3)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(6, e)}><img src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
           </div>
         </div>
 
