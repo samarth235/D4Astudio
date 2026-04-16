@@ -100,19 +100,24 @@ export default function Projects() {
     // ─── Typewriter on hero heading ──────────────────────────────
     const heroTitle = document.querySelector('.hero-card-title');
     if (heroTitle) {
-      const text = heroTitle.textContent;
+      if (window.heroTitleStartTimer) clearTimeout(window.heroTitleStartTimer);
+      if (window.heroTitleTypeTimer) clearTimeout(window.heroTitleTypeTimer);
+
+      const text = heroTitle.dataset.title || heroTitle.textContent;
+      if (!heroTitle.dataset.title) heroTitle.dataset.title = text;
+      
       heroTitle.textContent = '';
       heroTitle.style.borderRight = '2px solid #8e9196';
       let i = 0;
       const type = () => {
         if (i < text.length) {
           heroTitle.textContent += text[i++];
-          setTimeout(type, 45);
+          window.heroTitleTypeTimer = setTimeout(type, 45);
         } else {
           heroTitle.style.borderRight = 'none';
         }
       };
-      setTimeout(type, 600);
+      window.heroTitleStartTimer = setTimeout(type, 600);
     }
 
     // ─── Hamburger Menu ──────────────────────────────────────────
@@ -271,7 +276,7 @@ export default function Projects() {
                 <span className="card-year">{hero.year}</span>
               </div>
               <div className="card-info">
-                <h2 className="hero-card-title">{hero.title}</h2>
+                <h2 className="hero-card-title" data-title={hero.title}>{hero.title}</h2>
                 <p className="card-sub">{hero.location} · {hero.area}</p>
                 <p className="card-desc">{hero.description.substring(0, 120)}...</p>
                 <div className="card-cta">
