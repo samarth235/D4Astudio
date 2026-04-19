@@ -38,14 +38,14 @@ const ProcessSection = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   return (
-    <section className="w-full flex flex-col md:flex-row bg-[#080808] text-white overflow-hidden relative">
+    <section className="w-full flex flex-col lg:flex-row bg-[#080808] text-white overflow-hidden relative">
       {/* Left side: Navigation */}
-      <div className="w-full md:w-1/2 relative md:min-h-screen pt-24 pb-12 md:py-40 pl-6 pr-6 md:pl-12 md:pr-16 lg:pl-16 lg:pr-24 xl:pl-24 xl:pr-32 flex flex-col md:justify-center justify-start z-10">
+      <div className="w-full lg:w-1/2 relative lg:min-h-screen pt-24 pb-12 lg:py-40 pl-6 pr-6 md:pl-12 md:pr-16 lg:pl-16 lg:pr-24 xl:pl-24 xl:pr-32 flex flex-col lg:justify-center justify-start z-10">
         
         {/* Giant Watermark "0" */}
-        <div className="absolute top-1/3 md:top-1/2 right-0 translate-x-1/4 -translate-y-1/2 pointer-events-none select-none z-0">
+        <div className="absolute top-1/3 lg:top-1/2 right-0 translate-x-1/4 -translate-y-1/2 pointer-events-none select-none z-0">
           <span 
-            className="text-[60vw] md:text-[35vw] font-bold leading-none text-[#111] opacity-50 md:opacity-100"
+            className="text-[60vw] lg:text-[35vw] font-bold leading-none text-[#111] opacity-50 lg:opacity-100"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
             0
@@ -65,7 +65,7 @@ const ProcessSection = () => {
               >
                 <div className="flex items-start gap-8 md:gap-12 lg:gap-16">
                   <span 
-                    className="text-xl md:text-2xl pt-1 md:pt-2 w-10 md:w-14 shrink-0 transition-colors duration-300 font-bold"
+                    className="text-xl lg:text-2xl pt-1 lg:pt-2 w-10 lg:w-14 shrink-0 transition-colors duration-300 font-bold"
                     style={{ 
                       color: isActive ? "#888" : "#333",
                       fontFamily: "'Space Grotesk', sans-serif"
@@ -76,7 +76,7 @@ const ProcessSection = () => {
                   
                   <div className="flex-1">
                     <h3 
-                      className="text-4xl md:text-5xl lg:text-[4rem] font-bold transition-colors duration-500 tracking-tight"
+                      className="text-4xl lg:text-5xl lg:text-[4rem] font-bold transition-colors duration-500 tracking-tight"
                       style={{ 
                         fontFamily: "'Space Grotesk', sans-serif",
                         color: isActive ? "#fff" : "#333",
@@ -95,7 +95,7 @@ const ProcessSection = () => {
                       transition={{ duration: 0.4, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <p className="mt-6 text-[#999] text-base md:text-lg leading-relaxed max-w-md font-light">
+                      <p className="mt-6 text-[#999] text-base lg:text-lg leading-relaxed max-w-md font-light">
                         {step.desc}
                       </p>
                     </motion.div>
@@ -108,7 +108,7 @@ const ProcessSection = () => {
       </div>
 
       {/* Right side: Sticky Image */}
-      <div className="w-full md:w-1/2 h-[60vh] md:h-screen md:sticky top-0 relative overflow-hidden bg-[#111]">
+      <div className="w-full lg:w-1/2 h-[60vh] lg:h-screen lg:sticky top-0 relative overflow-hidden bg-[#111]">
         {steps.map((step, i) => (
           <motion.img
             key={step.image}
@@ -140,7 +140,7 @@ const ProcessSection = () => {
                 opacity: activeStep === i ? 0.15 : 0
               }}
               transition={{ duration: 0.6 }}
-              className="absolute bottom-0 left-0 text-7xl md:text-9xl font-bold text-white leading-none touch-none"
+              className="absolute bottom-0 left-0 text-7xl lg:text-9xl font-bold text-white leading-none touch-none"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
               {step.num}
