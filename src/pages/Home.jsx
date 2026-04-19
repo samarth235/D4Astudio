@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import './Home.scss';
 import Footer from '../components/Footer';
+import VantaBackground from '../components/ui/VantaBackground';
 
 
 export default function Home() {
@@ -252,6 +253,7 @@ export default function Home() {
 
   return (
     <div id="home-page">
+      <VantaBackground />
       <div id="splash">
         <video
           id="splashVideo"
@@ -281,13 +283,13 @@ export default function Home() {
               </span>
             </Link>
 
-            <Link to="/projects.html">
+            <Link to="/projects">
               <span className="slot">
                 <span className="top">Projects</span>
                 <span className="bottom">Projects</span>
               </span>
             </Link>
-            <Link to="/about.html">
+            <Link to="/about">
               <span className="slot">
                 <span className="top">About Us</span>
                 <span className="bottom">About Us</span>
@@ -308,8 +310,8 @@ export default function Home() {
           <ul className="sm-list">
             <li><Link to="/">Home</Link></li>
 
-            <li><Link to="/projects.html">Projects</Link></li>
-            <li><Link to="/about.html">About Us</Link></li>
+            <li><Link to="/projects">Projects</Link></li>
+            <li><Link to="/about">About Us</Link></li>
           </ul>
         </aside>
       </div>

@@ -60,14 +60,14 @@ export default function About() {
                 <span className="bottom">Home</span>
               </span>
             </a>
-            <a href="/projects.html">
+            <a href="/projects">
               <span className="slot">
                 <span className="top">Projects</span>
                 <span className="bottom">Projects</span>
               </span>
             </a>
 
-            <a href="/about.html" aria-current="page">
+            <a href="/about" aria-current="page">
               <span className="slot">
                 <span className="top">About Us</span>
                 <span className="bottom">About Us</span>
@@ -99,7 +99,7 @@ export default function About() {
             {['Home', 'Projects', 'About Us'].map((text, i) => (
               <li key={text}>
                 <a 
-                  href={text === 'Home' ? '/' : `/${text.toLowerCase().replace(' ', '')}.html`}
+                  href={text === 'Home' ? '/' : `/${text.toLowerCase().split(' ')[0]}`}
                   ref={el => itemsRef.current[i] = el}
                   onClick={toggleMenu}
                 >

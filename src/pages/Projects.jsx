@@ -217,9 +217,9 @@ export default function Projects() {
           </div>
           <nav className="nav">
             <a href="/"><span className="slot"><span className="top">Home</span><span className="bottom">Home</span></span></a>
-            <a href="/projects.html" aria-current="page"><span className="slot"><span className="top">Projects</span><span className="bottom">Projects</span></span></a>
+            <a href="/projects" aria-current="page"><span className="slot"><span className="top">Projects</span><span className="bottom">Projects</span></span></a>
 
-            <a href="/about.html"><span className="slot"><span className="top">About Us</span><span className="bottom">About Us</span></span></a>
+            <a href="/about"><span className="slot"><span className="top">About Us</span><span className="bottom">About Us</span></span></a>
           </nav>
           <div className="hamburger" id="hamburgerBtn">
             <span></span><span></span><span></span>
@@ -233,9 +233,9 @@ export default function Projects() {
         <aside className="sm-panel" id="smPanel">
           <ul className="sm-list">
             <li><a href="/">Home</a></li>
-            <li><a href="/projects.html">Projects</a></li>
+            <li><a href="/projects">Projects</a></li>
 
-            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/about">About Us</a></li>
           </ul>
         </aside>
       </div>
