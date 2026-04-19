@@ -41,35 +41,35 @@ export default function ProjectMatrix() {
               <span className="matrix-index">01</span>
               <h4>Urban Edge</h4>
               <div className="matrix-preview">
-                <img src="/Urban Edge.png" alt="Urban Edge" />
+                <img src="/Urban Edge.webp" alt="Urban Edge" loading="lazy" />
               </div>
             </div>
             <div className="matrix-item" data-scroll="Amarta">
               <span className="matrix-index">02</span>
               <h4>Amarta</h4>
               <div className="matrix-preview">
-                <img src="/Amarta MO.png" alt="Amarta" />
+                <img src="/Amarta MO.webp" alt="Amarta" loading="lazy" />
               </div>
             </div>
             <div className="matrix-item" data-scroll="RRN LUX">
               <span className="matrix-index">03</span>
               <h4>RRN LUX</h4>
               <div className="matrix-preview">
-                <img src="/RRN LUX.png" alt="RRN LUX" />
+                <img src="/RRN LUX.webp" alt="RRN LUX" loading="lazy" />
               </div>
             </div>
             <div className="matrix-item" data-scroll="Suresh Residence">
               <span className="matrix-index">04</span>
               <h4>Suresh Residence</h4>
               <div className="matrix-preview">
-                <img src="/Suresh Residence .JPG" alt="Suresh" />
+                <img src="/Suresh Residence .webp" alt="Suresh" loading="lazy" />
               </div>
             </div>
             <div className="matrix-item" data-scroll="Sumukha Residence">
               <span className="matrix-index">05</span>
               <h4>Sumukha Residence</h4>
               <div className="matrix-preview">
-                <img src="/Sumukha Residence.jpg" alt="Sumukha" />
+                <img src="/Sumukha Residence.webp" alt="Sumukha" loading="lazy" />
               </div>
             </div>
           </div>

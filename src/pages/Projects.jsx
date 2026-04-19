@@ -11,7 +11,7 @@ const projectsData = [
     location: 'Sigehalli, Bangalore',
     area: '3.2 Acres',
     program: 'Luxury Residential',
-    image: '/Urban Edge.png',
+    image: '/Urban Edge.webp',
     description: `D4A Studio's proposal envisions an exclusive uber-luxury residential community in Sigehalli, crafted to offer calm, privacy, and sophistication. The architecture features contemporary tower forms, expansive decks, and a refined material palette that elevates modern living. Spacious 3, 3.5 & 4, 4.5 BHK residences, duplex sky villas, and penthouses are planned with generous ceiling heights and premium finishes.`,
     recognition: null,
   },
@@ -23,7 +23,7 @@ const projectsData = [
     location: 'Bangalore',
     area: '8,200 sq ft',
     program: 'Corporate Office',
-    image: '/Amarta MO.png',
+    image: '/Amarta MO.webp',
     description: `The Amarta Marketing Office by D4A Studio is not just a workspace; it's a strategically designed client experience. The project redefines the traditional corporate environment by integrating hospitality and engagement into its core. The central feature is a captivating courtyard — a tranquil water body surrounds a central tree, creating a peaceful oasis accessible to clients.`,
     recognition: null,
   },
@@ -35,7 +35,7 @@ const projectsData = [
     location: 'RR Nagar, Bangalore',
     area: '1.8 Acres',
     program: 'Uber-Luxury Residential',
-    image: '/RRN LUX.png',
+    image: '/RRN LUX.webp',
     description: `D4A Studio presents an uber-luxury residential address in RR Nagar that blends timeless architecture with contemporary living. The design choreographs light, privacy, and landscape to create a calm, resort-grade experience minutes from the city. The master plan orients towers to capture prevailing breezes and long views while minimizing heat gain.`,
     recognition: null,
   },
@@ -47,7 +47,7 @@ const projectsData = [
     location: 'Sarjapur, Bangalore',
     area: '2,400 sq ft',
     program: 'Residential',
-    image: '/Suresh Residence .JPG',
+    image: '/Suresh Residence .webp',
     description: `A four-story, East-facing residential building on a 40' x 60' site in Sarjapur. The architecture by D4A Studio combines modern aesthetics with functional spaces, focusing on natural light, open-plan living, and unique features like a double-height dining area and an integrated waterfall.`,
     recognition: null,
   },
@@ -59,7 +59,7 @@ const projectsData = [
     location: 'Bangalore',
     area: '1,500 sq ft',
     program: 'Renovation',
-    image: '/Sumukha Residence.jpg',
+    image: '/Sumukha Residence.webp',
     description: `A modern renovation of a residential building on a 30' x 50' East-facing site. The design focuses on updating the existing structure to meet contemporary living standards, maximizing space, improving natural light and ventilation, and introducing a sleek, modern aesthetic without expanding the original footprint.`,
     recognition: null,
   },
@@ -212,7 +212,7 @@ export default function Projects() {
         <div className="header-container">
           <div className="logo-container">
             <a href="/" style={{ lineHeight: 0 }}>
-              <img src="/img.jpeg" className="logo" alt="D4A logo" />
+              <img src="/img.webp" className="logo" alt="D4A logo" />
             </a>
           </div>
           <nav className="nav">
@@ -269,7 +269,7 @@ export default function Projects() {
             className="proj-card proj-card--hero"
             onClick={() => openModal(hero)}
           >
-            <img src={hero.image} alt={hero.title} className="card-img" />
+            <img src={hero.image} alt={hero.title} className="card-img" loading="lazy" />
             <div className="card-overlay">
               <div className="card-meta-top">
                 <span className="card-tag">{hero.category}</span>
@@ -303,7 +303,7 @@ export default function Projects() {
               className="proj-card proj-card--grid"
               onClick={() => openModal(project)}
             >
-              <img src={project.image} alt={project.title} className="card-img" />
+              <img src={project.image} alt={project.title} className="card-img" loading="lazy" />
               <div className="card-overlay">
                 <div className="card-meta-top">
                   <span className="card-tag">{project.category}</span>
@@ -335,7 +335,7 @@ export default function Projects() {
           <div className="proj-modal-box" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close-btn" onClick={closeModal}>✕</button>
             <div className="modal-img-wrap">
-              <img src={activeModal.image} alt={activeModal.title} />
+              <img src={activeModal.image} alt={activeModal.title} loading="lazy" />
               <div className="modal-img-tag">{activeModal.category}</div>
             </div>
             <div className="modal-body">

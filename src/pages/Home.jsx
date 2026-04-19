@@ -8,13 +8,13 @@ import VantaBackground from '../components/ui/VantaBackground';
 
 export default function Home() {
   const projectImages = [
-    "Urban Edge.png",
-    "RRN LUX.png",
-    "Amarta MO.png",
-    "Suresh Residence .JPG",
-    "Sumukha Residence.jpg",
-    "Amarta CH.png",
-    "Amarta EP.png"
+    "Urban Edge.webp",
+    "RRN LUX.webp",
+    "Amarta MO.webp",
+    "Suresh Residence .webp",
+    "Sumukha Residence.webp",
+    "Amarta CH.webp",
+    "Amarta EP.webp"
   ];
 
   const [baseIndex, setBaseIndex] = useState(0);
@@ -261,7 +261,7 @@ export default function Home() {
           autoPlay
           playsInline
           preload="metadata"
-          poster="img.jpeg"
+          poster="img.webp"
         >
           <source src="logoanim.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -272,7 +272,7 @@ export default function Home() {
   <div className="header-container">
     <div className="logo-container">
       <Link to="/" style={{ lineHeight: 0 }}>
-        <img src="/img.jpeg" className="logo" alt="logo" />
+        <img src="/img.webp" className="logo" alt="logo" />
       </Link>
     </div>
     <nav className="nav">
@@ -319,45 +319,45 @@ export default function Home() {
       <section className="home-hero-section">
         <div className="container">
           <div className="col c-1">
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(4, e)}><img src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(4, e)}><img loading="lazy" src={getImage(4)} alt="" /></div>
           </div>
           <div className="col c-2">
-            <div className="item" onClick={(e) => handleImageClick(5, e)}><img src={getImage(5)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(6, e)}><img src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(5, e)}><img loading="lazy" src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(6, e)}><img loading="lazy" src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
           </div>
           <div className="col c-3">
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(4, e)}><img src={getImage(4)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(5, e)}><img src={getImage(5)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(6, e)}><img src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(4, e)}><img loading="lazy" src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(5, e)}><img loading="lazy" src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(6, e)}><img loading="lazy" src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
           </div>
           <div className="col c-4">
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(4, e)}><img src={getImage(4)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(5, e)}><img src={getImage(5)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(4, e)}><img loading="lazy" src={getImage(4)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(5, e)}><img loading="lazy" src={getImage(5)} alt="" /></div>
           </div>
           <div className="col c-5">
-            <div className="item" onClick={(e) => handleImageClick(6, e)}><img src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img src={getImage(3)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(6, e)}><img loading="lazy" src={getImage(6)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
+            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
           </div>
         </div>
 
         <div className="lightbox-overlay" style={{ pointerEvents: isZoomed ? 'auto' : 'none' }}>
           <div className="lightbox-img-wrapper">
-            <img src={getImage(0)} alt="" />
+            <img loading="lazy" src={getImage(0)} alt="" />
           </div>
 
           <button className="close-lightbox-btn" onClick={() => setIsZoomed(false)}>
@@ -382,13 +382,13 @@ export default function Home() {
 
           <footer className="home-footer">
             <div className="preview">
-              <img src={getImage(0)} alt="" />
-              <img src={getImage(1)} alt="" />
-              <img src={getImage(2)} alt="" />
-              <img src={getImage(3)} alt="" />
-              <img src={getImage(4)} alt="" />
-              <img src={getImage(5)} alt="" />
-              <img src={getImage(6)} alt="" />
+              <img loading="lazy" src={getImage(0)} alt="" />
+              <img loading="lazy" src={getImage(1)} alt="" />
+              <img loading="lazy" src={getImage(2)} alt="" />
+              <img loading="lazy" src={getImage(3)} alt="" />
+              <img loading="lazy" src={getImage(4)} alt="" />
+              <img loading="lazy" src={getImage(5)} alt="" />
+              <img loading="lazy" src={getImage(6)} alt="" />
             </div>
 
             <div className="slide-num"><p>{baseIndex + 1} — {projectImages.length}</p></div>

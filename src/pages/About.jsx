@@ -50,7 +50,7 @@ export default function About() {
         <div className="header-container">
           <div className="logo-container">
             <a href="/" style={{ lineHeight: 0 }}>
-              <img src="/img.jpeg" className="logo" alt="D4A logo" />
+              <img src="/img.webp" className="logo" alt="D4A logo" />
             </a>
           </div>
           <nav className="nav">
@@ -157,7 +157,7 @@ export default function About() {
               </div>
               
               <div className="story-future-image">
-                <img src="/img1.jpg" alt="About D4A Studio" />
+                <img src="/img1.webp" alt="About D4A Studio" />
               </div>
             </div>
           </section>
@@ -178,15 +178,15 @@ export default function About() {
 
             <div className="team-grid">
               {[
-                { name: "Dhyan Srinivas", role: "Founder", img1: "01_DHYAN SRINIVASA_FOUNDER.PNG", img2: "01_D.png" },
-                { name: "Sanath Veeru KS", role: "Lead Architect", img1: "02_SANATH.PNG", img2: "02_S.PNG" },
-                { name: "Prashant D", role: "Junior Architect", img1: "03_PRASHANT D_JUNIOR ARCHITECT (1).PNG", img2: "03_P.png" },
-                { name: "Arsalan R K", role: "Junior Architect", img1: "04_AR1.PNG", img2: "04_AR.png" }
+                { name: "Dhyan Srinivas", role: "Founder", img1: "01_DHYAN SRINIVASA_FOUNDER.webp", img2: "01_D.webp" },
+                { name: "Sanath Veeru KS", role: "Lead Architect", img1: "02_SANATH.webp", img2: "02_S.webp" },
+                { name: "Prashant D", role: "Junior Architect", img1: "03_PRASHANT D_JUNIOR ARCHITECT (1).webp", img2: "03_P.webp" },
+                { name: "Arsalan R K", role: "Junior Architect", img1: "04_AR1.webp", img2: "04_AR.webp" }
               ].map((member, i) => (
                 <div className="team-card" key={member.name}>
                   <div className="team-img-wrapper">
-                    <img src={member.img1} className="base-img" alt={member.name} />
-                    <img src={member.img2} className="hover-img" alt={member.name} />
+                    <img src={member.img1} className="base-img" alt={member.name} loading="lazy" />
+                    <img src={member.img2} className="hover-img" alt={member.name} loading="lazy" />
                   </div>
                   <h4>{member.name}</h4>
                   <p>{member.role}</p>
