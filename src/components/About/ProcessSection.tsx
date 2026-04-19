@@ -40,12 +40,12 @@ const ProcessSection = () => {
   return (
     <section className="w-full flex flex-col md:flex-row bg-[#080808] text-white overflow-hidden relative">
       {/* Left side: Navigation */}
-      <div className="w-full md:w-1/2 relative min-h-screen py-24 md:py-40 pl-6 pr-6 md:pl-12 md:pr-16 lg:pl-16 lg:pr-24 xl:pl-24 xl:pr-32 flex flex-col justify-center z-10">
+      <div className="w-full md:w-1/2 relative md:min-h-screen pt-24 pb-12 md:py-40 pl-6 pr-6 md:pl-12 md:pr-16 lg:pl-16 lg:pr-24 xl:pl-24 xl:pr-32 flex flex-col md:justify-center justify-start z-10">
         
         {/* Giant Watermark "0" */}
-        <div className="absolute top-1/2 right-0 translate-x-1/4 -translate-y-1/2 pointer-events-none select-none z-0">
+        <div className="absolute top-1/3 md:top-1/2 right-0 translate-x-1/4 -translate-y-1/2 pointer-events-none select-none z-0">
           <span 
-            className="text-[40vw] md:text-[35vw] font-bold leading-none text-[#111]"
+            className="text-[60vw] md:text-[35vw] font-bold leading-none text-[#111] opacity-50 md:opacity-100"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
             0
@@ -65,8 +65,11 @@ const ProcessSection = () => {
               >
                 <div className="flex items-start gap-8 md:gap-12 lg:gap-16">
                   <span 
-                    className="text-sm font-mono pt-3 lg:pt-5 w-6"
-                    style={{ color: isActive ? "#888" : "#444" }}
+                    className="text-xl md:text-2xl pt-1 md:pt-2 w-10 md:w-14 shrink-0 transition-colors duration-300 font-bold"
+                    style={{ 
+                      color: isActive ? "#888" : "#333",
+                      fontFamily: "'Space Grotesk', sans-serif"
+                    }}
                   >
                     {step.num}
                   </span>
@@ -105,7 +108,7 @@ const ProcessSection = () => {
       </div>
 
       {/* Right side: Sticky Image */}
-      <div className="w-full md:w-1/2 h-[50vh] md:h-screen md:sticky top-0 relative overflow-hidden bg-[#111]">
+      <div className="w-full md:w-1/2 h-[60vh] md:h-screen md:sticky top-0 relative overflow-hidden bg-[#111]">
         {steps.map((step, i) => (
           <motion.img
             key={step.image}

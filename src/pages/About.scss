@@ -253,9 +253,14 @@ html,body{width:100%;overflow-x:hidden;}
 
 .story-future {
   position: relative;
-  margin: 5rem 0;
-  padding: 4rem 1.5rem;
+  margin: 2rem 0;
+  padding: 2rem 1.5rem;
   overflow: hidden;
+
+  @media (min-width: 768px) {
+    margin: 5rem 0;
+    padding: 4rem 1.5rem;
+  }
 }
 
 /* Subtle abstract background */
