@@ -18,9 +18,13 @@
   box-sizing: border-box;
 }
 
-html, body {
-  overflow-x: hidden !important;
-  width: 100% !important;
+html {
+  width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {

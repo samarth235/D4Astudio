@@ -201,55 +201,11 @@ export default function Home() {
       }, 100);
     }
 
-    // Hamburger Menu GSAP
-    const hamburger = document.getElementById("hamburgerBtn");
-    const wrapper = document.getElementById("smWrapper");
-    const panel = document.getElementById("smPanel");
-    const backdrop = document.getElementById("smBackdrop");
-    const items = document.querySelectorAll(".sm-list a");
-    let menuOpen = false;
-
-    let tl_menu;
-    if (panel && items.length) {
-      gsap.set(panel, { xPercent: 100 });
-      gsap.set(items, { yPercent: 140 });
-      tl_menu = gsap.timeline({ paused: true });
-      tl_menu.to(backdrop, { opacity: 1, duration: 0.3 })
-        .to(panel, { xPercent: 0, duration: 0.65, ease: "power4.out" }, 0)
-        .to(items, { yPercent: 0, duration: 1, ease: "power4.out", stagger: 0.1 }, 0.2);
-
-      const toggleMenu = () => {
-        menuOpen = !menuOpen;
-        wrapper?.classList.toggle("active", menuOpen);
-        hamburger?.classList.toggle("active", menuOpen);
-        if (menuOpen) tl_menu.play(0); else tl_menu.reverse();
-      };
-
-      const stopProp = e => { e.stopPropagation(); toggleMenu(); };
-      hamburger?.addEventListener("click", stopProp);
-      backdrop?.addEventListener("click", toggleMenu);
-      items.forEach(link => link.addEventListener("click", toggleMenu));
-
-      // Add ionicons scripts
-      const script1 = document.createElement("script");
-      script1.type = "module";
-      script1.src = "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js";
-      document.body.appendChild(script1);
-
-      const script2 = document.createElement("script");
-      script2.noModule = true;
-      script2.src = "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js";
-      document.body.appendChild(script2);
-
-      return () => {
-        hamburger?.removeEventListener("click", stopProp);
-        backdrop?.removeEventListener("click", toggleMenu);
-        items.forEach(link => link.removeEventListener("click", toggleMenu));
-        if (script1.parentNode) document.body.removeChild(script1);
-        if (script2.parentNode) document.body.removeChild(script2);
-      };
-    }
+    // Hamburger Menu Logic (now handled via React State)
   }, []);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const toggleMenu = () => setMenuOpen(prev => !prev);
 
   return (
     <div id="home-page">
@@ -268,21 +224,20 @@ export default function Home() {
         </video>
       </div>
 
-      <header className="header" id="header" style={{ fontFamily: '"Circular Std", "Poppins", sans-serif' }}>
-  <div className="header-container">
-    <div className="logo-container">
-      <Link to="/" style={{ lineHeight: 0 }}>
-        <img src="/img.webp" className="logo" alt="logo" />
-      </Link>
-    </div>
-    <nav className="nav">
+      <header className="header" id="header">
+        <div className="header-container">
+          <div className="logo-container">
+            <a href="/" style={{ lineHeight: 0 }}>
+              <img src="/img.webp" className="logo" alt="D4A logo" />
+            </a>
+          </div>
+          <nav className="nav">
             <Link to="/" aria-current="page">
               <span className="slot">
                 <span className="top">Home</span>
                 <span className="bottom">Home</span>
               </span>
             </Link>
-
             <Link to="/projects">
               <span className="slot">
                 <span className="top">Projects</span>
@@ -296,7 +251,12 @@ export default function Home() {
               </span>
             </Link>
           </nav>
-          <div className="hamburger" id="hamburgerBtn">
+
+          <div
+            className={`hamburger ${menuOpen ? 'active' : ''}`}
+            id="hamburgerBtn"
+            onClick={toggleMenu}
+          >
             <span></span>
             <span></span>
             <span></span>
@@ -304,14 +264,14 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="sm-wrapper" id="smWrapper">
-        <div className="sm-backdrop" id="smBackdrop"></div>
+      {/* MOBILE NAV MENU */}
+      <div className={`sm-wrapper ${menuOpen ? 'active' : ''}`} id="smWrapper">
+        <div className="sm-backdrop" id="smBackdrop" onClick={toggleMenu}></div>
         <aside className="sm-panel" id="smPanel">
           <ul className="sm-list">
-            <li><Link to="/">Home</Link></li>
-
-            <li><Link to="/projects">Projects</Link></li>
-            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
+            <li><Link to="/projects" onClick={toggleMenu}>Projects</Link></li>
+            <li><Link to="/about" onClick={toggleMenu}>About Us</Link></li>
           </ul>
         </aside>
       </div>

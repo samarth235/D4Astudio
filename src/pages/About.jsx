@@ -22,23 +22,7 @@ export default function About() {
   }, []);
 
   useEffect(() => {
-    // Hamburger Menu GSAP
-    if (panelRef.current) {
-      const items = itemsRef.current;
-      gsap.set(panelRef.current, { xPercent: 100 });
-      gsap.set(items, { yPercent: 140 });
-
-      const tl_menu = gsap.timeline({ paused: true });
-      tl_menu.to(backdropRef.current, { opacity: 1, duration: 0.3 })
-        .to(panelRef.current, { xPercent: 0, duration: 0.65, ease: "power4.out" }, 0)
-        .to(items, { yPercent: 0, duration: 1, ease: "power4.out", stagger: 0.1 }, 0.2);
-
-      if (menuOpen) {
-        tl_menu.play(0);
-      } else {
-        tl_menu.reverse();
-      }
-    }
+    // 
   }, [menuOpen]);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -74,8 +58,8 @@ export default function About() {
               </span>
             </a>
           </nav>
-          <div 
-            className={`hamburger ${menuOpen ? 'active' : ''}`} 
+          <div
+            className={`hamburger ${menuOpen ? 'active' : ''}`}
             id="hamburgerBtn"
             onClick={toggleMenu}
           >
@@ -88,9 +72,9 @@ export default function About() {
 
       {/* MOBILE NAV */}
       <div className={`sm-wrapper ${menuOpen ? 'active' : ''}`} id="smWrapper">
-        <div 
-          className="sm-backdrop" 
-          id="smBackdrop" 
+        <div
+          className="sm-backdrop"
+          id="smBackdrop"
           ref={backdropRef}
           onClick={toggleMenu}
         ></div>
@@ -98,7 +82,7 @@ export default function About() {
           <ul className="sm-list">
             {['Home', 'Projects', 'About Us'].map((text, i) => (
               <li key={text}>
-                <a 
+                <a
                   href={text === 'Home' ? '/' : `/${text.toLowerCase().split(' ')[0]}`}
                   ref={el => itemsRef.current[i] = el}
                   onClick={toggleMenu}
@@ -111,15 +95,10 @@ export default function About() {
         </aside>
       </div>
 
-      {/* SCROLL EXPANSION HERO - IMAGE ONLY */}
+      {/* SCROLL EXPANSION HERO */}
       <ScrollExpandMedia
-        mediaType="image"
-        mediaSrc="https://images.unsplash.com/photo-1682687982501-1e58ab814714?q=80&w=1280&auto=format&fit=crop"
-        bgImageSrc="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop"
-        title="Dynamic Image Showcase"
-        date="Underwater Adventure"
-        scrollToExpand="Scroll down to expand"
-        textBlend
+        mediaType="video"
+        mediaSrc="/clubhouseClip-40-1.mp4"
       >
         <div className="max-w-7xl mx-auto pt-20">
           <section className="story-future">
@@ -155,7 +134,7 @@ export default function About() {
                   Based in Bengaluru · Working across residential, commercial & turnkey projects
                 </p>
               </div>
-              
+
               <div className="story-future-image">
                 <img src="/img1.webp" alt="About D4A Studio" />
               </div>
@@ -166,7 +145,7 @@ export default function About() {
 
       {/* MAIN CONTENT */}
       <main>
-        
+
         {/* PROCESS SECTION - FULL WIDTH COMPONENT */}
         <ProcessSection />
 
