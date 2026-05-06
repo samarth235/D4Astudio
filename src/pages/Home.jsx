@@ -216,8 +216,7 @@ export default function Home() {
           muted
           autoPlay
           playsInline
-          preload="metadata"
-          poster="img.webp"
+          preload="auto"
         >
           <source src="logoanim.mp4" type="video/mp4" />
           Your browser does not support the video tag.
