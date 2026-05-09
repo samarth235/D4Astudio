@@ -42,11 +42,11 @@ export default function Footer() {
                   <p className="info-text">Bengaluru, Karnataka</p>
                 </div>
               </a>
-              <a href="mailto:d4astudios@gmail.com" className="info-block contact-link">
+              <a href="mailto:d4astudio@gmail.com,dhyan@d4astudio.com" className="info-block contact-link">
                 <div className="info-icon"><ion-icon name="mail-outline"></ion-icon></div>
                 <div>
                   <p className="info-label">EMAIL</p>
-                  <p className="info-text">d4astudios@gmail.com</p>
+                  <p className="info-text">d4astudio@gmail.com / dhyan@d4astudio.com</p>
                 </div>
               </a>
               <a href="tel:+919876543210" className="info-block contact-link">

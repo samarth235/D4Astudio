@@ -98,7 +98,8 @@ export default function About() {
       {/* SCROLL EXPANSION HERO */}
       <ScrollExpandMedia
         mediaType="video"
-        mediaSrc="/clubhouseClip-40-1.mp4"
+        mediaSrc="/clubhouse-desktop.mp4"
+        mobileSrc="/timeline-mobile.mp4"
       >
         <div className="max-w-7xl mx-auto pt-20">
           <section className="story-future">
@@ -136,7 +137,7 @@ export default function About() {
               </div>
 
               <div className="story-future-image">
-                <img src="/img1.webp" alt="About D4A Studio" />
+                <img src="/Urban Edge.webp" alt="About D4A Studio" />
               </div>
             </div>
           </section>

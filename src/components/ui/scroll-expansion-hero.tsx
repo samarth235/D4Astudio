@@ -13,6 +13,7 @@ import { motion } from 'framer-motion';
 interface ScrollExpandMediaProps {
   mediaType?: 'video' | 'image';
   mediaSrc: string;
+  mobileSrc?: string;
   posterSrc?: string;
   bgImageSrc?: string;
   title?: string;
@@ -25,6 +26,7 @@ interface ScrollExpandMediaProps {
 const ScrollExpandMedia = ({
   mediaType = 'video',
   mediaSrc,
+  mobileSrc,
   posterSrc,
   bgImageSrc,
   title,
@@ -40,6 +42,10 @@ const ScrollExpandMedia = ({
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Determine the active video source based on screen size
+  const activeVideoSrc = isMobileState && mobileSrc ? mobileSrc : mediaSrc;
 
   useEffect(() => {
     setScrollProgress(0);
@@ -170,15 +176,14 @@ const ScrollExpandMedia = ({
   return (
     <div
       ref={sectionRef}
-      className='transition-colors duration-700 ease-in-out overflow-x-hidden'
+      className='overflow-x-hidden'
+      style={{ background: '#000' }}
     >
       <section className='relative flex flex-col items-center justify-start min-h-[100dvh]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
-          <motion.div
-            className='absolute inset-0 z-0 h-full bg-black'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 - scrollProgress }}
-            transition={{ duration: 0.1 }}
+          <div
+            className='absolute inset-0 z-0 h-full'
+            style={{ background: '#000' }}
           >
             {bgImageSrc && (
               <>
@@ -191,7 +196,7 @@ const ScrollExpandMedia = ({
                 <div className='absolute inset-0 bg-black/10' />
               </>
             )}
-          </motion.div>
+          </div>
 
           <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative'>
@@ -241,7 +246,9 @@ const ScrollExpandMedia = ({
                   ) : (
                     <div className='relative w-full h-full pointer-events-none'>
                       <video
-                        src={mediaSrc}
+                        ref={videoRef}
+                        key={activeVideoSrc}
+                        src={activeVideoSrc}
                         poster={posterSrc}
                         autoPlay
                         muted
@@ -250,6 +257,11 @@ const ScrollExpandMedia = ({
                         preload='auto'
                         className='w-full h-full object-cover'
                         controls={false}
+                        style={{
+                          willChange: 'transform',
+                          backfaceVisibility: 'hidden',
+                          WebkitBackfaceVisibility: 'hidden',
+                        }}
                       />
                       <div
                         className='absolute inset-0 z-10'
@@ -300,6 +312,34 @@ const ScrollExpandMedia = ({
                   )}
                 </div>
               </div>
+
+              {/* Scroll indicator */}
+              <motion.div
+                className='absolute bottom-8 left-1/2 z-20 flex flex-col items-center gap-2'
+                style={{ transform: 'translateX(-50%)' }}
+                initial={{ opacity: 1 }}
+                animate={{ opacity: scrollProgress > 0.15 ? 0 : 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <span style={{
+                  fontSize: '0.65rem',
+                  letterSpacing: '0.3em',
+                  color: 'rgba(240, 237, 232, 0.6)',
+                  fontWeight: 500,
+                  textTransform: 'uppercase',
+                  fontFamily: "'Inter', sans-serif",
+                }}>Scroll to explore</span>
+                <motion.div
+                  animate={{ y: [0, 6, 0] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ color: 'rgba(240, 237, 232, 0.5)' }}
+                >
+                  <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round'>
+                    <path d='M7 13l5 5 5-5' />
+                    <path d='M7 7l5 5 5-5' />
+                  </svg>
+                </motion.div>
+              </motion.div>
 
               <div
                 className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
