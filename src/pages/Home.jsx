@@ -14,7 +14,8 @@ export default function Home() {
     "Suresh Residence .webp",
     "Sumukha Residence.webp",
     "Amarta CH.webp",
-    "Amarta EP.webp"
+    "Amarta EP.webp",
+    "Energy Commerce 1.webp"
   ];
 
   const [baseIndex, setBaseIndex] = useState(0);
@@ -277,41 +278,22 @@ export default function Home() {
 
       <section className="home-hero-section">
         <div className="container">
-          <div className="col c-1">
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(4, e)}><img loading="lazy" src={getImage(4)} alt="" /></div>
-          </div>
-          <div className="col c-2">
-            <div className="item" onClick={(e) => handleImageClick(5, e)}><img loading="lazy" src={getImage(5)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(6, e)}><img loading="lazy" src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
-          </div>
-          <div className="col c-3">
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(4, e)}><img loading="lazy" src={getImage(4)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(5, e)}><img loading="lazy" src={getImage(5)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(6, e)}><img loading="lazy" src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
-          </div>
-          <div className="col c-4">
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(4, e)}><img loading="lazy" src={getImage(4)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(5, e)}><img loading="lazy" src={getImage(5)} alt="" /></div>
-          </div>
-          <div className="col c-5">
-            <div className="item" onClick={(e) => handleImageClick(6, e)}><img loading="lazy" src={getImage(6)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(0, e)}><img loading="lazy" src={getImage(0)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(1, e)}><img loading="lazy" src={getImage(1)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(2, e)}><img loading="lazy" src={getImage(2)} alt="" /></div>
-            <div className="item" onClick={(e) => handleImageClick(3, e)}><img loading="lazy" src={getImage(3)} alt="" /></div>
-          </div>
+          {[0, 1, 2, 3, 4].map((colIndex) => (
+            <div key={colIndex} className={`col c-${colIndex + 1}`}>
+              {[0, 1, 2, 3, 4].map((rowIndex) => {
+                const offset = colIndex * 5 + rowIndex;
+                return (
+                  <div 
+                    key={rowIndex} 
+                    className="item" 
+                    onClick={(e) => handleImageClick(offset, e)}
+                  >
+                    <img loading="lazy" src={getImage(offset)} alt="" />
+                  </div>
+                );
+              })}
+            </div>
+          ))}
         </div>
 
         <div className="lightbox-overlay" style={{ pointerEvents: isZoomed ? 'auto' : 'none' }}>
@@ -341,13 +323,9 @@ export default function Home() {
 
           <footer className="home-footer">
             <div className="preview">
-              <img loading="lazy" src={getImage(0)} alt="" />
-              <img loading="lazy" src={getImage(1)} alt="" />
-              <img loading="lazy" src={getImage(2)} alt="" />
-              <img loading="lazy" src={getImage(3)} alt="" />
-              <img loading="lazy" src={getImage(4)} alt="" />
-              <img loading="lazy" src={getImage(5)} alt="" />
-              <img loading="lazy" src={getImage(6)} alt="" />
+              {projectImages.map((_, i) => (
+                <img key={i} loading="lazy" src={getImage(i)} alt="" />
+              ))}
             </div>
 
             <div className="slide-num"><p>{baseIndex + 1} — {projectImages.length}</p></div>
