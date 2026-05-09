@@ -8,16 +8,16 @@ import VantaBackground from '../components/ui/VantaBackground';
 
 export default function Home() {
   const projectImages = [
-    "Urban Edge.webp",
-    "RRN LUX.webp",
-    "Amarta MO.webp",
-    "Suresh Residence .webp",
-    "Sumukha Residence.webp",
-    "Amarta CH.webp",
-    "Amarta EP.webp",
-    "Energy Commerce 1.webp",
     "Energy Commerce 2.webp",
-    "Energy Commerce 3.webp"
+    "Amarta MO.webp",
+    "Urban Edge.webp",
+    "Energy Commerce 1.webp",
+    "Sumukha Residence.webp",
+    "Amarta EP.webp",
+    "RRN LUX.webp",
+    "Energy Commerce 3.webp",
+    "Suresh Residence .webp",
+    "Amarta CH.webp"
   ];
 
   const [baseIndex, setBaseIndex] = useState(0);
@@ -283,7 +283,7 @@ export default function Home() {
           {[0, 1, 2, 3, 4].map((colIndex) => (
             <div key={colIndex} className={`col c-${colIndex + 1}`}>
               {[0, 1, 2, 3, 4].map((rowIndex) => {
-                const offset = colIndex * 5 + rowIndex;
+                const offset = colIndex * 7 + rowIndex;
                 return (
                   <div 
                     key={rowIndex} 
