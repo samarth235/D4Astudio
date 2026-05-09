@@ -237,9 +237,9 @@ const ScrollExpandMedia = ({
                       ></div>
 
                       <motion.div
-                        className='absolute inset-0 bg-black/30'
-                        initial={{ opacity: 0.7 }}
-                        animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
+                        className='absolute inset-0 bg-black/20'
+                        initial={{ opacity: 0.4 }}
+                        animate={{ opacity: 0.4 - scrollProgress * 0.4 }}
                         transition={{ duration: 0.2 }}
                       />
                     </div>
@@ -269,9 +269,9 @@ const ScrollExpandMedia = ({
                       ></div>
 
                       <motion.div
-                        className='absolute inset-0 bg-black/30'
-                        initial={{ opacity: 0.7 }}
-                        animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
+                        className='absolute inset-0 bg-black/20'
+                        initial={{ opacity: 0.4 }}
+                        animate={{ opacity: 0.4 - scrollProgress * 0.4 }}
                         transition={{ duration: 0.2 }}
                       />
                     </div>
@@ -285,9 +285,9 @@ const ScrollExpandMedia = ({
                     />
 
                     <motion.div
-                      className='absolute inset-0 bg-black/50'
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.7 - scrollProgress * 0.3 }}
+                      className='absolute inset-0 bg-black/20'
+                      initial={{ opacity: 0.4 }}
+                      animate={{ opacity: 0.4 - scrollProgress * 0.4 }}
                       transition={{ duration: 0.2 }}
                     />
                   </div>
@@ -315,7 +315,7 @@ const ScrollExpandMedia = ({
 
               {/* Scroll indicator */}
               <motion.div
-                className='absolute bottom-8 left-1/2 z-20 flex flex-col items-center gap-2'
+                className='absolute bottom-16 md:bottom-20 left-1/2 z-20 flex flex-col items-center gap-2'
                 style={{ transform: 'translateX(-50%)' }}
                 initial={{ opacity: 1 }}
                 animate={{ opacity: scrollProgress > 0.15 ? 0 : 1 }}
@@ -324,17 +324,18 @@ const ScrollExpandMedia = ({
                 <span style={{
                   fontSize: '0.65rem',
                   letterSpacing: '0.3em',
-                  color: 'rgba(240, 237, 232, 0.6)',
-                  fontWeight: 500,
+                  color: 'rgba(240, 237, 232, 0.95)',
+                  fontWeight: 600,
                   textTransform: 'uppercase',
                   fontFamily: "'Inter', sans-serif",
+                  textShadow: '0 2px 4px rgba(0,0,0,0.5)'
                 }}>Scroll to explore</span>
                 <motion.div
                   animate={{ y: [0, 6, 0] }}
                   transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{ color: 'rgba(240, 237, 232, 0.5)' }}
+                  style={{ color: 'rgba(240, 237, 232, 0.9)' }}
                 >
-                  <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round'>
+                  <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' style={{ filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.5))' }}>
                     <path d='M7 13l5 5 5-5' />
                     <path d='M7 7l5 5 5-5' />
                   </svg>

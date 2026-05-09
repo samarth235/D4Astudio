@@ -218,7 +218,7 @@ export default function Home() {
           playsInline
           preload="auto"
         >
-          <source src="logoanim.mp4" type="video/mp4" />
+          <source src="logoanim.webm" type="video/webm" />
           Your browser does not support the video tag.
         </video>
       </div>

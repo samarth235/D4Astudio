@@ -98,8 +98,8 @@ export default function About() {
       {/* SCROLL EXPANSION HERO */}
       <ScrollExpandMedia
         mediaType="video"
-        mediaSrc="/clubhouse-desktop.mp4"
-        mobileSrc="/timeline-mobile.mp4"
+        mediaSrc="/clubhouse-desktop.webm"
+        mobileSrc="/timeline-mobile.webm"
       >
         <div className="max-w-7xl mx-auto pt-20">
           <section className="story-future">
