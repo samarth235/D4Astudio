@@ -15,7 +15,9 @@ export default function Home() {
     "Sumukha Residence.webp",
     "Amarta CH.webp",
     "Amarta EP.webp",
-    "Energy Commerce 1.webp"
+    "Energy Commerce 1.webp",
+    "Energy Commerce 2.webp",
+    "Energy Commerce 3.webp"
   ];
 
   const [baseIndex, setBaseIndex] = useState(0);
