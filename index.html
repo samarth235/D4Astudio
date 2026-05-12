@@ -1,18 +1,1302 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/img.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>D4A Studio</title>
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="Amarta CH.webp">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>D4A Studio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0D0D0D;
+  --grey:#C0C0C0;
+  --dark:#2A2A2A;
+  --off:#F5F4F0;
+  --hero-shadow-dark:rgba(0,0,0,.9);
+  --hero-shadow-light:rgba(255,255,255,.18);
+  --off-border-18:rgba(245,244,240,.18);
+  --ci-width:250px;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans', sans-serif;}
+#bgc{position:fixed;inset:0;z-index:0;will-change:transform;transform:translateZ(0);}
+#cc{position:fixed;inset:0;z-index:50;pointer-events:none;}
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@1&family=Poppins:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+/* ── SPLASH ── */
+#splash{
+  position:fixed;top:0;left:0;width:100%;height:100vh;
+  background:#000;display:flex;align-items:center;justify-content:center;
+  z-index:99999;opacity:1;transition:opacity .8s ease;
+}
+#splash video{width:100%;max-width:480px;height:auto;display:block;}
+#splash.fade-out{opacity:0;pointer-events:none;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:28px 52px;display:flex;justify-content:space-between;align-items:center;opacity:0;}
+.logo{font-size:12px;font-weight:700;letter-spacing:.45em;color:var(--off);text-decoration:none;display:flex;align-items:center;}
+.logo img{height:38px;width:auto;display:block;object-fit:contain;}
+.logo .l{display:inline-block;}
+.logo:hover .l{animation:ldrop .5s forwards;}
+.logo:hover .l:nth-child(1){animation-delay:.00s}.logo:hover .l:nth-child(2){animation-delay:.03s}.logo:hover .l:nth-child(3){animation-delay:.06s}.logo:hover .l:nth-child(4){animation-delay:.09s}.logo:hover .l:nth-child(5){animation-delay:.12s}.logo:hover .l:nth-child(6){animation-delay:.15s}.logo:hover .l:nth-child(7){animation-delay:.18s}.logo:hover .l:nth-child(8){animation-delay:.21s}.logo:hover .l:nth-child(9){animation-delay:.24s}
+@keyframes ldrop{0%{transform:translateY(0) skewX(0)}35%{transform:translateY(12px) skewX(-10deg);opacity:0}36%{transform:translateY(-12px) skewX(10deg);opacity:0}100%{transform:translateY(0) skewX(0);opacity:1}}
+.navlinks{display:flex;gap:44px;list-style:none;}
+.navlinks li a{font-size:10px;letter-spacing:.3em;color:var(--grey);text-decoration:none;display:flex;transition:color .4s;}
+.navlinks li a:hover{color:var(--off);}
+.navlinks li a span{display:inline-block;transition:transform .5s cubic-bezier(.19,1,.22,1);pointer-events:none;}
+.navlinks li a:hover span{transform:translateY(-5px);}
+.navlinks li a:hover span:nth-child(2n){transform:translateY(5px);}
+
+#hero{position:fixed;left:50%;top:16%;z-index:100;text-align:center;pointer-events:none;user-select:none;opacity:0;}
+.htitle{font-family:'Cormorant Garamond', serif;font-size:clamp(18px,4vw,20px);font-weight:500;letter-spacing:.55em;color:var(--off);line-height:1;margin-bottom:20px;white-space:nowrap;text-shadow:0 4px 16px var(--hero-shadow-dark),0 0 10px var(--hero-shadow-light);}
+.cta{pointer-events:all;display:inline-block;font-size:10px;letter-spacing:.35em;color:var(--off);text-decoration:none;padding:13px 30px;position:relative;cursor:pointer;transition:letter-spacing .3s,background .3s;}
+.cta:hover{letter-spacing:.45em;background:rgba(245,244,240,0.03);}
+.cta-l{position:absolute;background:var(--off);transition:all .4s cubic-bezier(.16,1,.3,1);opacity:0;}
+.cta-l.h{height:1px;width:0;left:50%;transform:translateX(-50%);}
+.cta-l.v{width:1px;height:0;top:50%;transform:translateY(-50%);}
+.cta-l.t{top:-1px;}.cta-l.b{bottom:-1px;}
+.cta-l.l{left:-1px;}.cta-l.r{right:-1px;}
+.cta:hover .cta-l.h{width:calc(100% + 40px);opacity:0.6;}
+.cta:hover .cta-l.v{height:calc(100% + 40px);opacity:0.6;}
+.cta-c{position:absolute;width:8px;height:8px;border:1px solid var(--off);transition:all .4s cubic-bezier(.16,1,.3,1);opacity:0.4;}
+.cta-c.tl{top:0;left:0;border-right:0;border-bottom:0;}
+.cta-c.tr{top:0;right:0;border-left:0;border-bottom:0;}
+.cta-c.bl{bottom:0;left:0;border-right:0;border-top:0;}
+.cta-c.br{bottom:0;right:0;border-left:0;border-top:0;}
+.cta:hover .cta-c{width:12px;height:12px;opacity:1;}
+.cta:hover .cta-c.tl{transform:translate(-6px,-6px);}
+.cta:hover .cta-c.tr{transform:translate(6px,-6px);}
+.cta:hover .cta-c.bl{transform:translate(-6px,6px);}
+.cta:hover .cta-c.br{transform:translate(6px,6px);}
+
+#gallery{position:fixed;bottom:0;left:0;right:0;height:58vh;z-index:60;}
+#gstage{position:absolute;inset:0;cursor:grab;}
+#gstage:active{cursor:grabbing;}
+#ci{
+  position:fixed;z-index:150;pointer-events:none;
+  opacity:0;transition:opacity .3s;
+  width:max-content;
+  max-width:calc(100vw - 16px);
+  padding:10px 16px;
+  background:rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter:blur(12px) saturate(1.4);
+  backdrop-filter:blur(12px) saturate(1.4);
+  border:1px solid rgba(245, 244, 240, 0.12);
+  border-radius:2px;
+  will-change:left,top;
+}
+.ci-name{
+  font-size:10px;
+  font-family:'Cormorant Garamond', serif;
+  letter-spacing:.45em;
+  color:#F5F4F0;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+#fs{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;clip-path:inset(50% 50% 50% 50%);}
+.fsx{position:absolute;top:28px;right:48px;font-size:22px;color:var(--off);opacity:.5;transition:opacity .2s;cursor:pointer;}
+.fsx:hover{opacity:1;}
+.fsc{display:flex;gap:60px;max-width:1100px;width:90%;align-items:center;}
+.fsimg{flex:1;aspect-ratio:4/3;overflow:hidden;}
+.fsimg img{width:100%;height:100%;object-fit:cover;display:block;}
+.fstxt{flex:0 0 280px;}
+.fstit{font-family:'Cormorant Garamond', serif;font-size:clamp(24px,2.5vw,30px);font-weight:700;letter-spacing:.3em;color:var(--off);margin-bottom:12px;}
+.fsyr{font-size:12px;letter-spacing:.35em;color:var(--grey);margin-bottom:22px;}
+.fsde{font-size:14px;line-height:1.6;color:rgba(255,255,255,.5);letter-spacing:.05em;}
+
+#foot{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:1000;pointer-events:none!important;opacity:0;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:nowrap;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,0.8);}
+#foot a{pointer-events:all;color:inherit;text-decoration:none;transition:all .3s ease;}
+.ft-line-main{display:flex;align-items:center;gap:20px;pointer-events:all;}
+.ft-divider{width:1px;height:14px;background:rgba(201,161,91,.3);}
+.ft-email-wrap{display:inline-block;position:relative;height:1.1em;overflow:hidden;min-width:148px;vertical-align:bottom;}
+.ft-email{position:absolute;left:0;top:0;font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.75);opacity:1;transform:translateY(0);transition:all .35s cubic-bezier(.16,1,.3,1);white-space:nowrap;}
+.ft-email-alt{opacity:0;transform:translateY(6px);}
+.ft-email-link:hover #ft-e1{opacity:0;transform:translateY(-6px);}
+.ft-email-link:hover #ft-e2{opacity:1;transform:translateY(0);}
+.ft-phone{font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.75);white-space:nowrap;}
+.ft-phone:hover{color:rgba(201,161,91,.9);}
+.ft-icons{display:flex;align-items:center;gap:20px;}
+.ft-icons a{display:flex;color:rgba(255,255,255,.4);}
+.ft-icons a:hover{color:rgba(201,161,91,.9);}
+.ft-icons svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;}
+.ft-icons .fill{fill:currentColor;stroke:none;}
+.ft-inline-icon{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.7;opacity:.65;flex:0 0 auto;}
+.ft-email-link,.ft-phone,.ft-location{display:flex;align-items:center;gap:7px;}
+.ft-location{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.3);font-size:.55rem;letter-spacing:.35em;white-space:nowrap;}
+.ft-dot{width:4px;height:4px;background:rgba(201,161,91,.5);}
+.ft-location:hover .ft-dot{animation:ftDotPulse .8s ease-out infinite;}
+@keyframes ftDotPulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.8);opacity:0}}
+
+#load{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .8s ease .3s;}
+#load.hide{opacity:0;pointer-events:none;}
+.loadtxt{font-size:9px;letter-spacing:.5em;color:var(--dark);animation:pulse 1.5s ease infinite;}
+@keyframes pulse{0%,100%{opacity:.15}50%{opacity:.7}}
+
+@media(max-width:800px){
+  nav{padding:20px 24px;}
+  .navlinks{display:none;}
+  #hero{top:16%;}
+  .htitle{font-size:16px;letter-spacing:0.55em;font-family:'Cormorant Garamond', serif;}
+  #foot{bottom:28px;gap:6px;}
+  .ft-line-main{gap:6px;}
+  .ft-email,.ft-phone{font-size:.5rem;}
+  .ft-email-wrap{min-width:112px;}
+  .ft-icons{gap:12px;}
+  .ft-icons svg{width:14px;height:14px;}
+  .ft-inline-icon{width:12px;height:12px;}
+  .ft-location{font-size:.5rem;letter-spacing:.28em;}
+  .fsc{flex-direction:column;gap:28px;}
+  .fstxt{flex:0 0 auto;}
+  .fsx{right:20px;}
+  .logo img{height:28px;}
+  .ham{display:flex !important;flex-direction:column;gap:6px;cursor:pointer;z-index:3000;position:relative;}
+  .ham span{display:block;width:24px;height:1px;background:var(--off);transition:all .4s cubic-bezier(.16,1,.3,1);}
+  .ham span:nth-child(2){width:16px;align-self:flex-end;}
+  .ham span:nth-child(3){width:10px;align-self:flex-end;}
+  .ham.active span{width:24px !important;align-self:center;}
+  .ham.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .ham.active span:nth-child(2){opacity:0;transform:translateX(10px);}
+  .ham.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  #hero{width:90%;text-align:center;}
+  .htitle{white-space:normal;}
+  #ci{display:none;}
+}
+.ham{display:none;}
+#mob-nav{position:fixed;inset:0;background:var(--bg);z-index:2500;display:flex;flex-direction:column;align-items:center;justify-content:center;clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .8s cubic-bezier(.77,0,.175,1);pointer-events:none;}
+#mob-nav.active{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);pointer-events:all;}
+.mob-links{list-style:none;text-align:center;}
+.mob-links li{margin:30px 0;overflow:hidden;}
+.mob-links a{font-size:28px;letter-spacing:.3em;color:var(--off);text-decoration:none;display:block;transform:translateY(100%);transition:transform .8s cubic-bezier(.16,1,.3,1);font-weight:300;}
+#mob-nav.active .mob-links a{transform:translateY(0);}
+#mob-nav.active .mob-links li:nth-child(1) a{transition-delay:.3s;}
+#mob-nav.active .mob-links li:nth-child(2) a{transition-delay:.4s;}
+#mob-nav.active .mob-links li:nth-child(3) a{transition-delay:.5s;}
+#custom-cursor { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  * { cursor: none !important; }
+  #custom-cursor {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    transition: opacity 0.3s ease;
+  }
+  #custom-cursor svg {
+    transition: transform 0.25s cubic-bezier(.16,1,.3,1);
+  }
+  #custom-cursor.hovering svg {
+    transform: rotate(45deg) scale(1.15);
+  }
+  #custom-cursor.clicking svg {
+    transform: rotate(45deg) scale(0.9);
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <video id="splashVideo" muted autoplay playsinline webkit-playsinline preload="metadata">
+    <source src="splash.webm" type="video/webm"/>
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<div id="load"><div class="loadtxt">INITIALISING</div></div>
+<canvas id="bgc"></canvas>
+<canvas id="cc"></canvas>
+
+<div id="ci">
+  <div class="ci-name" id="ci-name"></div>
+</div>
+
+<nav>
+  <a class="logo" href="index.html"><img src="logo.jpg" alt="D4A Studio"></a>
+  <ul class="navlinks">
+    <li><a href="index.html"><span>H</span><span>O</span><span>M</span><span>E</span></a></li>
+    <li><a href="projects.html"><span>P</span><span>R</span><span>O</span><span>J</span><span>E</span><span>C</span><span>T</span><span>S</span></a></li>
+    <li><a href="aboutus.html"><span>A</span><span>B</span><span>O</span><span>U</span><span>T</span></a></li>
+  </ul>
+  <div class="ham" id="ham"><span></span><span></span><span></span></div>
+</nav>
+
+<div id="hero">
+  <div class="htitle" id="htitle">We Create Meaningful Spaces that Inspire and Serve</div>
+  <a href="projects.html" class="cta">
+    VIEW WORK
+    <span class="cta-l h t"></span><span class="cta-l h b"></span>
+    <span class="cta-l v l"></span><span class="cta-l v r"></span>
+    <span class="cta-c tl"></span><span class="cta-c tr"></span>
+    <span class="cta-c bl"></span><span class="cta-c br"></span>
+  </a>
+</div>
+
+<div id="gallery">
+  <div id="gstage"></div>
+</div>
+
+<div id="fs">
+  <div class="fsx" id="fsx">&#10005;</div>
+  <div class="fsc">
+    <div class="fsimg"><img id="fsimg" src="" alt=""></div>
+    <div class="fstxt">
+      <div class="fstit" id="fstit"></div>
+      <div class="fsyr"  id="fsyr"></div>
+      <div class="fsde"  id="fsde"></div>
+    </div>
+  </div>
+</div>
+
+<div id="mob-nav">
+  <ul class="mob-links">
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="projects.html">PROJECTS</a></li>
+    <li><a href="aboutus.html">ABOUT</a></li>
+  </ul>
+</div>
+
+<div id="foot">
+  <div class="ft-line-main">
+    <a href="mailto:d4astudio@gmail.com,dhyan@d4astudio.com" target="_blank" class="ft-email-link">
+      <svg class="ft-inline-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"></path><path d="m4 7 8 6 8-6"></path></svg>
+      <span class="ft-email-wrap">
+        <span class="ft-email" id="ft-e1">d4astudio@gmail.com</span>
+        <span class="ft-email ft-email-alt" id="ft-e2">dhyan@d4astudio.com</span>
+      </span>
+    </a>
+    <span class="ft-divider"></span>
+    <a href="tel:+919945279883" class="ft-phone">
+      <svg class="ft-inline-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3.08 5.18 2 2 0 0 1 5.06 3h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8.91 10.75a16 16 0 0 0 4.34 4.34l1.29-1.29a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"></path></svg>
+      <span>+91 9945279883</span>
+    </a>
+    <span class="ft-divider"></span>
+    <div class="ft-icons">
+      <a href="https://www.instagram.com/d4a_studio/?hl=en" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      </a>
+      <a href="https://www.linkedin.com/company/d4astudio/?originalSubdomain=in" target="_blank">
+        <svg class="fill" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      </a>
+    </div>
+  </div>
+  <a href="https://www.google.com/maps/place/D4A+STUDIO/@12.9215505,77.5652892,169m/data=!3m1!1e3!4m6!3m5!1s0x3bae150061fe6fd1:0x1308e6c959961080!8m2!3d12.9215083!4d77.5657812!16s%2Fg%2F11y02_y2sf?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="ft-location">
+    <svg class="ft-inline-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.16 7-12a7 7 0 1 0-14 0c0 5.84 7 12 7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
+    <span class="ft-dot"></span>
+    <span>BENGALURU, INDIA</span>
+  </a>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DEVICE DETECTION
+// ─────────────────────────────────────────────
+const isMobile    = window.innerWidth < 800;
+const isLowEnd    = isMobile || navigator.hardwareConcurrency <= 4;
+const BG_FPS      = isLowEnd ? 30 : 60;
+const BG_INTERVAL = 1000 / BG_FPS;
+
+let W = window.innerWidth, H = window.innerHeight;
+let mouseX = W / 2, mouseY = H / 2;
+
+// ─────────────────────────────────────────────
+// SPLASH + GATE
+// ─────────────────────────────────────────────
+let carouselReady = false;
+(function () {
+  const navType    = performance.getEntriesByType('navigation')[0].type;
+  const hasVisited = sessionStorage.getItem('hasVisitedD4A');
+  const splash     = document.getElementById('splash');
+  const splashVid  = document.getElementById('splashVideo');
+  const loadEl     = document.getElementById('load');
+  function hideSplash() {
+    splash.classList.add('fade-out');
+    setTimeout(() => { splash.style.display = 'none'; loadEl.classList.add('hide'); carouselReady = true; }, 800);
+  }
+  if (!hasVisited || navType === 'reload') {
+    sessionStorage.setItem('hasVisitedD4A', 'true');
+    splashVid.addEventListener('ended', hideSplash);
+    splashVid.muted = true;
+    const p = splashVid.play();
+    if (p !== undefined) p.catch(() => {
+      document.body.addEventListener('touchstart', () => splashVid.play(), { once: true });
+    });
+  } else {
+    splash.style.display = 'none'; loadEl.classList.add('hide'); carouselReady = true;
+  }
+})();
+
+// ─────────────────────────────────────────────
+// PROJECTS DATA
+// ─────────────────────────────────────────────
+const PROJECTS = [
+  { name:'Amarta CH',  year:'2023', desc:'Post-tensioned concrete megastructure, 380m',            img:'Amarta CH.webp',  full:'A fundamental rethinking of the high-rise form — structural expression and spatial efficiency converge into a singular tectonic gesture. Exposed post-tension cables define both facade and interior character across 380 metres of built space.' },
+  { name:'Amarta EP',  year:'2022', desc:'Folded steel surface pavilion, temporary installation',  img:'Amarta EP.webp',  full:'Material investigation into the threshold between surface and structure. A single continuous steel sheet, folded through computational geometry, generates all enclosure, support and programme without discrete elements.' },
+  { name:'Amarta MO',  year:'2023', desc:'Corporate Office',      img:'Amarta MO.webp',  full:'The Amarta Marketing Office by D4A Studio is not just a workspace; its a strategically designed client experience. The project redefines the traditional corporate environment by integrating hospitality and engagement into its core. The central feature is a captivating courtyard — a tranquil water body surrounds a central tree, creating a peaceful oasis accessible to clients.' },
+  { name:'Urban Edge', year:'2024', desc:'Luxury Residential', img:'Scene1.webp',    full:"D4A Studio's proposal envisions an exclusive uber-luxury residential community in Seegehalli, crafted to offer calm, privacy, and sophistication. The architecture features contemporary tower forms, expansive decks, and a refined material palette that elevates modern living. Spacious 3, 3.5 & 4, 4.5 BHK residences, duplex sky villas, and penthouses are planned with generous ceiling heights and premium finishes." },
+  { name:'RRN LUX',   year:'2023', desc:'Uber-Luxury Residential',       img:'Scene2.webp',     full:'D4A Studio presents an uber-luxury residential address in RR Nagar that blends timeless architecture with contemporary living. The design choreographs light, privacy, and landscape to create a calm, resort-grade experience minutes from the city. The master plan orients towers to capture prevailing breezes and long views while minimizing heat gain' },
+  { name:'Energy Commerce', year:'Year: 2026', desc:'Renovation of Office Interiors-LOCATION Yelahanka, Bangalore',  img:'5th marchScene 8.webp', full:'A modern renovation of a office space design. The design focuses on updating the existing structure to meet contemporary living standards, maximizing space, improving natural light and ventilation, and introducing a sleek, modern aesthetic without expanding the original footprint.' },
+];
+
+// ─────────────────────────────────────────────
+// WEBGL BACKGROUND
+// The JS physics (stepGrid / stepParticles) is
+// IDENTICAL to the original Canvas 2D version.
+// Only the draw calls move to WebGL — one GPU
+// upload + draw call per primitive type per frame
+// instead of hundreds of canvas API calls.
+// ─────────────────────────────────────────────
+const canvas = document.getElementById('bgc');
+
+// Acquire WebGL context — alpha:false composites
+// against the body bg without an extra blend step.
+const gl = (function () {
+  const opts = {
+    antialias: false, alpha: false,
+    depth: false, stencil: false,
+    powerPreference: 'high-performance'
+  };
+  try {
+    return canvas.getContext('webgl', opts) ||
+           canvas.getContext('experimental-webgl', opts);
+  } catch (_) { return null; }
+})();
+
+if (!gl) console.warn('D4A: WebGL unavailable — background will not render.');
+
+// ── GLSL shaders ──────────────────────────────
+
+// Line shader
+// Vertex layout: [x, y, alpha]  — stride 12 bytes
+const LINE_VS = `
+  attribute vec2  aPos;
+  attribute float aAlpha;
+  uniform   vec2  uRes;
+  varying   float vAlpha;
+  void main(){
+    vec2 c = (aPos / uRes) * 2.0 - 1.0;
+    gl_Position = vec4(c.x, -c.y, 0.0, 1.0);
+    vAlpha = aAlpha;
+  }`;
+const LINE_FS = `
+  precision mediump float;
+  uniform vec3  uColor;
+  varying float vAlpha;
+  void main(){
+    gl_FragColor = vec4(uColor, vAlpha);
+  }`;
+
+// Point shader
+// Vertex layout: [x, y, alpha, size]  — stride 16 bytes
+// Point sprite FS clips to circle so dots stay round.
+const POINT_VS = `
+  attribute vec2  aPos;
+  attribute float aAlpha;
+  attribute float aSize;
+  uniform   vec2  uRes;
+  varying   float vAlpha;
+  void main(){
+    vec2 c = (aPos / uRes) * 2.0 - 1.0;
+    gl_Position  = vec4(c.x, -c.y, 0.0, 1.0);
+    vAlpha       = aAlpha;
+    gl_PointSize = aSize;
+  }`;
+const POINT_FS = `
+  precision mediump float;
+  uniform vec3  uColor;
+  varying float vAlpha;
+  void main(){
+    vec2 uv = gl_PointCoord - vec2(0.5);
+    if(length(uv) > 0.5) discard;
+    gl_FragColor = vec4(uColor, vAlpha);
+  }`;
+
+// ── Shader compiler ───────────────────────────
+function makeProgram(vsSrc, fsSrc) {
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER,   vsSrc));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fsSrc));
+  gl.linkProgram(prog);
+  return prog;
+}
+
+// Programs and their attribute / uniform locations
+let lineProg, pointProg;
+let ll_aPos, ll_aAlpha, ll_uRes, ll_uColor;
+let pp_aPos, pp_aAlpha, pp_aSize, pp_uRes, pp_uColor;
+let glLineBuf, glPointBuf;
+
+// Pre-allocated Float32Arrays reused every frame —
+// avoids GC pressure from recreating arrays each tick.
+//
+// Worst-case sizes:
+//   Grid lines : ~4 000 verts × 3 floats = 12 000
+//   Particle lines: 1 800 × 7 trail segs × 2 verts × 3 = 75 600
+//   Dashes     : 540 × 2 × 3 = 3 240
+//   Total line floats needed: ~91 000  → allocate 150 000
+//
+//   Point verts: 1 260 dot particles × 4 + 814 node dots × 4 = 8 296
+//   → allocate 30 000
+const MAX_LF = 150000;
+const MAX_PF = 30000;
+const lineArr  = new Float32Array(MAX_LF);
+const pointArr = new Float32Array(MAX_PF);
+let lI = 0, pI = 0;  // write cursors (reset before each draw batch)
+
+function glInit() {
+  if (!gl) return;
+  lineProg  = makeProgram(LINE_VS,  LINE_FS);
+  pointProg = makeProgram(POINT_VS, POINT_FS);
+
+  // Line program locations
+  ll_aPos   = gl.getAttribLocation(lineProg,  'aPos');
+  ll_aAlpha = gl.getAttribLocation(lineProg,  'aAlpha');
+  ll_uRes   = gl.getUniformLocation(lineProg, 'uRes');
+  ll_uColor = gl.getUniformLocation(lineProg, 'uColor');
+
+  // Point program locations
+  pp_aPos   = gl.getAttribLocation(pointProg,  'aPos');
+  pp_aAlpha = gl.getAttribLocation(pointProg,  'aAlpha');
+  pp_aSize  = gl.getAttribLocation(pointProg,  'aSize');
+  pp_uRes   = gl.getUniformLocation(pointProg, 'uRes');
+  pp_uColor = gl.getUniformLocation(pointProg, 'uColor');
+
+  glLineBuf  = gl.createBuffer();
+  glPointBuf = gl.createBuffer();
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.clearColor(13/255, 13/255, 13/255, 1.0); // #0D0D0D
+}
+
+// Upload lineArr[0..lI) and draw as GL_LINES in the given colour.
+// Resets lI to 0 after the call.
+function flushLines(r, g, b) {
+  if (!gl || lI === 0) return;
+  gl.useProgram(lineProg);
+  gl.uniform2f(ll_uRes, W, H);
+  gl.uniform3f(ll_uColor, r, g, b);
+  gl.bindBuffer(gl.ARRAY_BUFFER, glLineBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, lineArr.subarray(0, lI), gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(ll_aPos);
+  gl.enableVertexAttribArray(ll_aAlpha);
+  gl.vertexAttribPointer(ll_aPos,   2, gl.FLOAT, false, 12, 0);
+  gl.vertexAttribPointer(ll_aAlpha, 1, gl.FLOAT, false, 12, 8);
+  gl.drawArrays(gl.LINES, 0, lI / 3);
+  lI = 0;
+}
+
+// Upload pointArr[0..pI) and draw as GL_POINTS in the given colour.
+// Resets pI to 0 after the call.
+function flushPoints(r, g, b) {
+  if (!gl || pI === 0) return;
+  gl.useProgram(pointProg);
+  gl.uniform2f(pp_uRes, W, H);
+  gl.uniform3f(pp_uColor, r, g, b);
+  gl.bindBuffer(gl.ARRAY_BUFFER, glPointBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, pointArr.subarray(0, pI), gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(pp_aPos);
+  gl.enableVertexAttribArray(pp_aAlpha);
+  gl.enableVertexAttribArray(pp_aSize);
+  gl.vertexAttribPointer(pp_aPos,   2, gl.FLOAT, false, 16, 0);
+  gl.vertexAttribPointer(pp_aAlpha, 1, gl.FLOAT, false, 16, 8);
+  gl.vertexAttribPointer(pp_aSize,  1, gl.FLOAT, false, 16, 12);
+  gl.drawArrays(gl.POINTS, 0, pI / 4);
+  pI = 0;
+}
+
+// ── Physics — identical to original ───────────
+let COLS, ROWS, nodes = [], particles = [];
+let scatterX = -9999, scatterY = -9999;
+let lastBgTick = 0;
+
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+function buildGrid() {
+  nodes = [];
+  const sx = W / (COLS - 1), sy = H / (ROWS - 1);
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+    const ox = c * sx, oy = r * sy;
+    nodes.push({ ox, oy, x: ox, y: oy, vx: 0, vy: 0 });
+  }
+}
+
+function buildParticles() {
+  particles = [];
+  const N = isLowEnd
+    ? Math.min(500,  Math.floor(W * H / 3000))
+    : Math.min(1800, Math.floor(W * H / 900));
+  for (let i = 0; i < N; i++) particles.push({
+    x: Math.random() * W,  y: Math.random() * H,
+    vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3,
+    sz: Math.random() * .9 + .3,   al: Math.random() * .55 + .15,
+    dash: Math.random() < .3, ang: Math.random() * Math.PI,
+    len: Math.random() * 8 + 3,
+    trail: [], tlen: Math.floor(Math.random() * 5 + 2)
+  });
+}
+
+function stepGrid() {
+  for (const n of nodes) {
+    n.vx += (n.ox - n.x) * .14;
+    n.vy += (n.oy - n.y) * .14;
+    const dx = n.x - mouseX, dy = n.y - mouseY, d2 = dx*dx + dy*dy;
+    if (d2 < 200*200) {
+      const d = Math.sqrt(d2) || 1, f = .22 * (1 - d/200) * (1 - d/200);
+      n.vx += dx/d * f * 130; n.vy += dy/d * f * 130;
+    }
+    const cx = n.x - scatterX, cy = n.y - scatterY, cd2 = cx*cx + cy*cy;
+    if (cd2 < 130*130) {
+      const cd = Math.sqrt(cd2) || 1, cf = .1 * (1 - cd/130) * (1 - cd/130);
+      n.vx += cx/cd * cf * 70; n.vy += cy/cd * cf * 70;
+    }
+    n.vx *= .78; n.vy *= .78;
+    n.x += n.vx; n.y += n.vy;
+  }
+}
+
+function stepParticles() {
+  for (const p of particles) {
+    const dx = p.x - mouseX, dy = p.y - mouseY, d = Math.sqrt(dx*dx + dy*dy);
+    if (d < 150) {
+      const f = .011 * (1 - d/150) * (1 - d/150);
+      p.vx += dx/d * f * 110; p.vy += dy/d * f * 110;
+    }
+    p.vx += (W * .5 - p.x) * .000012;
+    p.vy += (H * .5 - p.y) * .000012;
+    p.vx *= .97; p.vy *= .97;
+    p.trail.push({ x: p.x, y: p.y });
+    if (p.trail.length > p.tlen) p.trail.shift();
+    p.x += p.vx; p.y += p.vy; p.ang += .007;
+    if (p.x < -30) p.x = W + 30; if (p.x > W + 30) p.x = -30;
+    if (p.y < -30) p.y = H + 30; if (p.y > H + 30) p.y = -30;
+  }
+}
+
+// ── WebGL draw — replaces Canvas 2D draw fns ──
+//
+// drawGrid():
+//   Pass 1 — build all grid line vertices into lineArr,
+//             upload once, draw as GL_LINES (white).
+//   Pass 2 — build node-highlight dot vertices into
+//             pointArr, upload once, draw as GL_POINTS.
+//
+// drawParticles():
+//   Single pass — build trail segments + dash lines
+//   into lineArr AND dot vertices into pointArr in the
+//   same loop; upload + draw each at the end (grey).
+
+function drawGrid() {
+  if (!gl) return;
+
+  // ── Pass 1: grid lines ──────────────────────
+  lI = 0;
+  // Horizontal segments
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS - 1; c++) {
+      const n1 = nodes[r * COLS + c], n2 = nodes[r * COLS + c + 1];
+      const mx = (n1.x + n2.x) * .5 - mouseX, my = (n1.y + n2.y) * .5 - mouseY;
+      const d  = Math.sqrt(mx*mx + my*my);
+      const a  = d < 260 ? .06 + .3 * (1 - d / 260) : .15;
+      lineArr[lI++] = n1.x; lineArr[lI++] = n1.y; lineArr[lI++] = a;
+      lineArr[lI++] = n2.x; lineArr[lI++] = n2.y; lineArr[lI++] = a;
+    }
+  }
+  // Vertical segments
+  for (let c = 0; c < COLS; c++) {
+    for (let r = 0; r < ROWS - 1; r++) {
+      const n1 = nodes[r * COLS + c], n2 = nodes[(r + 1) * COLS + c];
+      const mx = (n1.x + n2.x) * .5 - mouseX, my = (n1.y + n2.y) * .5 - mouseY;
+      const d  = Math.sqrt(mx*mx + my*my);
+      const a  = d < 260 ? .06 + .3 * (1 - d / 260) : .15;
+      lineArr[lI++] = n1.x; lineArr[lI++] = n1.y; lineArr[lI++] = a;
+      lineArr[lI++] = n2.x; lineArr[lI++] = n2.y; lineArr[lI++] = a;
+    }
+  }
+  flushLines(1, 1, 1); // white grid
+
+  // ── Pass 2: node highlight dots near mouse ──
+  pI = 0;
+  for (const n of nodes) {
+    const dx = n.x - mouseX, dy = n.y - mouseY;
+    const d  = Math.sqrt(dx*dx + dy*dy);
+    if (d < 160) {
+      const a = .85 * (1 - d / 160);
+      // Original drew arc(n.x, n.y, 1.3, ...) → radius 1.3 → gl_PointSize = 2.6
+      pointArr[pI++] = n.x; pointArr[pI++] = n.y;
+      pointArr[pI++] = a;   pointArr[pI++] = 2.6;
+    }
+  }
+  flushPoints(245/255, 244/255, 240/255); // #F5F4F0
+}
+
+function drawParticles() {
+  if (!gl) return;
+  lI = 0; pI = 0;
+
+  for (const p of particles) {
+    if (!p.dash) {
+      // Dot particle — point sprite
+      // Original: ctx.arc(p.x, p.y, p.sz, ...) where p.sz = 0.3–1.2
+      // → gl_PointSize = diameter = p.sz * 2
+      pointArr[pI++] = p.x; pointArr[pI++] = p.y;
+      pointArr[pI++] = p.al; pointArr[pI++] = p.sz * 2;
+
+      // Trail — GL_LINES segment pairs matching the original moveTo/lineTo path
+      if (p.trail.length > 1) {
+        const ta = p.al * .2;
+        for (let t = 0; t < p.trail.length - 1; t++) {
+          lineArr[lI++] = p.trail[t].x;     lineArr[lI++] = p.trail[t].y;     lineArr[lI++] = ta;
+          lineArr[lI++] = p.trail[t + 1].x; lineArr[lI++] = p.trail[t + 1].y; lineArr[lI++] = ta;
+        }
+      }
+    } else {
+      // Dash particle — rotating line segment
+      const cs = Math.cos(p.ang), sn = Math.sin(p.ang);
+      const a  = p.al * .9;
+      lineArr[lI++] = p.x - cs * p.len; lineArr[lI++] = p.y - sn * p.len; lineArr[lI++] = a;
+      lineArr[lI++] = p.x + cs * p.len; lineArr[lI++] = p.y + sn * p.len; lineArr[lI++] = a;
+    }
+  }
+
+  flushLines(192/255, 192/255, 192/255);   // #C0C0C0 — trails + dashes
+  flushPoints(192/255, 192/255, 192/255);  // #C0C0C0 — dot particles
+}
+
+function bgLoop(now) {
+  if (now - lastBgTick < BG_INTERVAL) return;
+  lastBgTick = now;
+  if (gl) gl.clear(gl.COLOR_BUFFER_BIT);
+  stepGrid();      drawGrid();
+  stepParticles(); drawParticles();
+}
+
+// ─────────────────────────────────────────────
+// RESIZE — canvas + GL viewport
+// ─────────────────────────────────────────────
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  if (gl) gl.viewport(0, 0, W, H);
+  const spacing = isLowEnd ? 40 : 55;
+  COLS = Math.ceil(W / spacing) + 2;
+  ROWS = Math.ceil(H / spacing) + 2;
+  buildGrid();
+  buildParticles();
+}
+
+// ─────────────────────────────────────────────
+// THREE.JS CAROUSEL
+// ─────────────────────────────────────────────
+const ccCanvas  = document.getElementById('cc');
+const renderer  = new THREE.WebGLRenderer({
+  canvas: ccCanvas, alpha:true, antialias:!isMobile,
+  powerPreference:'high-performance'
+});
+renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2));
+renderer.setSize(W, H);
+renderer.setClearColor(0x000000, 0);
+renderer.outputEncoding = THREE.sRGBEncoding;
+
+const CAMERA_Z = 1300;
+const scene    = new THREE.Scene();
+const carouselGroup = new THREE.Group();
+scene.add(carouselGroup);
+
+let camera = new THREE.PerspectiveCamera(
+  2 * Math.atan(H / 2 / CAMERA_Z) * (180 / Math.PI),
+  W / H, 1, CAMERA_Z * 3
+);
+camera.position.z = CAMERA_Z;
+carouselGroup.position.y = isMobile ? -H * 0.18 : -H * 0.28;
+
+const CARD_W  = isMobile ? 180 : 250;
+const CARD_H  = isMobile ? 250 : 350;
+const HOVERED_RENDER_ORDER = 999;
+const HOVER_Y_OFFSET = 20;
+const HOVER_SCALE_FACTOR = 1.08;
+const meshes  = [];
+const raycaster = new THREE.Raycaster();
+const mouseNDC  = new THREE.Vector2(-9999, -9999);
+const ciEl      = document.getElementById('ci');
+const ciNameEl  = document.getElementById('ci-name');
+const CARD_INFO_MIN_TOP = 8;
+const CARD_INFO_BOTTOM_CLEARANCE = 100;
+const CARD_INFO_VERTICAL_GAP = 12;
+let cardInfoWidth = 0;
+let cardInfoLabel = '';
+
+const texLoader = new THREE.TextureLoader();
+PROJECTS.forEach((p, i) => {
+  const geo = new THREE.PlaneGeometry(CARD_W, CARD_H);
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0x000000, transparent: false,
+    side: THREE.FrontSide
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.userData.idx = i;
+  mesh.renderOrder = i;
+  carouselGroup.add(mesh);
+  meshes.push(mesh);
+  texLoader.load(p.img, tex => {
+    tex.encoding = THREE.sRGBEncoding;
+    tex.generateMipmaps = false;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    mat.map = tex;
+    mat.color.setHex(0xffffff);
+    mat.needsUpdate = true;
+  });
+});
+
+let rot  = 0, rotV = 0;
+let dragging = false, lastDX = 0, dragV = 0, hovered = -1;
+
+const PHASE1_DUR = 1200;
+const PHASE2_DUR = 2800;
+const HIGH_SPEED = 8.0;
+const LOW_SPEED  = 0.05;
+
+let isIntroActive      = true;
+let introP             = 0;
+let lastPhysicsTick    = Date.now();
+let elapsedPhysicsTime = 0;
+let revealDone         = false;
+
+function easeOutCubic(x){ return 1 - Math.pow(1 - x, 3); }
+
+function tickTransition(){
+  if(!isIntroActive) return;
+  const now = Date.now();
+  let dt = now - lastPhysicsTick;
+  lastPhysicsTick = now;
+  if(!carouselReady) return;
+  if(hovered !== -1) dt *= 0.3;
+  elapsedPhysicsTime += dt;
+  if(elapsedPhysicsTime < PHASE1_DUR){
+    rotV = HIGH_SPEED; introP = 0;
+  } else {
+    const t = Math.min((elapsedPhysicsTime - PHASE1_DUR) / PHASE2_DUR, 1);
+    introP  = easeOutCubic(t);
+    rotV    = HIGH_SPEED * (1 - introP) + LOW_SPEED * introP;
+    if(t >= 1){ isIntroActive = false; rotV = LOW_SPEED; introP = 1; }
+  }
+}
+
+function placeCards(){
+  const N  = meshes.length;
+  const gH = H * 0.58;
+
+  let RX_FULL    = Math.min(W * 0.32, 340);
+  let RY_FULL    = gH * 0.24;
+  let y_off_base = -170;
+  if(W < 800){ RX_FULL = 260; RY_FULL = 145; y_off_base = -110; }
+  const RX_START = RX_FULL * 0.05;
+
+  meshes.forEach((mesh, i) => {
+    const stagger  = i * 0.12;
+    const cardP    = Math.max(0, Math.min(1, (introP - stagger) / (1 - stagger * 0.8)));
+    const easeP    = 1 - Math.pow(1 - cardP, 3);
+    const cur_rx   = RX_START + (RX_FULL  - RX_START) * easeP;
+    const cur_ry_y = RX_START + (RY_FULL * 0.2 - RX_START) * easeP;
+    const cur_ry_z = RY_FULL  * easeP;
+    const yOffset  = y_off_base * easeP - H * 0.47 * (1 - easeP);
+    const a        = (rot + (360 / N) * i) * Math.PI / 180;
+    const x        = Math.cos(a) * cur_rx;
+    const flt      = Math.sin(Date.now() * 0.0015 + i * 0.8) * 12 * easeP;
+    const y_scr    = Math.sin(a) * cur_ry_y + yOffset + flt;
+    const z        = Math.sin(a) * cur_ry_z;
+    const depth    = (z + RY_FULL) / (2 * RY_FULL);
+    const sc       = (0.65 + depth * 0.6) * easeP;
+    const hovSc    = sc * HOVER_SCALE_FACTOR;
+    const rY       = Math.cos(a) * 15 * easeP;
+    const isHov    = i === hovered;
+
+    mesh.position.set(x, -y_scr + (isHov ? HOVER_Y_OFFSET : 0), z);
+    mesh.scale.setScalar(isHov ? hovSc : sc);
+    mesh.rotation.y = rY * Math.PI / 180;
+    mesh.material.color.setRGB(1, 1, 1);
+    mesh.material.transparent = false;
+    mesh.material.opacity = 1.0;
+    mesh.renderOrder = isHov ? HOVERED_RENDER_ORDER : Math.round(depth * 100);
+  });
+
+  carouselGroup.rotation.x = grX * Math.PI / 180;
+  carouselGroup.rotation.y = grY * Math.PI / 180;
+
+  if(hovered >= 0){
+    const wPos = new THREE.Vector3();
+    meshes[hovered].getWorldPosition(wPos);
+    const pr = wPos.clone().project(camera);
+    scatterX = (pr.x + 1) / 2 * W;
+    scatterY = (-pr.y + 1) / 2 * H;
+  } else {
+    scatterX = -9999; scatterY = -9999;
+  }
+}
+
+function updateCardInfo(){
+  if(hovered < 0 || isMobile){ ciEl.style.opacity='0'; return; }
+  const p = PROJECTS[hovered];
+  if(p.name !== cardInfoLabel){
+    ciNameEl.textContent = p.name;
+    cardInfoLabel = p.name;
+    cardInfoWidth = ciEl.offsetWidth;
+  }
+
+  const m = meshes[hovered];
+  const wPos = new THREE.Vector3();
+  m.getWorldPosition(wPos);
+  const proj = wPos.clone().project(camera);
+  const sx = (proj.x + 1) / 2 * W;
+  const sy = (-proj.y + 1) / 2 * H;
+  const perspF = CAMERA_Z / (CAMERA_Z - wPos.z);
+  const halfH  = CARD_H / 2 * m.scale.y * perspF;
+  if(cardInfoWidth <= 0) cardInfoWidth = ciEl.offsetWidth;
+
+  const left = Math.max(0, Math.min(W - cardInfoWidth, sx - (cardInfoWidth / 2)));
+  const desiredTop = sy + halfH + CARD_INFO_VERTICAL_GAP;
+  const maxTop = H - CARD_INFO_BOTTOM_CLEARANCE;
+  const top = Math.max(CARD_INFO_MIN_TOP, Math.min(maxTop, desiredTop));
+
+  ciEl.style.left = left + 'px';
+  ciEl.style.top  = top + 'px';
+  ciEl.style.opacity = '1';
+}
+
+function stepCarousel(){
+  tickTransition();
+  if(!dragging) rot += rotV;
+
+  if(introP > 0.8 && !revealDone){
+    revealDone = true;
+    gsap.to('nav',   { opacity:1, y:0, duration:1.5, ease:'power3.out' });
+    gsap.to('#hero', { opacity:1, y:0, duration:1.5, ease:'power3.out', delay:0.15 });
+    gsap.to('#foot', { opacity:1, y:0, duration:1.5, ease:'power3.out', delay:0.35,
+      onComplete(){ document.getElementById('foot').style.pointerEvents='all'; }
+    });
+  }
+
+  placeCards();
+  renderer.render(scene, camera);
+  updateCardInfo();
+}
+
+const gstage = document.getElementById('gstage');
+let mouseDownX=0;
+gstage.addEventListener('mousedown', e => { dragging=true; lastDX=e.clientX; dragV=0; mouseDownX=e.clientX; });
+document.addEventListener('mousemove', e => {
+  if(dragging){
+    const dx=e.clientX-lastDX; dragV=-dx*.35; rot-=dx*.3; lastDX=e.clientX;
+  }
+});
+document.addEventListener('mouseup', () => { if(dragging){ dragging=false; rotV=dragV*.5; } });
+
+gstage.addEventListener('mousemove', e => {
+  if(dragging) return;
+  mouseNDC.x = (e.clientX/W)*2-1;
+  mouseNDC.y = -(e.clientY/H)*2+1;
+  raycaster.setFromCamera(mouseNDC, camera);
+  const hits = raycaster.intersectObjects(meshes);
+  hovered = hits.length>0 ? hits[0].object.userData.idx : -1;
+});
+gstage.addEventListener('mouseleave', () => { hovered=-1; });
+
+gstage.addEventListener('click', e => {
+  if(Math.abs(e.clientX-mouseDownX)>6) return;
+  mouseNDC.x=(e.clientX/W)*2-1;
+  mouseNDC.y=-(e.clientY/H)*2+1;
+  raycaster.setFromCamera(mouseNDC, camera);
+  const hits=raycaster.intersectObjects(meshes);
+  if(hits.length>0) openFS(hits[0].object.userData.idx);
+});
+
+let tLX=0, touchStartX=0, touchStartY=0;
+gstage.addEventListener('touchstart', e => {
+  dragging=true; dragV=0;
+  tLX=touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+}, {passive:true});
+gstage.addEventListener('touchmove', e => {
+  if(!dragging) return;
+  const dx=e.touches[0].clientX-tLX;
+  dragV=-dx*.35; rot-=dx*.3; tLX=e.touches[0].clientX;
+  mouseX=e.touches[0].clientX; mouseY=e.touches[0].clientY;
+}, {passive:true});
+gstage.addEventListener('touchend', e => {
+  dragging=false; rotV=dragV*.5;
+  const ex=e.changedTouches[0].clientX, ey=e.changedTouches[0].clientY;
+  if(Math.abs(ex-touchStartX)<10 && Math.abs(ey-touchStartY)<10){
+    const tx=(touchStartX/W)*2-1, ty=-(touchStartY/H)*2+1;
+    raycaster.setFromCamera(new THREE.Vector2(tx,ty), camera);
+    const hits=raycaster.intersectObjects(meshes);
+    if(hits.length>0) openFS(hits[0].object.userData.idx);
+  }
+});
+
+// ─────────────────────────────────────────────
+// FULLSCREEN CARD — GSAP clip-path
+// ─────────────────────────────────────────────
+const fsEl    = document.getElementById('fs');
+const fsImgEl = document.getElementById('fsimg');
+const fsTitEl = document.getElementById('fstit');
+const fsYrEl  = document.getElementById('fsyr');
+const fsDeEl  = document.getElementById('fsde');
+const fsxEl   = document.getElementById('fsx');
+let fsOpen = false;
+
+function openFS(i) {
+  const p = PROJECTS[i];
+  fsImgEl.src = p.img; fsTitEl.textContent = p.name;
+  fsYrEl.textContent = p.year + ' — ' + p.desc; fsDeEl.textContent = p.full;
+  fsOpen = true;
+  gsap.killTweensOf([fsEl, '#foot']);
+  gsap.set(fsEl, { opacity: 1, pointerEvents: 'all' });
+  gsap.fromTo(fsEl,
+    { clipPath: 'inset(50% 50% 50% 50%)' },
+    { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.65, ease: 'power2.inOut' }
+  );
+  if (revealDone) {
+    gsap.to('#foot', { opacity: 0, duration: 0.25 });
+    document.getElementById('foot').style.pointerEvents = 'none';
+  }
+}
+
+function closeFS() {
+  fsOpen = false;
+  gsap.killTweensOf([fsEl, '#foot']);
+  gsap.to(fsEl, {
+    clipPath: 'inset(50% 50% 50% 50%)', duration: 0.5, ease: 'power2.inOut',
+    onComplete() { gsap.set(fsEl, { opacity: 0, pointerEvents: 'none' }); }
+  });
+  if (revealDone) {
+    gsap.to('#foot', { opacity: 1, duration: 0.5, delay: 0.35 });
+    setTimeout(() => { document.getElementById('foot').style.pointerEvents = 'all'; }, 600);
+  }
+}
+
+fsxEl.addEventListener('click', closeFS);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && fsOpen) closeFS(); });
+
+// ─────────────────────────────────────────────
+// HERO PARALLAX
+// ─────────────────────────────────────────────
+const htitle = document.getElementById('htitle');
+let hx = 0, hy = 0, thx = 0, thy = 0;
+let grX = 0, grY = 0, tgrX = 0, tgrY = 0;
+
+document.addEventListener('mousemove', e => {
+  thx  =  (e.clientX - W / 2) / W * 12;
+  thy  =  (e.clientY - H / 2) / H * 6;
+  tgrX = -(e.clientY - H / 2) / H * 6;
+  tgrY =  (e.clientX - W / 2) / W * 8;
+});
+if ('ontouchstart' in window) {
+  document.addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    mouseX = t.clientX; mouseY = t.clientY;
+    thx = (t.clientX - W / 2) / W * 12;
+    thy = (t.clientY - H / 2) / H * 6;
+  }, { passive: true });
+}
+
+// ─────────────────────────────────────────────
+// MAIN LOOP — single rAF; pauses on hidden tab
+// ─────────────────────────────────────────────
+let rafId   = null;
+let running = true;
+
+function loop(now) {
+  if (!running) { rafId = null; return; }
+  rafId = requestAnimationFrame(loop);
+  bgLoop(now);
+  stepCarousel();
+  hx += (thx - hx) * .08; hy += (thy - hy) * .08;
+  htitle.style.transform = `translate(${hx}px,${hy}px)`;
+  grX += (tgrX - grX) * .05; grY += (tgrY - grY) * .05;
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    running = false;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  } else {
+    if (!rafId) {
+      running = true;
+      lastPhysicsTick = Date.now();
+      lastBgTick = 0;
+      rafId = requestAnimationFrame(loop);
+    }
+  }
+});
+
+// ─────────────────────────────────────────────
+// HAMBURGER
+// ─────────────────────────────────────────────
+const ham    = document.getElementById('ham');
+const mobNav = document.getElementById('mob-nav');
+ham.addEventListener('click', () => { ham.classList.toggle('active'); mobNav.classList.toggle('active'); });
+mobNav.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => { ham.classList.remove('active'); mobNav.classList.remove('active'); });
+});
+
+// ─────────────────────────────────────────────
+// RESIZE — debounced
+// ─────────────────────────────────────────────
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    W = window.innerWidth; H = window.innerHeight;
+    resize();
+    camera.fov    = 2 * Math.atan(H / 2 / CAMERA_Z) * (180 / Math.PI);
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
+    carouselGroup.position.y = isMobile ? -H * 0.18 : -H * 0.28;
+    cardInfoWidth = 0;
+    renderer.setSize(W, H);
+  }, 150);
+});
+
+// ─────────────────────────────────────────────
+// BOOT
+// ─────────────────────────────────────────────
+glInit(); // compile GLSL, create GPU buffers
+
+gsap.set('nav',   { y: 30 });
+gsap.set('#hero', { xPercent: -50, y: 30 });
+gsap.set('#foot', { y: 30 });
+
+resize();
+rafId = requestAnimationFrame(loop);
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  function loadThree(done) {
+    if (window.THREE) {
+      done();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    script.onload = done;
+    document.head.appendChild(script);
+  }
+
+  loadThree(() => {
+    const logo = document.querySelector('.logo');
+    const logoImg = document.querySelector('.logo img');
+    if (!logo || !logoImg || !window.THREE) return;
+
+    logo.style.position = 'relative';
+    logoImg.style.transition = 'opacity 0.15s ease';
+
+    let renderer, scene, camera, mesh, frameId = null, spinAngle = 0, spinning = false;
+
+    function sizeRenderer() {
+      const rect = logoImg.getBoundingClientRect();
+      const W = rect.width;
+      const H = rect.height;
+      if (!W || !H || !renderer) return null;
+
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
+      renderer.setSize(W, H, false);
+      renderer.domElement.style.width = W + 'px';
+      renderer.domElement.style.height = H + 'px';
+      camera.aspect = W / H;
+      camera.updateProjectionMatrix();
+
+      if (mesh) {
+        mesh.geometry.dispose();
+        const side = Math.min(W, H);
+        mesh.geometry = new THREE.BoxGeometry(side, side, side);
+      }
+      return { W, H };
+    }
+
+    function applyEnvironment() {
+      if (!renderer || !scene) return;
+
+      try {
+        if (THREE.PMREMGenerator && THREE.RoomEnvironment) {
+          const pmrem = new THREE.PMREMGenerator(renderer);
+          scene.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+          pmrem.dispose();
+          return;
+        }
+      } catch (err) {}
+
+      try {
+        const cubeTarget = new THREE.WebGLCubeRenderTarget(128);
+        const cubeCamera = new THREE.CubeCamera(0.1, 1000, cubeTarget);
+        const envScene = new THREE.Scene();
+        envScene.background = new THREE.Color(0x050505);
+        cubeCamera.update(renderer, envScene);
+        scene.environment = cubeTarget.texture;
+      } catch (err) {}
+    }
+
+    function setup() {
+      const rect = logoImg.getBoundingClientRect();
+      const W = rect.width;
+      const H = rect.height;
+      if (!W || !H) return;
+      const side = Math.min(W, H);
+
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.domElement.style.position = 'absolute';
+      renderer.domElement.style.top = '0';
+      renderer.domElement.style.left = '0';
+      renderer.domElement.style.pointerEvents = 'none';
+      renderer.domElement.style.zIndex = '9999';
+
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 1000);
+      camera.position.z = 90;
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+      const keyLight = new THREE.DirectionalLight(0xF5F4F0, 1.2);
+      keyLight.position.set(50, 80, 100);
+      scene.add(keyLight);
+      const rimLight = new THREE.PointLight(0xC9A15B, 0.8, 300);
+      rimLight.position.set(-60, -40, 80);
+      scene.add(rimLight);
+
+      applyEnvironment();
+
+      const texture = new THREE.TextureLoader().load('logo.jpg', () => renderer.render(scene, camera));
+      texture.encoding = THREE.sRGBEncoding;
+      const glassMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0xC9A15B,
+        transparent: true,
+        opacity: 0.30,
+        roughness: 0.05,
+        metalness: 0.6,
+        transmission: 0.6,
+        thickness: 1.2,
+        envMapIntensity: 2.0
+      });
+      const makeFace = () => new THREE.MeshPhysicalMaterial({
+        map: texture,
+        transparent: false,
+        roughness: 0.1,
+        metalness: 0.3
+      });
+      mesh = new THREE.Mesh(new THREE.BoxGeometry(side, side, side), [
+        glassMaterial,
+        glassMaterial.clone(),
+        glassMaterial.clone(),
+        glassMaterial.clone(),
+        makeFace(),
+        makeFace()
+      ]);
+      scene.add(mesh);
+      sizeRenderer();
+      renderer.render(scene, camera);
+    }
+
+    function finishSpin() {
+      spinning = false;
+      frameId = null;
+      spinAngle = 0;
+      mesh.rotation.y = 0;
+      mesh.rotation.x = 0;
+      renderer.render(scene, camera);
+      logoImg.style.opacity = '1';
+      if (renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
+    }
+
+    function animateSpin() {
+      spinAngle += Math.PI * 2 / 100;
+      mesh.rotation.y = spinAngle;
+      mesh.rotation.x = Math.sin(spinAngle * 0.5) * 0.12;
+      renderer.render(scene, camera);
+
+      if (spinAngle >= Math.PI) {
+        finishSpin();
+        return;
+      }
+      frameId = requestAnimationFrame(animateSpin);
+    }
+
+    logo.addEventListener('mouseenter', () => {
+      if (!renderer) setup();
+      if (!renderer || spinning) return;
+      sizeRenderer();
+      if (!renderer.domElement.parentNode) logo.appendChild(renderer.domElement);
+      logoImg.style.opacity = '0';
+      spinning = true;
+      spinAngle = 0;
+      frameId = requestAnimationFrame(animateSpin);
+    });
+
+    logo.addEventListener('mouseleave', () => {});
+
+    window.addEventListener('resize', () => {
+      if (frameId) cancelAnimationFrame(frameId);
+      spinning = false;
+      frameId = null;
+      spinAngle = 0;
+      logoImg.style.opacity = '1';
+      if (renderer?.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
+    });
+  });
+});
+</script>
+<div id="custom-cursor">
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="10" width="16" height="16" transform="rotate(45 18 18)" stroke="rgba(245,244,240,0.85)" stroke-width="1" fill="none"/>
+    <circle cx="18" cy="18" r="1.5" fill="rgba(245,244,240,0.9)"/>
+    <line x1="18" y1="2" x2="18" y2="7" stroke="rgba(245,244,240,0.5)" stroke-width="1"/>
+    <line x1="18" y1="29" x2="18" y2="34" stroke="rgba(245,244,240,0.5)" stroke-width="1"/>
+    <line x1="2" y1="18" x2="7" y2="18" stroke="rgba(245,244,240,0.5)" stroke-width="1"/>
+    <line x1="29" y1="18" x2="34" y2="18" stroke="rgba(245,244,240,0.5)" stroke-width="1"/>
+  </svg>
+</div>
+<script>
+(function () {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  const cur = document.getElementById('custom-cursor');
+  if (!cur) return;
+
+  let cx = -100, cy = -100, tx = -100, ty = -100;
+  const hoverTargets = 'a, button, .cta, #gstage, .fsx, .ham, .mob-links a, .proj-card, .team-card, .p-step, .type-btn, .submit-btn, .proc-next-btn';
+
+  document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+  document.addEventListener('mousedown', () => cur.classList.add('clicking'));
+  document.addEventListener('mouseup', () => cur.classList.remove('clicking'));
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest(hoverTargets)) cur.classList.add('hovering');
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest(hoverTargets)) cur.classList.remove('hovering');
+  });
+  document.addEventListener('mouseleave', () => { cur.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { cur.style.opacity = '1'; });
+
+  function cursorLoop() {
+    cx += (tx - cx) * 0.30;
+    cy += (ty - cy) * 0.30;
+    cur.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(cursorLoop);
+  }
+  cursorLoop();
+})();
+</script>
+</body>
 </html>
